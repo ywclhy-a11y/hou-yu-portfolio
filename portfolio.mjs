@@ -1,4 +1,5 @@
-import { groups, featured, projects, designGroups, designSamples } from './works.mjs';
+import { groups, featured, projects, designGroups, designSamples, designCategoryNotes, pdfDesignCases } from './works.mjs';
+import { projectHighlights, conicsBreakdown } from './works.mjs';
 
 const byId = id => document.getElementById(id);
 const home = byId('home-content');
@@ -18,6 +19,7 @@ const projectLink = project => (libraryPage ? '' : './works.html') + projectHash
 const image = (path, label) => '<img loading="lazy" decoding="async" src="' + media(path) + '" alt="' + escape(label) + '">';
 const cover = project => catalog[project.id]?.poster ? './covers/' + project.id + '.jpg'
   : project.frames[0] ? media(project.frames[0]) : '';
+const workType = project => project.format ? groups[project.group] + ' · ' + project.format : groups[project.group];
 const subtitle = project => project.description || groups[project.group] + (project.episodes.length > 1 ? ' · ' + project.episodes.length + ' 个成片' : ' · 原创作品');
 
 function card(project, expanded = false, episode = 0, versionLabel = '') {
@@ -26,7 +28,7 @@ function card(project, expanded = false, episode = 0, versionLabel = '') {
   const link = projectLink(project) + (episode ? '/' + (episode + 1) : '');
   return '<a class="work-card" href="' + link + '"><div class="work-cover">' +
     (source ? '<img loading="lazy" decoding="async" src="' + source + '" alt="">' : '<span aria-hidden="true">观看成片</span>') +
-    '</div><div class="work-meta">' + groups[project.group] + '</div><h3>' + escape(project.title + (versionLabel ? ' · ' + versionLabel : '')) + '</h3>' +
+    '</div><div class="work-meta">' + workType(project) + '</div><h3>' + escape(project.title + (versionLabel ? ' · ' + versionLabel : '')) + '</h3>' +
     (expanded ? '<p>' + escape(subtitle(project)) + '</p>' : '') + '</a>';
 }
 
@@ -129,7 +131,7 @@ document.addEventListener('click',event => {
   if (asset) showPreview(asset.dataset.source,asset.dataset.label,'',null);
 });
 
-function installFilters(container, grid, count, labels, items, groupOf, render, emptyMessage, format) {
+function installFilters(container, grid, count, labels, items, groupOf, render, emptyMessage, format, afterSelect) {
   if (!container) return;
   const buttons = ['全部', ...labels].map((label, index) => {
     const button = document.createElement('button');
@@ -145,6 +147,7 @@ function installFilters(container, grid, count, labels, items, groupOf, render, 
     count.textContent = new Set(matches.map(({item}) => item.project?.id ?? item)).size + ' 项作品';
     grid.innerHTML = matches.length ? grouped(matches, format, render)
       : '<p class="empty-works">' + emptyMessage + '</p>';
+    afterSelect?.(group);
   }
   select(-1);
 }
@@ -153,7 +156,67 @@ installFilters(byId('filters'), byId('work-grid'), byId('work-count'), groups, v
   item => item.project.group, item => card(item.project,false,item.index,item.label),
   '暂未收录音乐影像作品。', item => item.format);
 installFilters(byId('design-filters'), byId('design-grid'), byId('design-count'), designGroups, designSamples,
-  sample => sample[0], designCard, '此分类暂未收录作品。', sample => sample[5]);
+  sample => sample[0], designCard, '此分类暂未收录作品。', sample => sample[5], renderPdfDesign);
+
+function pdfPage(page, thumbnail = false) {
+  return './pdf-design/' + (thumbnail ? 'thumb-' : 'page-') + String(page).padStart(2,'0') + '.jpg';
+}
+function renderPdfDesign(group) {
+  const grid = byId('pdf-design-grid');
+  const note = byId('design-category-note');
+  if (!grid) return;
+  note.hidden = group < 0;
+  note.textContent = designCategoryNotes[group] || '';
+  const cards = pdfDesignCases.map((entry,index) => ({entry,index}))
+    .filter(({entry}) => group < 0 || entry.group === group);
+  grid.innerHTML = cards.length ? cards.map(({entry,index}) =>
+    '<button type="button" class="work-card design-card pdf-design-card" data-pdf-case="' + index +
+    '"><span class="work-cover"><img loading="lazy" decoding="async" alt="" src="' + pdfPage(entry.cover,true) +
+    '"></span><span class="work-meta">' + designGroups[entry.group] + ' / ' + entry.pages.length + ' 页</span><strong>' +
+    escape(entry.title) + '</strong><span class="pdf-case-note">' + escape(entry.note) + '</span></button>'
+  ).join('') : '<p class="empty-works">这份 PDF 没有收录此类项目。</p>';
+}
+
+const pdfDialog = byId('pdf-case-preview');
+if (pdfDialog) {
+  let entry, pageIndex;
+  const img = pdfDialog.querySelector('img');
+  const back = pdfDialog.querySelector('[data-pdf-step="-1"]');
+  const forward = pdfDialog.querySelector('[data-pdf-step="1"]');
+  function showPdfPage() {
+    const page = entry.pages[pageIndex];
+    img.src = pdfPage(page);
+    img.alt = entry.title + ' · PDF 第 ' + page + ' 页';
+    pdfDialog.querySelector('figcaption').textContent = (pageIndex + 1) + ' / ' + entry.pages.length + ' · PDF 第 ' + page + ' 页';
+    pdfDialog.querySelector('a').href = './pdf-design/source.pdf#page=' + page;
+    back.disabled = pageIndex === 0;
+    forward.disabled = pageIndex === entry.pages.length - 1;
+  }
+  function step(amount) {
+    if (!entry || pageIndex + amount < 0 || pageIndex + amount >= entry.pages.length) return;
+    pageIndex += amount;
+    showPdfPage();
+  }
+  byId('pdf-design-grid').addEventListener('click',event => {
+    const card = event.target.closest('[data-pdf-case]');
+    if (!card) return;
+    entry = pdfDesignCases[Number(card.dataset.pdfCase)];
+    pageIndex = 0;
+    byId('pdf-case-title').textContent = entry.title;
+    showPdfPage();
+    pdfDialog.showModal();
+  });
+  back.addEventListener('click',() => step(-1));
+  forward.addEventListener('click',() => step(1));
+  pdfDialog.querySelector('[data-pdf-close]').addEventListener('click',() => pdfDialog.close());
+  pdfDialog.addEventListener('close',() => img.removeAttribute('src'));
+  pdfDialog.addEventListener('keydown',event => {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault();
+      step(event.key === 'ArrowLeft' ? -1 : 1);
+    }
+  });
+}
 
 function strip(path) {
   return path.split('/').pop().replace(/\.[^.]+$/, '');
@@ -171,6 +234,17 @@ function formatTime(total) {
   if (!Number.isFinite(total)) return '';
   const seconds = Math.round(total);
   return Math.floor(seconds / 60) + ':' + String(seconds % 60).padStart(2,'0');
+}
+
+function renderConicsBreakdown() {
+  const steps = conicsBreakdown.map(step =>
+    '<div class="breakdown-step">' + assetFigure('./covers/' + step.frame, step.title) +
+    '<p>' + escape(step.note) + '</p><button type="button" class="text-link" data-seek="' +
+    step.time + '">定位到 ' + formatTime(step.time) + '</button></div>'
+  ).join('');
+  return '<section class="motion-breakdown"><h3>MG 动画拆解</h3>' +
+    '<p>以深蓝底统一图解段落，用金色突出曲线与焦点，冷色区分辅助线。以下四个画面按成片顺序展示图形与标注如何配合。</p>' +
+    '<div class="media-grid breakdown-grid">' + steps + '</div></section>';
 }
 
 const journey = projects.find(project => project.id === 'journey');
@@ -206,8 +280,13 @@ function renderEpisode(project, index) {
   }
   const suffix = episode.label.includes('无语言') ? '无语言' : episode.label.includes('中文') ? '中文' : project.language;
   function updateMeta() {
-    meta.textContent = [groups[project.group], '原创', suffix, enhancedSource ? (enhanced ? '清晰增强版' : '原版') : null, formatTime(Number.isFinite(video.duration) ? video.duration : stored.duration), 
-      (video.videoWidth || stored.width) ? (video.videoHeight || stored.height) > (video.videoWidth || stored.width) ? '竖屏' : '横屏' : null].filter(Boolean).join(' / ');
+    const width = video.videoWidth || stored.width;
+    const height = video.videoHeight || stored.height;
+    const frameLabel = width && height ? orientations.find(([key]) => key === orientation(width,height))[1] : '';
+    const duration = Number.isFinite(video.duration) ? video.duration : stored.duration;
+    meta.textContent = [groups[project.group], project.format, '原创', suffix,
+      enhancedSource ? (enhanced ? '清晰增强版' : '原版') : null,
+      formatTime(duration), frameLabel].filter(Boolean).join(' / ');
     video.classList.toggle('vertical', (video.videoHeight || stored.height) > (video.videoWidth || stored.width));
   }
   updateMeta();
@@ -232,7 +311,8 @@ function renderEpisode(project, index) {
   const originalFrame = assets.frame ? './covers/' + assets.frame : posterSource;
   const frame = originalFrame ? '<div class="media-grid">' + assetFigure(originalFrame,'成片画面') + '</div>' : '';
   detail.querySelector('.episode-assets').innerHTML =
-    ((project.frames.length || frame || assets.scripts?.length) ? '<section><h3>关键画面与分镜</h3>' +
+    (project.id === 'conics' ? renderConicsBreakdown() :
+    (project.frames.length || frame || assets.scripts?.length) ? '<section><h3>关键画面与分镜</h3>' +
       (project.frames.length ? gallery(project.frames) : frame) +
       (assets.scripts || []).map(script => '<details><summary>' + escape(script.title) + '</summary><pre>' + escape(script.text) + '</pre></details>').join('') +
       '</section>' : '') +
@@ -242,12 +322,16 @@ function renderEpisode(project, index) {
 
 function renderDetail(project, initialEpisode) {
   const next = projects[(projects.indexOf(project) + 1) % projects.length];
+  const highlight = projectHighlights[project.id] || project.description;
   detail.innerHTML = '<div class="band"><a class="back text-link" href="' + worksLink + '">返回作品</a>' +
-    '<p class="kicker">' + groups[project.group] + '</p><h2 class="project-title" tabindex="-1">' + escape(project.title) +
+    '<p class="kicker">' + workType(project) + '</p><h2 class="project-title" tabindex="-1">' + escape(project.title) +
     '</h2><p class="description">' + escape(subtitle(project)) + '</p>' +
     (project.episodes.length > 1 ? '<div class="episodes" role="group" aria-label="选择集数或版本">' +
       project.episodes.map((episode,index) => '<button type="button" data-episode="' + index + '" aria-pressed="false">' + escape(episode.label) + '</button>').join('') + '</div>' : '') +
-    '<section class="player" aria-label="成片"></section><div class="episode-assets"></div>' +
+    '<section class="player" aria-label="成片"></section>' +
+    '<section class="project-credit"><h3>个人贡献</h3><p>候宇 · 原创作品</p>' +
+    (highlight ? '<p><strong>作品展示重点</strong>　' + escape(highlight) + '</p>' : '') +
+    '</section><div class="episode-assets"></div>' +
     '<div class="detail-nav"><a class="text-link" href="' + worksLink + '">返回作品</a><a class="text-link" href="' + projectLink(next) +
     '">下一个项目 · ' + escape(next.title) + '</a></div></div>';
   detail.querySelector('.episodes')?.addEventListener('click', event => {
@@ -256,6 +340,15 @@ function renderDetail(project, initialEpisode) {
   });
   renderEpisode(project, initialEpisode);
 }
+detail.addEventListener('click', event => {
+  const cue = event.target.closest('[data-seek]');
+  if (!cue) return;
+  const video = detail.querySelector('.player video');
+  video.currentTime = Number(cue.dataset.seek);
+  video.focus({preventScroll:true});
+  video.scrollIntoView({block:'center',
+    behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+});
 const originalTitle = document.title;
 function route() {
   const hash = location.hash.slice(1);
@@ -266,6 +359,7 @@ function route() {
   const wasDetail = !detail.hidden;
   const previousVideo = detail.querySelector('video');
   previousVideo?.pause();
+  if (isProject) home.querySelector('.showreel-video')?.pause();
   home.hidden = isProject;
   detail.hidden = !isProject;
   document.body.classList.toggle('below', isProject || scrollY > 48);

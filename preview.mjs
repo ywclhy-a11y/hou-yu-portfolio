@@ -8,11 +8,11 @@ const dist = process.env.PORTFOLIO_DIST || here;
 const library = process.env.PORTFOLIO_LIBRARY || path.join(here,'media');
 const port = Number(process.env.PORTFOLIO_PORT || 4173);
 const contentTypes = {
- html:'text/html; charset=utf-8', css:'text/css; charset=utf-8', mjs:'text/javascript; charset=utf-8',
+ pdf:'application/pdf', html:'text/html; charset=utf-8', css:'text/css; charset=utf-8', mjs:'text/javascript; charset=utf-8',
  json:'application/json; charset=utf-8', mp4:'video/mp4', png:'image/png', jpg:'image/jpeg', jpeg:'image/jpeg',
  webp:'image/webp', docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 };
-const publicFiles = new Set(['index.html','works.html','portfolio.css','portfolio.mjs','works.mjs','catalog.json']);
+const publicFiles = new Set(['index.html','works.html','portfolio.css','portfolio.mjs','works.mjs','catalog.json','showreel.mp4']);
 const allow = new Set(JSON.parse(fs.readFileSync(path.join(dist,'media-allowlist.json'),'utf8')));
 const resume = '候宇_AIGC动画设计师简历（修订版）.docx';
 
@@ -20,6 +20,7 @@ function route(rawUrl) {
  const pathname = decodeURIComponent(new URL(rawUrl,'http://localhost').pathname);
  if (pathname === '/') return path.join(dist,'index.html');
  if (/^\/enhanced\/[a-z]+-[1-9][0-9]*\.mp4$/.test(pathname)) return path.join(dist,pathname.slice(1));
+ if (/^\/pdf-design\/(?:source\.pdf|(?:page|thumb)-[0-9]{2}\.jpg)$/.test(pathname)) return path.join(dist,pathname.slice(1));
  if (pathname === '/resume' || pathname === '/resume.docx') return path.join(dist,'resume.docx');
  if (publicFiles.has(pathname.slice(1)) || /^\/covers\/[a-z]+(?:-\d+)?\.jpg$/.test(pathname)) return path.join(dist,pathname.slice(1));
  if (pathname.startsWith('/media/') && allow.has(pathname.slice(7))) return path.join(library,pathname.slice(7));

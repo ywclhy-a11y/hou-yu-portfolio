@@ -1116,5 +1116,21 @@
         "frame": "seaside.jpg"
       }
     ]
+  },
+  "conics": {
+    "poster": true,
+    "episodes": [
+      {
+        "images": [],
+        "scripts": [],
+        "videoInfo": {
+          "width": 1920,
+          "height": 1080,
+          "duration": 180
+        },
+        "poster": "posterconics.jpg",
+        "frame": "conics.jpg"
+      }
+    ]
   }
 }
