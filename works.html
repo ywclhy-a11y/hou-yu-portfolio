@@ -50,8 +50,11 @@
         <p class="work-meta work-count" id="design-count" aria-live="polite"></p><div class="orientation-list" id="design-grid"></div>
         <section class="pdf-design" aria-labelledby="pdf-design-title">
           <div class="pdf-design-heading">
-            <div><p class="kicker">PDF DESIGN CASES</p><h3 id="pdf-design-title">PDF 设计案例</h3><p>来源：小羊的 AIGC 视觉设计作品集。按设计类别整理，保留原页。</p></div>
-            <a class="text-link" href="./pdf-design/source.pdf" target="_blank" rel="noopener">打开原 PDF</a>
+            <div><p class="kicker">PDF DESIGN CASES</p><h3 id="pdf-design-title">PDF 设计案例</h3><p>按设计类别浏览完整全案和专题作品。</p></div>
+            <div class="pdf-design-links">
+              <a class="text-link" href="./pdf-design/visual-creative/source.pdf" target="_blank" rel="noopener">阅读新版作品集（55 页）</a>
+              <a class="text-link" href="./pdf-design/source.pdf" target="_blank" rel="noopener">打开原设计合集</a>
+            </div>
           </div>
           <div class="work-grid" id="pdf-design-grid"></div>
         </section>
@@ -65,7 +68,7 @@
   </dialog>
   <dialog id="pdf-case-preview" aria-labelledby="pdf-case-title">
     <header>
-      <div><p class="kicker">来源 / 小羊作品集</p><h2 id="pdf-case-title"></h2></div>
+      <div><p class="kicker" id="pdf-case-source"></p><h2 id="pdf-case-title"></h2></div>
       <button type="button" class="text-link" data-pdf-close>关闭</button>
     </header>
     <figure><img alt=""><figcaption class="work-meta" aria-live="polite"></figcaption></figure>

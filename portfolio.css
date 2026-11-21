@@ -160,6 +160,7 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 .pdf-design-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:25px}
 .pdf-design-heading h3{font-size:clamp(23px,4vw,48px);font-weight:500;margin:3px 0 6px}
 .pdf-design-heading p,.pdf-case-note{color:var(--muted)}
+.pdf-design-links{display:flex;flex-wrap:wrap;gap:.55rem 1.3rem}
 .pdf-case-note{font-size:.84rem;line-height:1.5;display:block;margin-top:.3em}
 .pdf-design-card .work-cover{aspect-ratio:16/9}.pdf-design-card .work-cover img{object-fit:contain}
 #pdf-case-preview{position:fixed;inset:0;margin:auto;width:min(1120px,94vw);max-height:94dvh;padding:clamp(12px,2.6vw,24px);background:#091618;color:white;border:1px solid #ffffff45}

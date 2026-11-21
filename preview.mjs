@@ -20,7 +20,7 @@ function route(rawUrl) {
  const pathname = decodeURIComponent(new URL(rawUrl,'http://localhost').pathname);
  if (pathname === '/') return path.join(dist,'index.html');
  if (/^\/enhanced\/[a-z]+-[1-9][0-9]*\.mp4$/.test(pathname)) return path.join(dist,pathname.slice(1));
- if (/^\/pdf-design\/(?:source\.pdf|(?:page|thumb)-[0-9]{2}\.jpg)$/.test(pathname)) return path.join(dist,pathname.slice(1));
+ if (/^\/pdf-design\/(?:visual-creative\/)?(?:source\.pdf|(?:page|thumb)-[0-9]{2}\.jpg)$/.test(pathname)) return path.join(dist,pathname.slice(1));
  if (pathname === '/resume' || pathname === '/resume.docx') return path.join(dist,'resume.docx');
  if (publicFiles.has(pathname.slice(1)) || /^\/covers\/[a-z]+(?:-\d+)?\.jpg$/.test(pathname)) return path.join(dist,pathname.slice(1));
  if (pathname.startsWith('/media/') && allow.has(pathname.slice(7))) return path.join(library,pathname.slice(7));

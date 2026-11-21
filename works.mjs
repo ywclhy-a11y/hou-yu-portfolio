@@ -170,7 +170,37 @@ export const designCategoryNotes = [
   "IP 角色、人物资产、场景概念、道具设定、插画与字体。",
   "商业人像、AI 写真、时尚大片、虚拟模特与创意摄影。"
 ];
+const visualCreativeSource = {
+  collection: 'visual-creative',
+  source: '候宇 · AIGC 视觉创意作品集'
+};
+const pageRun = (first,last) => Array.from({length:last-first+1}, (_, index) => first+index);
+
 export const pdfDesignCases = [
+  {
+    ...visualCreativeSource,
+    group: 1,
+    title: '毛饭搭子 · 电商全案',
+    note: '从新品主视觉、商品主图与详情页，到店铺活动和直播间视觉。',
+    cover: 4,
+    pages: pageRun(4,24)
+  },
+  {
+    ...visualCreativeSource,
+    group: 0,
+    title: '怪有戏 · 潮玩品牌全案',
+    note: '从品牌识别和角色设定，到盲盒包装、主海报及线下快闪。',
+    cover: 25,
+    pages: pageRun(25,46)
+  },
+  {
+    ...visualCreativeSource,
+    group: 2,
+    title: '创意精选 · 字体与插画',
+    note: '字体设计、主视觉和叙事插画。',
+    cover: 47,
+    pages: pageRun(47,54)
+  },
   {
     "group": 0,
     "title": "毛饭搭子 · 新品上市",

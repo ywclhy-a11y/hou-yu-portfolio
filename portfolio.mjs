@@ -158,8 +158,11 @@ installFilters(byId('filters'), byId('work-grid'), byId('work-count'), groups, v
 installFilters(byId('design-filters'), byId('design-grid'), byId('design-count'), designGroups, designSamples,
   sample => sample[0], designCard, '此分类暂未收录作品。', sample => sample[5], renderPdfDesign);
 
-function pdfPage(page, thumbnail = false) {
-  return './pdf-design/' + (thumbnail ? 'thumb-' : 'page-') + String(page).padStart(2,'0') + '.jpg';
+function pdfFolder(entry) {
+  return './pdf-design/' + (entry.collection ? encodeURIComponent(entry.collection) + '/' : '');
+}
+function pdfPage(entry, page, thumbnail = false) {
+  return pdfFolder(entry) + (thumbnail ? 'thumb-' : 'page-') + String(page).padStart(2,'0') + '.jpg';
 }
 function renderPdfDesign(group) {
   const grid = byId('pdf-design-grid');
@@ -171,10 +174,10 @@ function renderPdfDesign(group) {
     .filter(({entry}) => group < 0 || entry.group === group);
   grid.innerHTML = cards.length ? cards.map(({entry,index}) =>
     '<button type="button" class="work-card design-card pdf-design-card" data-pdf-case="' + index +
-    '"><span class="work-cover"><img loading="lazy" decoding="async" alt="" src="' + pdfPage(entry.cover,true) +
+    '"><span class="work-cover"><img loading="lazy" decoding="async" alt="" src="' + pdfPage(entry,entry.cover,true) +
     '"></span><span class="work-meta">' + designGroups[entry.group] + ' / ' + entry.pages.length + ' 页</span><strong>' +
     escape(entry.title) + '</strong><span class="pdf-case-note">' + escape(entry.note) + '</span></button>'
-  ).join('') : '<p class="empty-works">这份 PDF 没有收录此类项目。</p>';
+  ).join('') : '<p class="empty-works">此分类暂未收录 PDF 案例。</p>';
 }
 
 const pdfDialog = byId('pdf-case-preview');
@@ -185,10 +188,10 @@ if (pdfDialog) {
   const forward = pdfDialog.querySelector('[data-pdf-step="1"]');
   function showPdfPage() {
     const page = entry.pages[pageIndex];
-    img.src = pdfPage(page);
+    img.src = pdfPage(entry,page);
     img.alt = entry.title + ' · PDF 第 ' + page + ' 页';
     pdfDialog.querySelector('figcaption').textContent = (pageIndex + 1) + ' / ' + entry.pages.length + ' · PDF 第 ' + page + ' 页';
-    pdfDialog.querySelector('a').href = './pdf-design/source.pdf#page=' + page;
+    pdfDialog.querySelector('a').href = pdfFolder(entry) + 'source.pdf#page=' + page;
     back.disabled = pageIndex === 0;
     forward.disabled = pageIndex === entry.pages.length - 1;
   }
@@ -203,6 +206,7 @@ if (pdfDialog) {
     entry = pdfDesignCases[Number(card.dataset.pdfCase)];
     pageIndex = 0;
     byId('pdf-case-title').textContent = entry.title;
+    byId('pdf-case-source').textContent = entry.source || '来源 / 小羊作品集';
     showPdfPage();
     pdfDialog.showModal();
   });
