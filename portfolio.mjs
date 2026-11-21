@@ -213,7 +213,9 @@ if (pdfDialog) {
   back.addEventListener('click',() => step(-1));
   forward.addEventListener('click',() => step(1));
   pdfDialog.querySelector('[data-pdf-close]').addEventListener('click',() => pdfDialog.close());
-  pdfDialog.addEventListener('close',() => img.removeAttribute('src'));
+  pdfDialog.addEventListener('close',() => {
+    if (!pdfDialog.open) img.removeAttribute('src');
+  });
   pdfDialog.addEventListener('keydown',event => {
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault();
