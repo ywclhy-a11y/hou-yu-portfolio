@@ -181,6 +181,7 @@ export const pdfDesignCases = [
     ...visualCreativeSource,
     group: 1,
     title: '毛饭搭子 · 电商全案',
+    caseId: 'maofandazi',
     note: '从新品主视觉、商品主图与详情页，到店铺活动和直播间视觉。',
     cover: 4,
     pages: pageRun(4,24)
@@ -189,6 +190,7 @@ export const pdfDesignCases = [
     ...visualCreativeSource,
     group: 0,
     title: '怪有戏 · 潮玩品牌全案',
+    caseId: 'odd-act',
     note: '从品牌识别和角色设定，到盲盒包装、主海报及线下快闪。',
     cover: 25,
     pages: pageRun(25,46)

@@ -11,7 +11,7 @@
 </head><body class="works-page">
 <nav class="site-nav" aria-label="主导航">
   <a class="brand" href="./">候宇<small>HOU YU</small></a>
-  <div class="links"><a href="./">首页</a><a href="./works.html" aria-current="page">作品</a><a href="./#about">关于我</a><a href="./#contact">联系我</a><a href="./resume.docx" download="候宇_AIGC动画设计师简历（修订版）.docx">下载简历</a></div>
+  <div class="links"><a href="./">首页</a><a href="./works.html" aria-current="page">作品</a><a href="./about.html">关于我</a><a href="./#contact">联系我</a><a href="./resume.docx" download="候宇_AIGC动画设计师简历（修订版）.docx">下载简历</a></div>
 </nav>
 <main>
   <div id="home-content">
@@ -60,12 +60,30 @@
         </section>
       </div>
     </section>
+    <section class="band" id="showreel" aria-labelledby="showreel-title">
+      <p class="kicker">SHOWREEL / 00:51</p>
+      <h2 id="showreel-title">作品混剪</h2>
+      <p class="intro">51 秒看完商业广告、剧情影像、MG 动画与视觉设计选段。</p>
+      <video class="showreel-video" controls playsinline preload="none" poster="./covers/postershowreel.jpg"
+        src="./showreel.mp4" width="1920" height="1080" aria-label="候宇作品混剪">
+        <a href="./showreel.mp4">观看作品混剪</a>
+      </video>
+      <div class="work-jumps reel-links">
+        <a class="text-link" href="#all-works">浏览全部视频</a>
+        <a class="text-link" href="./works.html?type=design">浏览静态设计</a>
+      </div>
+    </section>
   </div>
   <article class="detail" id="project-detail" hidden></article>
   <dialog id="design-preview" aria-labelledby="design-preview-title">
-    <div class="preview-head"><h2 id="design-preview-title"></h2><button class="text-link" type="button" aria-label="关闭图片预览">关闭</button></div>
-    <img alt=""><p class="work-meta"></p><a class="text-link" href="#works">查看关联视频</a>
-  </dialog>
+  <div class="viewer-content">
+    <div class="preview-head"><h2 id="design-preview-title"></h2><button class="text-link" type="button" data-image-close aria-label="关闭图片预览">关闭</button></div>
+    <img alt="">
+    <p class="work-meta viewer-caption" hidden></p>
+    <div class="viewer-controls" hidden><button type="button" data-image-step="-1" aria-label="上一张图片">上一张</button><p class="work-meta viewer-position" aria-live="polite"></p><button type="button" data-image-step="1" aria-label="下一张图片">下一张</button></div>
+    <a class="text-link" hidden>查看关联视频</a>
+  </div>
+</dialog>
   <dialog id="pdf-case-preview" aria-labelledby="pdf-case-title">
     <header>
       <div><p class="kicker" id="pdf-case-source"></p><h2 id="pdf-case-title"></h2></div>

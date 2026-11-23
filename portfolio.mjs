@@ -1,13 +1,12 @@
-import { groups, featured, projects, designGroups, designSamples, designCategoryNotes, pdfDesignCases } from './works.mjs';
+import { groups, projects, designGroups, designSamples, designCategoryNotes, pdfDesignCases } from './works.mjs';
 import { projectHighlights, conicsBreakdown } from './works.mjs';
+import { createImageViewer, closeOnBackdrop } from './image-viewer.mjs';
 
 const byId = id => document.getElementById(id);
 const home = byId('home-content');
 const detail = byId('project-detail');
-const catalog = await fetch('./catalog.json').then(response => {
-  if (!response.ok) throw Error('无法读取作品目录');
-  return response.json();
-}).catch(() => ({}));
+const readData = name => fetch(name).then(response => response.ok ? response.json() : {}).catch(() => ({}));
+const [catalog, stills] = await Promise.all([readData('./catalog.json'),readData('./stills.json')]);
 const media = path => './media/' + path.split('/').map(encodeURIComponent).join('/');
 const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({
   '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
@@ -16,20 +15,18 @@ const libraryPage = document.body.classList.contains('works-page');
 const worksLink = libraryPage ? '#all-works' : './works.html';
 const projectHash = project => '#project/' + project.id;
 const projectLink = project => (libraryPage ? '' : './works.html') + projectHash(project);
-const image = (path, label) => '<img loading="lazy" decoding="async" src="' + media(path) + '" alt="' + escape(label) + '">';
 const cover = project => catalog[project.id]?.poster ? './covers/' + project.id + '.jpg'
   : project.frames[0] ? media(project.frames[0]) : '';
 const workType = project => project.format ? groups[project.group] + ' · ' + project.format : groups[project.group];
 const subtitle = project => project.description || groups[project.group] + (project.episodes.length > 1 ? ' · ' + project.episodes.length + ' 个成片' : ' · 原创作品');
 
-function card(project, expanded = false, episode = 0, versionLabel = '') {
+function card(project, episode = 0, versionLabel = '') {
   const poster = catalog[project.id]?.episodes[episode]?.poster;
   const source = poster ? './covers/' + poster : cover(project);
   const link = projectLink(project) + (episode ? '/' + (episode + 1) : '');
-  return '<a class="work-card" href="' + link + '"><div class="work-cover">' +
+  return '<a class="work-card" href="' + link + '"><div class="work-cover video-cover">' +
     (source ? '<img loading="lazy" decoding="async" src="' + source + '" alt="">' : '<span aria-hidden="true">观看成片</span>') +
-    '</div><div class="work-meta">' + workType(project) + '</div><h3>' + escape(project.title + (versionLabel ? ' · ' + versionLabel : '')) + '</h3>' +
-    (expanded ? '<p>' + escape(subtitle(project)) + '</p>' : '') + '</a>';
+    '</div><div class="work-meta">' + workType(project) + '</div><h3>' + escape(project.title + (versionLabel ? ' · ' + versionLabel : '')) + '</h3></a>';
 }
 
 const orientations = [['landscape','横屏'], ['portrait','竖屏'], ['square','方形']];
@@ -51,18 +48,15 @@ const videoCards = projects.flatMap(project => {
     : [{project,index:0,format:first}];
 });
 
-function grouped(entries, format, render, featuredGroup = false) {
+function grouped(entries, format, render) {
   return orientations.map(([id,label]) => {
     const cards = entries.filter(({item}) => format(item) === id);
     if (!cards.length) return '';
     return '<section class="orientation-group" data-orientation="' + id + '"><h4>' + label +
-      '</h4><div class="work-grid' + (featuredGroup ? ' featured-grid' : '') + '">' +
+      '</h4><div class="work-grid">' +
       cards.map(({item,index}) => render(item,index)).join('') + '</div></section>';
   }).join('');
 }
-const selected = featured.map(id => projects.find(project => project.id === id));
-const featuredGrid = byId('featured-grid');
-if (featuredGrid) featuredGrid.innerHTML = grouped(selected.map(item => ({item})), projectOrientation, project => card(project,true),true);
 const videoPane = byId('video-works');
 const designPane = byId('design-works');
 const switches = [...document.querySelectorAll('[data-kind]')];
@@ -98,37 +92,36 @@ if (libraryPage) {
   });
 }
 
-const preview = byId('design-preview');
-preview.querySelector('button').addEventListener('click', () => preview.close());
-preview.querySelector('a').addEventListener('click', () => preview.close());
-preview.addEventListener('close', () => preview.querySelector('img').removeAttribute('src'));
+const viewer = createImageViewer(byId('design-preview'));
+
+function designCover(src, category, title) {
+  return '<span class="work-cover design-cover" aria-hidden="true"><img loading="lazy" decoding="async" alt="" src="' +
+    escape(src) + '"><span class="design-cover-caption"><span>' + escape(category) + '</span><b>' +
+    escape(title) + '</b></span></span>';
+}
 
 function designCard([group, title, project, asset, kind], index) {
   return '<button class="work-card design-card" type="button" data-sample="' + index +
-    '"><span class="work-cover">' + image(asset,'') + '</span><span class="work-meta">' + designGroups[group] + ' · ' + kind +
+    '">' + designCover(media(asset),designGroups[group],title) + '<span class="work-meta">' + designGroups[group] + ' · ' + kind +
     '</span><strong>' + escape(title) + '</strong></button>';
 }
 
 byId('design-grid')?.addEventListener('click', event => {
   const button = event.target.closest('[data-sample]');
   if (!button) return;
-  const [, title, project, asset, label] = designSamples[Number(button.dataset.sample)];
-  showPreview(media(asset), title, label, '#project/' + project);
+  const cards = [...byId('design-grid').querySelectorAll('[data-sample]')];
+  const images = cards.map(card => {
+    const [,title,project,asset,caption] = designSamples[Number(card.dataset.sample)];
+    return {src:media(asset),title,caption,related:'#project/' + project};
+  });
+  viewer.open(images,cards.indexOf(button));
 });
-function showPreview(source, title, label, related) {
-  byId('design-preview-title').textContent = title;
-  const img = preview.querySelector('img');
-  img.src = source;
-  img.alt = title;
-  preview.querySelector('p').textContent = label;
-  const relatedLink = preview.querySelector('a');
-  relatedLink.hidden = !related;
-  if (related) relatedLink.href = related;
-  preview.showModal();
-}
 document.addEventListener('click',event => {
-  const asset = event.target.closest('.asset-thumb');
-  if (asset) showPreview(asset.dataset.source,asset.dataset.label,'',null);
+  const asset = event.target.closest('.asset-thumb, .cover-view');
+  if (!asset) return;
+  const gallery = asset.closest('.media-grid');
+  const thumbs = gallery ? [...gallery.querySelectorAll('.asset-thumb')] : [asset];
+  viewer.open(thumbs.map(thumb => ({src:thumb.dataset.source,title:thumb.dataset.label})),thumbs.indexOf(asset));
 });
 
 function installFilters(container, grid, count, labels, items, groupOf, render, emptyMessage, format, afterSelect) {
@@ -153,7 +146,7 @@ function installFilters(container, grid, count, labels, items, groupOf, render, 
 }
 
 installFilters(byId('filters'), byId('work-grid'), byId('work-count'), groups, videoCards,
-  item => item.project.group, item => card(item.project,false,item.index,item.label),
+  item => item.project.group, item => card(item.project,item.index,item.label),
   '暂未收录音乐影像作品。', item => item.format);
 installFilters(byId('design-filters'), byId('design-grid'), byId('design-count'), designGroups, designSamples,
   sample => sample[0], designCard, '此分类暂未收录作品。', sample => sample[5], renderPdfDesign);
@@ -174,8 +167,8 @@ function renderPdfDesign(group) {
     .filter(({entry}) => group < 0 || entry.group === group);
   grid.innerHTML = cards.length ? cards.map(({entry,index}) =>
     '<button type="button" class="work-card design-card pdf-design-card" data-pdf-case="' + index +
-    '"><span class="work-cover"><img loading="lazy" decoding="async" alt="" src="' + pdfPage(entry,entry.cover,true) +
-    '"></span><span class="work-meta">' + designGroups[entry.group] + ' / ' + entry.pages.length + ' 页</span><strong>' +
+    '">' + designCover(pdfPage(entry,entry.cover,true),designGroups[entry.group],entry.title) +
+    '<span class="work-meta">' + designGroups[entry.group] + ' / ' + entry.pages.length + ' 页</span><strong>' +
     escape(entry.title) + '</strong><span class="pdf-case-note">' + escape(entry.note) + '</span></button>'
   ).join('') : '<p class="empty-works">此分类暂未收录 PDF 案例。</p>';
 }
@@ -213,6 +206,7 @@ if (pdfDialog) {
   back.addEventListener('click',() => step(-1));
   forward.addEventListener('click',() => step(1));
   pdfDialog.querySelector('[data-pdf-close]').addEventListener('click',() => pdfDialog.close());
+  closeOnBackdrop(pdfDialog);
   pdfDialog.addEventListener('close',() => {
     if (!pdfDialog.open) img.removeAttribute('src');
   });
@@ -222,6 +216,11 @@ if (pdfDialog) {
       step(event.key === 'ArrowLeft' ? -1 : 1);
     }
   });
+  const linkedCase = new URLSearchParams(location.search).get('case');
+  const linkedIndex = pdfDesignCases.findIndex(item => item.caseId && item.caseId === linkedCase);
+  if (kindFromUrl() === 'design' && linkedIndex >= 0) {
+    byId('pdf-design-grid').querySelector('[data-pdf-case="' + linkedIndex + '"]')?.click();
+  }
 }
 
 function strip(path) {
@@ -253,10 +252,14 @@ function renderConicsBreakdown() {
     '<div class="media-grid breakdown-grid">' + steps + '</div></section>';
 }
 
-const journey = projects.find(project => project.id === 'journey');
-const journeyAssets = catalog.journey?.episodes[0]?.images || [];
-const processGallery = byId('process-gallery');
-if (processGallery) processGallery.innerHTML = gallery(journeyAssets.slice(0,3));
+function storyboard(project,index,fallback) {
+  const frames = stills[project.id + '-' + (index + 1)] || [];
+  if (!frames.length) return fallback;
+  const {width,height} = catalog[project.id]?.episodes[index]?.videoInfo || {};
+  return '<div class="media-grid storyboard-grid" data-orientation="' + orientation(width,height) + '">' + frames.map((frame,i) =>
+    assetFigure('./stills/' + frame.file,'分镜 ' + (i + 1) + ' · ' + formatTime(frame.time))
+  ).join('') + '</div>';
+}
 
 let lastCard;
 function renderEpisode(project, index) {
@@ -275,6 +278,15 @@ function renderEpisode(project, index) {
   player.innerHTML = '<video controls playsinline preload="metadata" ' + (vertical ? 'class="vertical"' : '') + poster +
     ' src="' + (enhancedSource || originalSource) + '" aria-label="' + escape(project.title + ' ' + episode.label) + '"></video><p class="work-meta"></p>';
   const video = player.querySelector('video');
+  if (posterSource) {
+    const posterButton = document.createElement('button');
+    posterButton.type = 'button';
+    posterButton.className = 'cover-view text-link';
+    posterButton.textContent = '放大观看封面';
+    posterButton.dataset.source = posterSource;
+    posterButton.dataset.label = project.title + ' · ' + episode.label + '封面';
+    player.append(posterButton);
+  }
   const meta = player.querySelector('p');
   const stored = assets.videoInfo || {};
   const toggle = document.createElement('button');
@@ -316,12 +328,11 @@ function renderEpisode(project, index) {
   });
   const originalFrame = assets.frame ? './covers/' + assets.frame : posterSource;
   const frame = originalFrame ? '<div class="media-grid">' + assetFigure(originalFrame,'成片画面') + '</div>' : '';
+  const stillGallery = storyboard(project,index,project.frames.length ? gallery(project.frames) : frame);
   detail.querySelector('.episode-assets').innerHTML =
-    (project.id === 'conics' ? renderConicsBreakdown() :
-    (project.frames.length || frame || assets.scripts?.length) ? '<section><h3>关键画面与分镜</h3>' +
-      (project.frames.length ? gallery(project.frames) : frame) +
+    (stillGallery || assets.scripts?.length ? '<section><h3>成片分镜</h3>' + stillGallery +
       (assets.scripts || []).map(script => '<details><summary>' + escape(script.title) + '</summary><pre>' + escape(script.text) + '</pre></details>').join('') +
-      '</section>' : '') +
+      '</section>' : '') + (project.id === 'conics' ? renderConicsBreakdown() : '') +
     (assets.images?.length ? '<section><h3>项目视觉资料</h3>' +
       '<p>对应项目的人物、场景与道具图。</p>' + gallery(assets.images) + '</section>' : '');
 }

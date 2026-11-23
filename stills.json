@@ -1,0 +1,834 @@
+{
+  "phone-1": [
+    {
+      "file": "phone-1-1.webp",
+      "time": 0.9
+    },
+    {
+      "file": "phone-1-2.webp",
+      "time": 2.8
+    },
+    {
+      "file": "phone-1-3.webp",
+      "time": 4.9
+    },
+    {
+      "file": "phone-1-4.webp",
+      "time": 6.7
+    },
+    {
+      "file": "phone-1-5.webp",
+      "time": 8.6
+    },
+    {
+      "file": "phone-1-6.webp",
+      "time": 10.3
+    }
+  ],
+  "car-1": [
+    {
+      "file": "car-1-1.webp",
+      "time": 2.4
+    },
+    {
+      "file": "car-1-2.webp",
+      "time": 6.2
+    },
+    {
+      "file": "car-1-3.webp",
+      "time": 10.2
+    },
+    {
+      "file": "car-1-4.webp",
+      "time": 14.3
+    },
+    {
+      "file": "car-1-5.webp",
+      "time": 18.3
+    },
+    {
+      "file": "car-1-6.webp",
+      "time": 22.6
+    }
+  ],
+  "skincare-1": [
+    {
+      "file": "skincare-1-1.webp",
+      "time": 0.9
+    },
+    {
+      "file": "skincare-1-2.webp",
+      "time": 2.3
+    },
+    {
+      "file": "skincare-1-3.webp",
+      "time": 3.8
+    },
+    {
+      "file": "skincare-1-4.webp",
+      "time": 5.3
+    },
+    {
+      "file": "skincare-1-5.webp",
+      "time": 6.8
+    },
+    {
+      "file": "skincare-1-6.webp",
+      "time": 8.4
+    }
+  ],
+  "balm-1": [
+    {
+      "file": "balm-1-1.webp",
+      "time": 0.9
+    },
+    {
+      "file": "balm-1-2.webp",
+      "time": 2.3
+    },
+    {
+      "file": "balm-1-3.webp",
+      "time": 3.8
+    },
+    {
+      "file": "balm-1-4.webp",
+      "time": 5.4
+    },
+    {
+      "file": "balm-1-5.webp",
+      "time": 6.9
+    },
+    {
+      "file": "balm-1-6.webp",
+      "time": 8.5
+    }
+  ],
+  "fashion-1": [
+    {
+      "file": "fashion-1-1.webp",
+      "time": 3
+    },
+    {
+      "file": "fashion-1-2.webp",
+      "time": 7
+    },
+    {
+      "file": "fashion-1-3.webp",
+      "time": 13
+    },
+    {
+      "file": "fashion-1-4.webp",
+      "time": 19
+    },
+    {
+      "file": "fashion-1-5.webp",
+      "time": 32
+    },
+    {
+      "file": "fashion-1-6.webp",
+      "time": 40
+    }
+  ],
+  "tea-1": [
+    {
+      "file": "tea-1-1.webp",
+      "time": 4.2
+    },
+    {
+      "file": "tea-1-2.webp",
+      "time": 10.9
+    },
+    {
+      "file": "tea-1-3.webp",
+      "time": 17.9
+    },
+    {
+      "file": "tea-1-4.webp",
+      "time": 25
+    },
+    {
+      "file": "tea-1-5.webp",
+      "time": 32.1
+    },
+    {
+      "file": "tea-1-6.webp",
+      "time": 39.7
+    }
+  ],
+  "lotion-1": [
+    {
+      "file": "lotion-1-1.webp",
+      "time": 2.2
+    },
+    {
+      "file": "lotion-1-2.webp",
+      "time": 5.6
+    },
+    {
+      "file": "lotion-1-3.webp",
+      "time": 9.3
+    },
+    {
+      "file": "lotion-1-4.webp",
+      "time": 13
+    },
+    {
+      "file": "lotion-1-5.webp",
+      "time": 16.6
+    },
+    {
+      "file": "lotion-1-6.webp",
+      "time": 20.5
+    }
+  ],
+  "perfume-1": [
+    {
+      "file": "perfume-1-1.webp",
+      "time": 0.9
+    },
+    {
+      "file": "perfume-1-2.webp",
+      "time": 2.3
+    },
+    {
+      "file": "perfume-1-3.webp",
+      "time": 3.8
+    },
+    {
+      "file": "perfume-1-4.webp",
+      "time": 5.4
+    },
+    {
+      "file": "perfume-1-5.webp",
+      "time": 6.9
+    },
+    {
+      "file": "perfume-1-6.webp",
+      "time": 8.5
+    }
+  ],
+  "perfume-2": [
+    {
+      "file": "perfume-2-1.webp",
+      "time": 2.1
+    },
+    {
+      "file": "perfume-2-2.webp",
+      "time": 5.5
+    },
+    {
+      "file": "perfume-2-3.webp",
+      "time": 9
+    },
+    {
+      "file": "perfume-2-4.webp",
+      "time": 12.6
+    },
+    {
+      "file": "perfume-2-5.webp",
+      "time": 16.2
+    },
+    {
+      "file": "perfume-2-6.webp",
+      "time": 20
+    }
+  ],
+  "serum-1": [
+    {
+      "file": "serum-1-1.webp",
+      "time": 1.8
+    },
+    {
+      "file": "serum-1-2.webp",
+      "time": 4.5
+    },
+    {
+      "file": "serum-1-3.webp",
+      "time": 7.4
+    },
+    {
+      "file": "serum-1-4.webp",
+      "time": 10.4
+    },
+    {
+      "file": "serum-1-5.webp",
+      "time": 13.3
+    },
+    {
+      "file": "serum-1-6.webp",
+      "time": 16.4
+    }
+  ],
+  "serum-2": [
+    {
+      "file": "serum-2-1.webp",
+      "time": 1.4
+    },
+    {
+      "file": "serum-2-2.webp",
+      "time": 3.5
+    },
+    {
+      "file": "serum-2-3.webp",
+      "time": 5.7
+    },
+    {
+      "file": "serum-2-4.webp",
+      "time": 8
+    },
+    {
+      "file": "serum-2-5.webp",
+      "time": 10.2
+    },
+    {
+      "file": "serum-2-6.webp",
+      "time": 12.6
+    }
+  ],
+  "lipstick-1": [
+    {
+      "file": "lipstick-1-1.webp",
+      "time": 1.4
+    },
+    {
+      "file": "lipstick-1-2.webp",
+      "time": 3.5
+    },
+    {
+      "file": "lipstick-1-3.webp",
+      "time": 5.7
+    },
+    {
+      "file": "lipstick-1-4.webp",
+      "time": 8
+    },
+    {
+      "file": "lipstick-1-5.webp",
+      "time": 10.2
+    },
+    {
+      "file": "lipstick-1-6.webp",
+      "time": 12.6
+    }
+  ],
+  "salon-1": [
+    {
+      "file": "salon-1-1.webp",
+      "time": 2.1
+    },
+    {
+      "file": "salon-1-2.webp",
+      "time": 5.3
+    },
+    {
+      "file": "salon-1-3.webp",
+      "time": 8.8
+    },
+    {
+      "file": "salon-1-4.webp",
+      "time": 12.2
+    },
+    {
+      "file": "salon-1-5.webp",
+      "time": 15.7
+    },
+    {
+      "file": "salon-1-6.webp",
+      "time": 19.3
+    }
+  ],
+  "boxing-1": [
+    {
+      "file": "boxing-1-1.webp",
+      "time": 1.1
+    },
+    {
+      "file": "boxing-1-2.webp",
+      "time": 2.8
+    },
+    {
+      "file": "boxing-1-3.webp",
+      "time": 4.6
+    },
+    {
+      "file": "boxing-1-4.webp",
+      "time": 6.4
+    },
+    {
+      "file": "boxing-1-5.webp",
+      "time": 8.2
+    },
+    {
+      "file": "boxing-1-6.webp",
+      "time": 10.1
+    }
+  ],
+  "town-1": [
+    {
+      "file": "town-1-1.webp",
+      "time": 4.8
+    },
+    {
+      "file": "town-1-2.webp",
+      "time": 12.2
+    },
+    {
+      "file": "town-1-3.webp",
+      "time": 20.1
+    },
+    {
+      "file": "town-1-4.webp",
+      "time": 28
+    },
+    {
+      "file": "town-1-5.webp",
+      "time": 35.9
+    },
+    {
+      "file": "town-1-6.webp",
+      "time": 44.4
+    }
+  ],
+  "house-1": [
+    {
+      "file": "house-1-1.webp",
+      "time": 16.2
+    },
+    {
+      "file": "house-1-2.webp",
+      "time": 41.5
+    },
+    {
+      "file": "house-1-3.webp",
+      "time": 68.6
+    },
+    {
+      "file": "house-1-4.webp",
+      "time": 95.6
+    },
+    {
+      "file": "house-1-5.webp",
+      "time": 122.7
+    },
+    {
+      "file": "house-1-6.webp",
+      "time": 151.6
+    }
+  ],
+  "house-2": [
+    {
+      "file": "house-2-1.webp",
+      "time": 25
+    },
+    {
+      "file": "house-2-2.webp",
+      "time": 64
+    },
+    {
+      "file": "house-2-3.webp",
+      "time": 105.7
+    },
+    {
+      "file": "house-2-4.webp",
+      "time": 147.4
+    },
+    {
+      "file": "house-2-5.webp",
+      "time": 189.1
+    },
+    {
+      "file": "house-2-6.webp",
+      "time": 233.6
+    }
+  ],
+  "doll-1": [
+    {
+      "file": "doll-1-1.webp",
+      "time": 38.7
+    },
+    {
+      "file": "doll-1-2.webp",
+      "time": 98.8
+    },
+    {
+      "file": "doll-1-3.webp",
+      "time": 163.3
+    },
+    {
+      "file": "doll-1-4.webp",
+      "time": 227.7
+    },
+    {
+      "file": "doll-1-5.webp",
+      "time": 292.1
+    },
+    {
+      "file": "doll-1-6.webp",
+      "time": 360.9
+    }
+  ],
+  "doll-2": [
+    {
+      "file": "doll-2-1.webp",
+      "time": 54
+    },
+    {
+      "file": "doll-2-2.webp",
+      "time": 137.9
+    },
+    {
+      "file": "doll-2-3.webp",
+      "time": 227.9
+    },
+    {
+      "file": "doll-2-4.webp",
+      "time": 317.8
+    },
+    {
+      "file": "doll-2-5.webp",
+      "time": 407.7
+    },
+    {
+      "file": "doll-2-6.webp",
+      "time": 503.7
+    }
+  ],
+  "fox-1": [
+    {
+      "file": "fox-1-1.webp",
+      "time": 12
+    },
+    {
+      "file": "fox-1-2.webp",
+      "time": 56
+    },
+    {
+      "file": "fox-1-3.webp",
+      "time": 80
+    },
+    {
+      "file": "fox-1-4.webp",
+      "time": 155
+    },
+    {
+      "file": "fox-1-5.webp",
+      "time": 252
+    },
+    {
+      "file": "fox-1-6.webp",
+      "time": 408
+    }
+  ],
+  "fox-2": [
+    {
+      "file": "fox-2-1.webp",
+      "time": 53.9
+    },
+    {
+      "file": "fox-2-2.webp",
+      "time": 137.8
+    },
+    {
+      "file": "fox-2-3.webp",
+      "time": 227.7
+    },
+    {
+      "file": "fox-2-4.webp",
+      "time": 317.6
+    },
+    {
+      "file": "fox-2-5.webp",
+      "time": 407.5
+    },
+    {
+      "file": "fox-2-6.webp",
+      "time": 503.4
+    }
+  ],
+  "sirius-1": [
+    {
+      "file": "sirius-1-1.webp",
+      "time": 7.9
+    },
+    {
+      "file": "sirius-1-2.webp",
+      "time": 20.3
+    },
+    {
+      "file": "sirius-1-3.webp",
+      "time": 33.6
+    },
+    {
+      "file": "sirius-1-4.webp",
+      "time": 46.8
+    },
+    {
+      "file": "sirius-1-5.webp",
+      "time": 60.1
+    },
+    {
+      "file": "sirius-1-6.webp",
+      "time": 74.2
+    }
+  ],
+  "sirius-2": [
+    {
+      "file": "sirius-2-1.webp",
+      "time": 11.8
+    },
+    {
+      "file": "sirius-2-2.webp",
+      "time": 30.1
+    },
+    {
+      "file": "sirius-2-3.webp",
+      "time": 49.8
+    },
+    {
+      "file": "sirius-2-4.webp",
+      "time": 69.4
+    },
+    {
+      "file": "sirius-2-5.webp",
+      "time": 89.1
+    },
+    {
+      "file": "sirius-2-6.webp",
+      "time": 110
+    }
+  ],
+  "you-1": [
+    {
+      "file": "you-1-1.webp",
+      "time": 43.3
+    },
+    {
+      "file": "you-1-2.webp",
+      "time": 110.6
+    },
+    {
+      "file": "you-1-3.webp",
+      "time": 182.8
+    },
+    {
+      "file": "you-1-4.webp",
+      "time": 254.9
+    },
+    {
+      "file": "you-1-5.webp",
+      "time": 327.1
+    },
+    {
+      "file": "you-1-6.webp",
+      "time": 404
+    }
+  ],
+  "marriage-1": [
+    {
+      "file": "marriage-1-1.webp",
+      "time": 4.6
+    },
+    {
+      "file": "marriage-1-2.webp",
+      "time": 11.8
+    },
+    {
+      "file": "marriage-1-3.webp",
+      "time": 19.6
+    },
+    {
+      "file": "marriage-1-4.webp",
+      "time": 27.3
+    },
+    {
+      "file": "marriage-1-5.webp",
+      "time": 35
+    },
+    {
+      "file": "marriage-1-6.webp",
+      "time": 43.2
+    }
+  ],
+  "marriage-2": [
+    {
+      "file": "marriage-2-1.webp",
+      "time": 4.3
+    },
+    {
+      "file": "marriage-2-2.webp",
+      "time": 10.9
+    },
+    {
+      "file": "marriage-2-3.webp",
+      "time": 18
+    },
+    {
+      "file": "marriage-2-4.webp",
+      "time": 25.2
+    },
+    {
+      "file": "marriage-2-5.webp",
+      "time": 32.3
+    },
+    {
+      "file": "marriage-2-6.webp",
+      "time": 39.9
+    }
+  ],
+  "talent-1": [
+    {
+      "file": "talent-1-1.webp",
+      "time": 10.6
+    },
+    {
+      "file": "talent-1-2.webp",
+      "time": 27
+    },
+    {
+      "file": "talent-1-3.webp",
+      "time": 44.6
+    },
+    {
+      "file": "talent-1-4.webp",
+      "time": 62.2
+    },
+    {
+      "file": "talent-1-5.webp",
+      "time": 79.8
+    },
+    {
+      "file": "talent-1-6.webp",
+      "time": 98.5
+    }
+  ],
+  "talent-2": [
+    {
+      "file": "talent-2-1.webp",
+      "time": 12.4
+    },
+    {
+      "file": "talent-2-2.webp",
+      "time": 31.8
+    },
+    {
+      "file": "talent-2-3.webp",
+      "time": 52.6
+    },
+    {
+      "file": "talent-2-4.webp",
+      "time": 73.3
+    },
+    {
+      "file": "talent-2-5.webp",
+      "time": 94
+    },
+    {
+      "file": "talent-2-6.webp",
+      "time": 116.2
+    }
+  ],
+  "journey-1": [
+    {
+      "file": "journey-1-1.webp",
+      "time": 18
+    },
+    {
+      "file": "journey-1-2.webp",
+      "time": 70
+    },
+    {
+      "file": "journey-1-3.webp",
+      "time": 92
+    },
+    {
+      "file": "journey-1-4.webp",
+      "time": 143
+    },
+    {
+      "file": "journey-1-5.webp",
+      "time": 164
+    },
+    {
+      "file": "journey-1-6.webp",
+      "time": 225
+    }
+  ],
+  "poem-1": [
+    {
+      "file": "poem-1-1.webp",
+      "time": 8
+    },
+    {
+      "file": "poem-1-2.webp",
+      "time": 30
+    },
+    {
+      "file": "poem-1-3.webp",
+      "time": 45
+    },
+    {
+      "file": "poem-1-4.webp",
+      "time": 60
+    },
+    {
+      "file": "poem-1-5.webp",
+      "time": 94
+    },
+    {
+      "file": "poem-1-6.webp",
+      "time": 104
+    }
+  ],
+  "seaside-1": [
+    {
+      "file": "seaside-1-1.webp",
+      "time": 2.6
+    },
+    {
+      "file": "seaside-1-2.webp",
+      "time": 6.8
+    },
+    {
+      "file": "seaside-1-3.webp",
+      "time": 11.2
+    },
+    {
+      "file": "seaside-1-4.webp",
+      "time": 15.6
+    },
+    {
+      "file": "seaside-1-5.webp",
+      "time": 20
+    },
+    {
+      "file": "seaside-1-6.webp",
+      "time": 24.7
+    }
+  ],
+  "conics-1": [
+    {
+      "file": "conics-1-1.webp",
+      "time": 12
+    },
+    {
+      "file": "conics-1-2.webp",
+      "time": 39
+    },
+    {
+      "file": "conics-1-3.webp",
+      "time": 46
+    },
+    {
+      "file": "conics-1-4.webp",
+      "time": 72
+    },
+    {
+      "file": "conics-1-5.webp",
+      "time": 136
+    },
+    {
+      "file": "conics-1-6.webp",
+      "time": 160
+    }
+  ]
+}
