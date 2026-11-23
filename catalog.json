@@ -552,7 +552,7 @@
           "width": 1278,
           "height": 720
         },
-        "poster": "posterhouse.jpg",
+        "poster": "keyarthouse.jpg",
         "frame": "house.jpg"
       },
       {
@@ -590,7 +590,7 @@
           "height": 720,
           "duration": 278.128617
         },
-        "poster": "posterhouse-2.jpg",
+        "poster": "keyarthouse.jpg",
         "frame": "house-2.jpg"
       }
     ]
@@ -606,7 +606,7 @@
           "width": 3840,
           "height": 2160
         },
-        "poster": "posterdoll.jpg",
+        "poster": "keyartdoll.jpg",
         "frame": "doll.jpg"
       },
       {
@@ -617,7 +617,7 @@
           "height": 2160,
           "duration": 599.61
         },
-        "poster": "posterdoll-2.jpg",
+        "poster": "keyartdoll.jpg",
         "frame": "doll-2.jpg"
       }
     ]
@@ -660,7 +660,7 @@
           "width": 3840,
           "height": 2160
         },
-        "poster": "posterfox.jpg",
+        "poster": "keyartfox.jpg",
         "frame": "fox.jpg"
       },
       {
@@ -698,7 +698,7 @@
           "height": 2160,
           "duration": 599.238005
         },
-        "poster": "posterfox-2.jpg",
+        "poster": "keyartfox.jpg",
         "frame": "fox-2.jpg"
       }
     ]
@@ -741,7 +741,7 @@
           "width": 640,
           "height": 360
         },
-        "poster": "postersirius.jpg",
+        "poster": "keyartsirius.jpg",
         "frame": "sirius.jpg",
         "enhanced": {
           "file": "sirius-1.mp4",
@@ -784,7 +784,7 @@
           "height": 360,
           "duration": 130.960544
         },
-        "poster": "postersirius-2.jpg",
+        "poster": "keyartsirius.jpg",
         "frame": "sirius-2.jpg",
         "enhanced": {
           "file": "sirius-2.mp4",
@@ -824,7 +824,7 @@
           "width": 640,
           "height": 360
         },
-        "poster": "posteryou.jpg",
+        "poster": "keyartyou.jpg",
         "frame": "you.jpg",
         "enhanced": {
           "file": "you-1.mp4",
@@ -872,7 +872,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "postermarriage.jpg",
+        "poster": "keyartmarriage.jpg",
         "frame": "marriage.jpg",
         "enhanced": {
           "file": "marriage-1.mp4",
@@ -915,7 +915,7 @@
           "height": 640,
           "duration": 47.461587
         },
-        "poster": "postermarriage-2.jpg",
+        "poster": "keyartmarriage.jpg",
         "frame": "marriage-2.jpg",
         "enhanced": {
           "file": "marriage-2.mp4",
@@ -963,7 +963,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "postertalent.jpg",
+        "poster": "keyarttalent.jpg",
         "frame": "talent.jpg",
         "enhanced": {
           "file": "talent-1.mp4",
@@ -1006,7 +1006,7 @@
           "height": 640,
           "duration": 138.29805
         },
-        "poster": "postertalent-2.jpg",
+        "poster": "keyarttalent.jpg",
         "frame": "talent-2.jpg",
         "enhanced": {
           "file": "talent-2.mp4",
@@ -1046,7 +1046,7 @@
           "width": 1284,
           "height": 720
         },
-        "poster": "posterjourney.jpg",
+        "poster": "keyartjourney.jpg",
         "frame": "journey.jpg"
       }
     ]
@@ -1081,7 +1081,7 @@
           "width": 1280,
           "height": 720
         },
-        "poster": "posterpoem.jpg",
+        "poster": "keyartpoem.jpg",
         "frame": "poem.jpg"
       }
     ]
@@ -1112,7 +1112,7 @@
           "width": 1272,
           "height": 720
         },
-        "poster": "posterseaside.jpg",
+        "poster": "keyartseaside.jpg",
         "frame": "seaside.jpg"
       }
     ]
