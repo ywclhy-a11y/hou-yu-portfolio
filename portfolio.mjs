@@ -72,7 +72,6 @@ const designPane = byId('design-works');
 const switches = [...document.querySelectorAll('[data-kind]')];
 
 function showKind(kind) {
-  byId('all-works').dataset.mode = kind;
   videoPane.hidden = kind !== 'video';
   designPane.hidden = kind !== 'design';
   for (const button of switches) button.setAttribute('aria-pressed', String(button.dataset.kind === kind));
