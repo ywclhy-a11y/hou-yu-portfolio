@@ -69,7 +69,8 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
   background:#061011;
   margin-top:1.5rem;
 }
-.band .reel-links{margin:1.5rem 0 0}
+.band .reel-links{margin:1.5rem 0 0;align-items:center}
+.reel-links .cover-view{margin:0}
 .capability-grid h3{font-size:clamp(17px,1.8vw,24px);font-weight:500}
 .capability-grid a{display:inline-block;margin-top:.7rem}
 .job-focus{margin-top:.55rem}

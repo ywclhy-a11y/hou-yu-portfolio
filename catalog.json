@@ -23,7 +23,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "posterphone.jpg",
+        "poster": "keyartphone.jpg",
         "frame": "phone.jpg",
         "enhanced": {
           "file": "phone-1.mp4",
@@ -61,7 +61,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "postercar.jpg",
+        "poster": "keyartcar.jpg",
         "frame": "car.jpg",
         "enhanced": {
           "file": "car-1.mp4",
@@ -98,7 +98,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "posterskincare.jpg",
+        "poster": "keyartskincare.jpg",
         "frame": "skincare.jpg",
         "enhanced": {
           "file": "skincare-1.mp4",
@@ -135,7 +135,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "posterbalm.jpg",
+        "poster": "keyartbalm.jpg",
         "frame": "balm.jpg",
         "enhanced": {
           "file": "balm-1.mp4",
@@ -173,7 +173,7 @@
           "width": 2160,
           "height": 3840
         },
-        "poster": "posterfashion.jpg",
+        "poster": "keyartfashion.jpg",
         "frame": "fashion.jpg"
       }
     ]
@@ -208,7 +208,7 @@
           "width": 3840,
           "height": 2160
         },
-        "poster": "postertea.jpg",
+        "poster": "keyarttea.jpg",
         "frame": "tea.jpg"
       }
     ]
@@ -239,7 +239,7 @@
           "width": 720,
           "height": 1280
         },
-        "poster": "posterlotion.jpg",
+        "poster": "keyartlotion.jpg",
         "frame": "lotion.jpg"
       }
     ]
@@ -270,7 +270,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "posterperfume.jpg",
+        "poster": "keyartperfume-1.jpg",
         "frame": "perfume.jpg",
         "enhanced": {
           "file": "perfume-1.mp4",
@@ -300,7 +300,7 @@
           "height": 1024,
           "duration": 23.791667
         },
-        "poster": "posterperfume-2.jpg",
+        "poster": "keyartperfume-2.jpg",
         "frame": "perfume-2.jpg",
         "enhanced": {
           "file": "perfume-2.mp4",
@@ -337,7 +337,7 @@
           "width": 576,
           "height": 1028
         },
-        "poster": "posterserum.jpg",
+        "poster": "keyartserum-1.jpg",
         "frame": "serum.jpg",
         "enhanced": {
           "file": "serum-1.mp4",
@@ -370,7 +370,7 @@
           "height": 1080,
           "duration": 15.046009
         },
-        "poster": "posterserum-2.jpg",
+        "poster": "keyartserum-2.jpg",
         "frame": "serum-2.jpg"
       }
     ]
@@ -401,7 +401,7 @@
           "width": 1280,
           "height": 720
         },
-        "poster": "posterlipstick.jpg",
+        "poster": "keyartlipstick.jpg",
         "frame": "lipstick.jpg"
       }
     ]
@@ -436,7 +436,7 @@
           "width": 576,
           "height": 1024
         },
-        "poster": "postersalon.jpg",
+        "poster": "keyartsalon.jpg",
         "frame": "salon.jpg",
         "enhanced": {
           "file": "salon-1.mp4",
@@ -474,7 +474,7 @@
           "width": 720,
           "height": 1280
         },
-        "poster": "posterboxing.jpg",
+        "poster": "keyartboxing.jpg",
         "frame": "boxing.jpg"
       }
     ]
@@ -509,7 +509,7 @@
           "width": 1280,
           "height": 720
         },
-        "poster": "postertown.jpg",
+        "poster": "keyarttown.jpg",
         "frame": "town.jpg"
       }
     ]
@@ -1128,7 +1128,7 @@
           "height": 1080,
           "duration": 180
         },
-        "poster": "posterconics.jpg",
+        "poster": "keyartconics.jpg",
         "frame": "conics.jpg"
       }
     ]
