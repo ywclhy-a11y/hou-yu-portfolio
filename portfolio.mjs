@@ -104,15 +104,14 @@ if (libraryPage) {
 
 const viewer = createImageViewer(byId('design-preview'));
 
-function designCover(src, category, title) {
+function designCover(src) {
   return '<span class="work-cover design-cover" aria-hidden="true"><img loading="lazy" decoding="async" alt="" src="' +
-    escape(src) + '"><span class="design-cover-caption"><span>' + escape(category) + '</span><b>' +
-    escape(title) + '</b></span></span>';
+    escape(src) + '"></span>';
 }
 
 function designCard([group, title, project, asset, kind], index) {
   return '<button class="work-card design-card" type="button" data-sample="' + index +
-    '">' + designCover(media(asset),designGroups[group],title) + '<span class="work-meta">' + designGroups[group] + ' · ' + kind +
+    '">' + designCover(media(asset)) + '<span class="work-meta">' + designGroups[group] + ' · ' + kind +
     '</span><strong>' + escape(title) + '</strong></button>';
 }
 
@@ -148,8 +147,8 @@ function installFilters(container, grid, count, labels, items, groupOf, render, 
     buttons.forEach((button, index) => button.setAttribute('aria-pressed', String(index === group+1)));
     const matches = items.map((item,index) => ({item,index})).filter(({item}) => group < 0 || groupOf(item) === group);
     count.textContent = new Set(matches.map(({item}) => item.project?.id ?? item)).size + ' 项作品';
-    grid.innerHTML = matches.length ? grouped(matches, format, render)
-      : '<p class="empty-works">' + emptyMessage + '</p>';
+    grid.innerHTML = matches.length === 0 ? '<p class="empty-works">' + emptyMessage + '</p>'
+      : format ? grouped(matches, format, render) : matches.map(({item,index}) => render(item,index)).join('');
     afterSelect?.(group);
   }
   select(-1);
@@ -159,7 +158,7 @@ installFilters(byId('filters'), byId('work-grid'), byId('work-count'), groups, v
   item => item.project.group, item => card(item.project,item.index,item.label),
   '暂未收录音乐影像作品。', item => item.format);
 installFilters(byId('design-filters'), byId('design-grid'), byId('design-count'), designGroups, designSamples,
-  sample => sample[0], designCard, '此分类暂未收录作品。', sample => sample[5], renderPdfDesign);
+  sample => sample[0], designCard, '此分类暂未收录作品。', null, renderPdfDesign);
 
 function pdfFolder(entry) {
   return './pdf-design/' + (entry.collection ? encodeURIComponent(entry.collection) + '/' : '');
@@ -177,7 +176,7 @@ function renderPdfDesign(group) {
     .filter(({entry}) => group < 0 || entry.group === group);
   grid.innerHTML = cards.length ? cards.map(({entry,index}) =>
     '<button type="button" class="work-card design-card pdf-design-card" data-pdf-case="' + index +
-    '">' + designCover(pdfPage(entry,entry.cover,true),designGroups[entry.group],entry.title) +
+    '">' + designCover(pdfPage(entry,entry.cover,true)) +
     '<span class="work-meta">' + designGroups[entry.group] + ' / ' + entry.pages.length + ' 页</span><strong>' +
     escape(entry.title) + '</strong><span class="pdf-case-note">' + escape(entry.note) + '</span></button>'
   ).join('') : '<p class="empty-works">此分类暂未收录 PDF 案例。</p>';

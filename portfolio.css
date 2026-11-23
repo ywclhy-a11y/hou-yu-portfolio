@@ -258,7 +258,6 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 .pdf-design-heading p,.pdf-case-note{color:var(--muted)}
 .pdf-design-links{display:flex;flex-wrap:wrap;gap:.55rem 1.3rem}
 .pdf-case-note{font-size:.84rem;line-height:1.5;display:block;margin-top:.3em}
-.pdf-design-card .work-cover{aspect-ratio:16/9}.pdf-design-card .work-cover img{object-fit:contain}
 #pdf-case-preview{position:fixed;inset:0;margin:auto;width:min(1120px,94vw);max-height:94dvh;padding:clamp(12px,2.6vw,24px);background:#091618;color:white;border:1px solid #ffffff45}
 #pdf-case-preview::backdrop{background:#03090be5}
 #pdf-case-preview header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
@@ -273,23 +272,14 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 .work-card:hover :is(.video-cover,.design-cover) img{transform:none}
 .work-card:hover :is(.video-cover,.design-cover){outline:1px solid var(--mint);outline-offset:-1px}
 .design-card .design-cover{
-  display:grid;
-  grid-template-rows:minmax(0,1fr) auto;
-  align-items:stretch;
-  justify-items:stretch;
-  gap:0;
+  display:block;
+  aspect-ratio:16/9;
   background:#0e2629;
   border:1px solid #bdf9e937;
 }
-.design-card .design-cover img,.orientation-group .design-card .design-cover img{
-  position:static;min-height:0;width:100%;height:100%;object-fit:contain;background:#091618;
+.design-card .design-cover img{
+  width:100%;height:100%;object-fit:contain;background:#091618;
 }
-.design-cover-caption{
-  display:grid;gap:.13rem;padding:.4rem .6rem .48rem;margin:0;
-  color:#edfcf8;background:#10292d;border-top:1px solid #bdf9e957;
-}
-.design-cover-caption span{font-size:.66rem;color:#a5e2d4}
-.design-cover-caption b{font-size:clamp(.73rem,1.4vw,1.16rem);line-height:1.25;font-weight:700}
 .cover-view{display:inline-block;margin:8px 14px 0 0}
 .storyboard-grid .asset-thumb{aspect-ratio:16/9;background:#061011}
 .storyboard-grid[data-orientation="portrait"] .asset-thumb{aspect-ratio:9/16}
