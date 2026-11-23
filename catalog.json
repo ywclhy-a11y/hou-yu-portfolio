@@ -23,7 +23,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "keyartphone.jpg",
+        "poster": "revisedphone.jpg",
         "frame": "phone.jpg",
         "enhanced": {
           "file": "phone-1.mp4",
@@ -61,7 +61,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "keyartcar.jpg",
+        "poster": "revisedcar.jpg",
         "frame": "car.jpg",
         "enhanced": {
           "file": "car-1.mp4",
@@ -270,7 +270,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "keyartperfume-1.jpg",
+        "poster": "revisedperfume-1.jpg",
         "frame": "perfume.jpg",
         "enhanced": {
           "file": "perfume-1.mp4",
@@ -337,7 +337,7 @@
           "width": 576,
           "height": 1028
         },
-        "poster": "keyartserum-1.jpg",
+        "poster": "revisedserum-1.jpg",
         "frame": "serum.jpg",
         "enhanced": {
           "file": "serum-1.mp4",
@@ -474,7 +474,7 @@
           "width": 720,
           "height": 1280
         },
-        "poster": "keyartboxing.jpg",
+        "poster": "revisedboxing.jpg",
         "frame": "boxing.jpg"
       }
     ]
@@ -660,7 +660,7 @@
           "width": 3840,
           "height": 2160
         },
-        "poster": "keyartfox.jpg",
+        "poster": "revisedfox.jpg",
         "frame": "fox.jpg"
       },
       {
@@ -698,7 +698,7 @@
           "height": 2160,
           "duration": 599.238005
         },
-        "poster": "keyartfox.jpg",
+        "poster": "revisedfox.jpg",
         "frame": "fox-2.jpg"
       }
     ]
@@ -872,7 +872,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "keyartmarriage.jpg",
+        "poster": "revisedmarriage.jpg",
         "frame": "marriage.jpg",
         "enhanced": {
           "file": "marriage-1.mp4",
@@ -915,7 +915,7 @@
           "height": 640,
           "duration": 47.461587
         },
-        "poster": "keyartmarriage.jpg",
+        "poster": "revisedmarriage.jpg",
         "frame": "marriage-2.jpg",
         "enhanced": {
           "file": "marriage-2.mp4",
@@ -963,7 +963,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "keyarttalent.jpg",
+        "poster": "revisedtalent.jpg",
         "frame": "talent.jpg",
         "enhanced": {
           "file": "talent-1.mp4",
@@ -1006,7 +1006,7 @@
           "height": 640,
           "duration": 138.29805
         },
-        "poster": "keyarttalent.jpg",
+        "poster": "revisedtalent.jpg",
         "frame": "talent-2.jpg",
         "enhanced": {
           "file": "talent-2.mp4",
