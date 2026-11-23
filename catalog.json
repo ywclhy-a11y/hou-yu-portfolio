@@ -552,7 +552,7 @@
           "width": 1278,
           "height": 720
         },
-        "poster": "keyarthouse.jpg",
+        "poster": "revisedhouse.jpg",
         "frame": "house.jpg"
       },
       {
@@ -590,7 +590,7 @@
           "height": 720,
           "duration": 278.128617
         },
-        "poster": "keyarthouse.jpg",
+        "poster": "revisedhouse.jpg",
         "frame": "house-2.jpg"
       }
     ]
@@ -606,7 +606,7 @@
           "width": 3840,
           "height": 2160
         },
-        "poster": "keyartdoll.jpg",
+        "poster": "reviseddoll.jpg",
         "frame": "doll.jpg"
       },
       {
@@ -617,7 +617,7 @@
           "height": 2160,
           "duration": 599.61
         },
-        "poster": "keyartdoll.jpg",
+        "poster": "reviseddoll.jpg",
         "frame": "doll-2.jpg"
       }
     ]
@@ -741,7 +741,7 @@
           "width": 640,
           "height": 360
         },
-        "poster": "keyartsirius.jpg",
+        "poster": "revisedsirius.jpg",
         "frame": "sirius.jpg",
         "enhanced": {
           "file": "sirius-1.mp4",
@@ -784,7 +784,7 @@
           "height": 360,
           "duration": 130.960544
         },
-        "poster": "keyartsirius.jpg",
+        "poster": "revisedsirius.jpg",
         "frame": "sirius-2.jpg",
         "enhanced": {
           "file": "sirius-2.mp4",
@@ -824,7 +824,7 @@
           "width": 640,
           "height": 360
         },
-        "poster": "keyartyou.jpg",
+        "poster": "revisedyou.jpg",
         "frame": "you.jpg",
         "enhanced": {
           "file": "you-1.mp4",
@@ -1046,7 +1046,7 @@
           "width": 1284,
           "height": 720
         },
-        "poster": "keyartjourney.jpg",
+        "poster": "revisedjourney.jpg",
         "frame": "journey.jpg"
       }
     ]
@@ -1081,7 +1081,7 @@
           "width": 1280,
           "height": 720
         },
-        "poster": "keyartpoem.jpg",
+        "poster": "revisedpoem.jpg",
         "frame": "poem.jpg"
       }
     ]
@@ -1128,7 +1128,7 @@
           "height": 1080,
           "duration": 180
         },
-        "poster": "keyartconics.jpg",
+        "poster": "revisedconics.jpg",
         "frame": "conics.jpg"
       }
     ]
