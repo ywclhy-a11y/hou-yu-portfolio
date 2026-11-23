@@ -29,7 +29,8 @@
           "file": "phone-1.mp4",
           "width": 720,
           "height": 1280
-        }
+        },
+        "cardArt": "screenphone.jpg"
       }
     ]
   },
@@ -67,7 +68,8 @@
           "file": "car-1.mp4",
           "width": 720,
           "height": 1280
-        }
+        },
+        "cardArt": "screencar.jpg"
       }
     ]
   },
@@ -104,7 +106,8 @@
           "file": "skincare-1.mp4",
           "width": 720,
           "height": 1280
-        }
+        },
+        "cardArt": "screenskincare.jpg"
       }
     ]
   },
@@ -141,7 +144,8 @@
           "file": "balm-1.mp4",
           "width": 720,
           "height": 1280
-        }
+        },
+        "cardArt": "screenbalm.jpg"
       }
     ]
   },
@@ -174,7 +178,8 @@
           "height": 3840
         },
         "poster": "editionfashion.jpg",
-        "frame": "fashion.jpg"
+        "frame": "fashion.jpg",
+        "cardArt": "screenfashion.jpg"
       }
     ]
   },
@@ -209,7 +214,8 @@
           "height": 2160
         },
         "poster": "editiontea.jpg",
-        "frame": "tea.jpg"
+        "frame": "tea.jpg",
+        "cardArt": "screentea.jpg"
       }
     ]
   },
@@ -240,7 +246,8 @@
           "height": 1280
         },
         "poster": "editionlotion.jpg",
-        "frame": "lotion.jpg"
+        "frame": "lotion.jpg",
+        "cardArt": "screenlotion.jpg"
       }
     ]
   },
@@ -276,7 +283,8 @@
           "file": "perfume-1.mp4",
           "width": 720,
           "height": 1280
-        }
+        },
+        "cardArt": "screenperfume-1.jpg"
       },
       {
         "images": [
@@ -306,7 +314,8 @@
           "file": "perfume-2.mp4",
           "width": 720,
           "height": 1280
-        }
+        },
+        "cardArt": "screenperfume-2.jpg"
       }
     ]
   },
@@ -343,7 +352,8 @@
           "file": "serum-1.mp4",
           "width": 720,
           "height": 1286
-        }
+        },
+        "cardArt": "screenserum-1.jpg"
       },
       {
         "images": [
@@ -371,7 +381,8 @@
           "duration": 15.046009
         },
         "poster": "editionserum-2.jpg",
-        "frame": "serum-2.jpg"
+        "frame": "serum-2.jpg",
+        "cardArt": "screenserum-2.jpg"
       }
     ]
   },
@@ -402,7 +413,8 @@
           "height": 720
         },
         "poster": "editionlipstick.jpg",
-        "frame": "lipstick.jpg"
+        "frame": "lipstick.jpg",
+        "cardArt": "screenlipstick.jpg"
       }
     ]
   },
@@ -442,7 +454,8 @@
           "file": "salon-1.mp4",
           "width": 720,
           "height": 1280
-        }
+        },
+        "cardArt": "screensalon.jpg"
       }
     ]
   },
@@ -475,7 +488,8 @@
           "height": 1280
         },
         "poster": "editionboxing.jpg",
-        "frame": "boxing.jpg"
+        "frame": "boxing.jpg",
+        "cardArt": "screenboxing.jpg"
       }
     ]
   },
@@ -510,7 +524,8 @@
           "height": 720
         },
         "poster": "editiontown.jpg",
-        "frame": "town.jpg"
+        "frame": "town.jpg",
+        "cardArt": "screentown.jpg"
       }
     ]
   },
@@ -553,7 +568,8 @@
           "height": 720
         },
         "poster": "editionhouse.jpg",
-        "frame": "house.jpg"
+        "frame": "house.jpg",
+        "cardArt": "screenhouse.jpg"
       },
       {
         "images": [
@@ -591,7 +607,8 @@
           "duration": 278.128617
         },
         "poster": "editionhouse.jpg",
-        "frame": "house-2.jpg"
+        "frame": "house-2.jpg",
+        "cardArt": "screenhouse.jpg"
       }
     ]
   },
@@ -607,7 +624,8 @@
           "height": 2160
         },
         "poster": "editiondoll.jpg",
-        "frame": "doll.jpg"
+        "frame": "doll.jpg",
+        "cardArt": "screendoll.jpg"
       },
       {
         "images": [],
@@ -618,7 +636,8 @@
           "duration": 599.61
         },
         "poster": "editiondoll.jpg",
-        "frame": "doll-2.jpg"
+        "frame": "doll-2.jpg",
+        "cardArt": "screendoll.jpg"
       }
     ]
   },
@@ -661,7 +680,8 @@
           "height": 2160
         },
         "poster": "editionfox.jpg",
-        "frame": "fox.jpg"
+        "frame": "fox.jpg",
+        "cardArt": "screenfox.jpg"
       },
       {
         "images": [
@@ -699,7 +719,8 @@
           "duration": 599.238005
         },
         "poster": "editionfox.jpg",
-        "frame": "fox-2.jpg"
+        "frame": "fox-2.jpg",
+        "cardArt": "screenfox.jpg"
       }
     ]
   },
@@ -747,7 +768,8 @@
           "file": "sirius-1.mp4",
           "width": 1280,
           "height": 720
-        }
+        },
+        "cardArt": "screensirius.jpg"
       },
       {
         "images": [
@@ -790,7 +812,8 @@
           "file": "sirius-2.mp4",
           "width": 1280,
           "height": 720
-        }
+        },
+        "cardArt": "screensirius.jpg"
       }
     ]
   },
@@ -830,7 +853,8 @@
           "file": "you-1.mp4",
           "width": 1280,
           "height": 720
-        }
+        },
+        "cardArt": "screenyou.jpg"
       }
     ]
   },
@@ -878,7 +902,8 @@
           "file": "marriage-1.mp4",
           "width": 720,
           "height": 1280
-        }
+        },
+        "cardArt": "screenmarriage.jpg"
       },
       {
         "images": [
@@ -921,7 +946,8 @@
           "file": "marriage-2.mp4",
           "width": 720,
           "height": 1280
-        }
+        },
+        "cardArt": "screenmarriage.jpg"
       }
     ]
   },
@@ -969,7 +995,8 @@
           "file": "talent-1.mp4",
           "width": 720,
           "height": 1280
-        }
+        },
+        "cardArt": "screentalent.jpg"
       },
       {
         "images": [
@@ -1012,7 +1039,8 @@
           "file": "talent-2.mp4",
           "width": 720,
           "height": 1280
-        }
+        },
+        "cardArt": "screentalent.jpg"
       }
     ]
   },
@@ -1047,7 +1075,8 @@
           "height": 720
         },
         "poster": "editionjourney.jpg",
-        "frame": "journey.jpg"
+        "frame": "journey.jpg",
+        "cardArt": "screenjourney.jpg"
       }
     ]
   },
@@ -1082,7 +1111,8 @@
           "height": 720
         },
         "poster": "editionpoem.jpg",
-        "frame": "poem.jpg"
+        "frame": "poem.jpg",
+        "cardArt": "screenpoem.jpg"
       }
     ]
   },
@@ -1113,7 +1143,8 @@
           "height": 720
         },
         "poster": "editionseaside.jpg",
-        "frame": "seaside.jpg"
+        "frame": "seaside.jpg",
+        "cardArt": "screenseaside.jpg"
       }
     ]
   },
@@ -1129,7 +1160,8 @@
           "duration": 180
         },
         "poster": "editionconics.jpg",
-        "frame": "conics.jpg"
+        "frame": "conics.jpg",
+        "cardArt": "screenconics.jpg"
       }
     ]
   }

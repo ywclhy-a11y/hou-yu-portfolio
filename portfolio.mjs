@@ -21,12 +21,22 @@ const workType = project => project.format ? groups[project.group] + ' · ' + pr
 const subtitle = project => project.description || groups[project.group] + (project.episodes.length > 1 ? ' · ' + project.episodes.length + ' 个成片' : ' · 原创作品');
 
 function card(project, episode = 0, versionLabel = '') {
-  const poster = catalog[project.id]?.episodes[episode]?.poster;
-  const source = poster ? './covers/' + poster : cover(project);
+  const presentation = catalog[project.id]?.episodes[episode];
+  const cardArt = presentation?.cardArt || presentation?.frame;
+  const source = cardArt ? './covers/' + cardArt : cover(project);
   const link = projectLink(project) + (episode ? '/' + (episode + 1) : '');
-  return '<a class="work-card" href="' + link + '"><div class="work-cover video-cover">' +
-    (source ? '<img loading="lazy" decoding="async" src="' + source + '" alt="">' : '<span aria-hidden="true">观看成片</span>') +
-    '</div><div class="work-meta">' + workType(project) + '</div><h3>' + escape(project.title + (versionLabel ? ' · ' + versionLabel : '')) + '</h3></a>';
+  const title = project.title.replace(/^《(.*)》$/, '$1');
+  const video = project.episodes.length > 1
+    ? project.episodes.length + ' 个成片' : formatTime(presentation?.videoInfo?.duration);
+  const label = versionLabel || [project.language,video].filter(Boolean).join(' · ');
+  return '<a class="work-card screening-card" href="' + link + '" aria-label="' +
+    escape('观看视频：' + title + (versionLabel ? ' · ' + versionLabel : '')) + '">' +
+    '<div class="work-cover video-cover">' +
+    (source ? '<img loading="lazy" decoding="async" src="' + escape(source) + '" alt="">' : '') +
+    '<div class="screening-card-copy"><span class="screening-category">' + escape(workType(project)) +
+    '</span><h3>' + escape(title) + '</h3></div><span class="screening-play" aria-hidden="true"></span></div>' +
+    '<div class="screening-card-meta"><span>' + escape(label) +
+    '</span><span class="screening-watch">观看视频 <span aria-hidden="true">↗</span></span></div></a>';
 }
 
 const orientations = [['landscape','横屏'], ['portrait','竖屏'], ['square','方形']];
@@ -62,6 +72,7 @@ const designPane = byId('design-works');
 const switches = [...document.querySelectorAll('[data-kind]')];
 
 function showKind(kind) {
+  byId('all-works').dataset.mode = kind;
   videoPane.hidden = kind !== 'video';
   designPane.hidden = kind !== 'design';
   for (const button of switches) button.setAttribute('aria-pressed', String(button.dataset.kind === kind));
