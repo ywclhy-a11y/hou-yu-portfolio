@@ -1,5 +1,5 @@
-import { groups, projects, designGroups, designSamples, designCategoryNotes,
-  projectHighlights, conicsBreakdown } from './works.mjs?v=portfolio57';
+import { groups, projects, designGroups, designCollections, designCategoryNotes,
+  projectHighlights, conicsBreakdown } from './works.mjs?v=work-covers';
 import { createImageViewer } from './image-viewer.mjs';
 
 const byId = id => document.getElementById(id);
@@ -33,10 +33,10 @@ function card(project, episode = 0, versionLabel = '') {
     escape('观看视频：' + title + (versionLabel ? ' · ' + versionLabel : '')) + '">' +
     '<div class="work-cover video-cover">' +
     (source ? '<img loading="lazy" decoding="async" src="' + escape(source) + '" alt="">' : '') +
-    '<div class="screening-card-copy"><span class="screening-category">' + escape(workType(project)) +
-    '</span><h3>' + escape(title) + '</h3></div><span class="screening-play" aria-hidden="true"></span></div>' +
-    '<div class="screening-card-meta"><span>' + escape(label) +
-    '</span><span class="screening-watch">观看视频 <span aria-hidden="true">↗</span></span></div></a>';
+    '</div><div class="catalog-caption"><div class="catalog-copy"><span class="catalog-category">' +
+    escape(workType(project)) + '</span><h3 class="catalog-title">' + escape(title) + '</h3>' +
+    (label ? '<span class="catalog-meta">' + escape(label) + '</span>' : '') +
+    '</div><span class="catalog-action screening-play" aria-hidden="true"></span></div></a>';
 }
 
 const orientations = [['landscape','横屏'], ['portrait','竖屏'], ['square','方形']];
@@ -112,34 +112,25 @@ function designCover(src) {
 const collectionImage = (entry, number, size) =>
   './design-gallery/' + entry.folder + '-' + number + '-' + size + '.webp';
 
-function designCard([group, title, , asset, kind, , collection], index) {
-  const image = collection ? collectionImage(collection,collection.cover,'cover') : media(asset);
-  const label = collection ? collection.count + ' 张' : kind;
+function designCard(collection, index) {
+  const image = collectionImage(collection,collection.cover,'cover');
   return '<button class="work-card design-card" type="button" data-sample="' + index +
-    '">' + designCover(image) + '<span class="work-meta">' + designGroups[group] + ' · ' + escape(label) +
-    '</span><strong>' + escape(title) + '</strong>' +
-    (collection ? '<span class="design-case-note">' + escape(collection.summary) + '</span>' : '') + '</button>';
+    '" data-art="' + escape(collection.folder) + '">' + designCover(image) + '<span class="catalog-caption"><span class="catalog-copy">' +
+    '<span class="catalog-category">' + escape(designGroups[collection.group]) + ' / ' + collection.count + ' 张</span>' +
+    '<strong class="catalog-title">' + escape(collection.title) + '</strong>' +
+    '<span class="catalog-meta">' + escape(collection.summary) + '</span></span>' +
+    '<span class="catalog-action" aria-hidden="true">↗</span></span></button>';
 }
 
 byId('design-grid')?.addEventListener('click', event => {
   const button = event.target.closest('[data-sample]');
   if (!button) return;
-  const collection = designSamples[Number(button.dataset.sample)][6];
-  if (collection) {
-    viewer.open(Array.from({length:collection.count},(_, index) => ({
-      src:collectionImage(collection,index+1,'full'),
-      title:collection.title,
-      caption:collection.summary
-    })));
-    return;
-  }
-  const cards = [...byId('design-grid').querySelectorAll('[data-sample]')]
-    .filter(card => !designSamples[Number(card.dataset.sample)][6]);
-  const images = cards.map(card => {
-    const [,title,project,asset,caption] = designSamples[Number(card.dataset.sample)];
-    return {src:media(asset),title,caption,related:'#project/' + project};
-  });
-  viewer.open(images,cards.indexOf(button));
+  const collection = designCollections[Number(button.dataset.sample)];
+  viewer.open(Array.from({length:collection.count},(_, index) => ({
+    src:collectionImage(collection,index+1,'full'),
+    title:collection.title,
+    caption:collection.summary
+  })));
 });
 document.addEventListener('click',event => {
   const asset = event.target.closest('.asset-thumb, .cover-view');
@@ -173,8 +164,8 @@ function installFilters(container, grid, count, labels, items, groupOf, render, 
 installFilters(byId('filters'), byId('work-grid'), byId('work-count'), groups, videoCards,
   item => item.project.group, item => card(item.project,item.index,item.label),
   '暂未收录音乐影像作品。', item => item.format);
-installFilters(byId('design-filters'), byId('design-grid'), byId('design-count'), designGroups, designSamples,
-  sample => sample[0], designCard, '此分类暂未收录作品。', null, updateDesignCategoryNote);
+installFilters(byId('design-filters'), byId('design-grid'), byId('design-count'), designGroups, designCollections,
+  collection => collection.group, designCard, '此分类暂未收录作品。', null, updateDesignCategoryNote);
 
 function updateDesignCategoryNote(group) {
   const note = byId('design-category-note');
@@ -184,7 +175,7 @@ function updateDesignCategoryNote(group) {
 
 if (libraryPage && kindFromUrl() === 'design') {
   const linkedCase = new URLSearchParams(location.search).get('case');
-  const linkedIndex = designSamples.findIndex(item => item[6]?.id === linkedCase);
+  const linkedIndex = designCollections.findIndex(collection => collection.id === linkedCase);
   if (linkedIndex >= 0) byId('design-grid').querySelector('[data-sample="' + linkedIndex + '"]')?.click();
 }
 

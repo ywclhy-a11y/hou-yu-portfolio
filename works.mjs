@@ -72,69 +72,17 @@ export const projects = entries.map(([id, group, title, folder, assets, videos, 
 }));
 
 
-export const designGroups = ["品牌与营销视觉","电商与产品视觉","IP与概念设计","人像与创意摄影","文字设计"];
-const designCollections = [
+export const designGroups = ["品牌与营销视觉","电商与产品视觉","IP与概念设计","文字设计"];
+export const designCollections = [
   {id:'amantou', group:0, folder:'brand', title:'一饅頭店 · 品牌视觉与包装', cover:3, count:16, summary:'品牌识别、包装、印刷品与店面应用'},
   {id:'dolcesole', group:1, folder:'commerce', title:'DolceSole · 产品与包装视觉', cover:1, count:30, summary:'护肤产品、包装系列、产品主视觉与推广应用'},
   {id:'yangfugui', group:2, folder:'ip', title:'富贵小羊 · 羊年 IP', cover:1, count:15, summary:'角色概念、三视图、节日海报与造型延展'},
-  {id:'type-design', group:4, folder:'type', title:'字形设计合集', cover:13, count:16, summary:'字形结构、笔画变形、字标和标题字实验'}
-];
-export const designSamples = [
-  ...designCollections.map(entry => [entry.group,entry.title,null,null,entry.summary,'landscape',entry]),
-  [
-    2,
-    "白金仙君",
-    "journey",
-    "短片/到此一游_图片资产/人物/白金仙君-四宫格.webp",
-    "角色设定",
-    "square"
-  ],
-  [
-    2,
-    "科技选人舱",
-    "boxing",
-    "信息流/拳击_图片资产/场景/场景-科技选人舱-45度.webp",
-    "场景概念",
-    "landscape"
-  ],
-  [
-    2,
-    "机械拳套",
-    "boxing",
-    "信息流/拳击_图片资产/道具/道具-机械拳套-六视图.webp",
-    "道具设定",
-    "landscape"
-  ],
-  [
-    2,
-    "马戏团街道",
-    "town",
-    "信息流/诡异小镇_图片资产/场景/马戏团街道-45度.webp",
-    "场景概念",
-    "landscape"
-  ],
-  [
-    3,
-    "龙纹旗袍 · 人像",
-    "fashion",
-    "检查/电商新增/服装/21.jpg",
-    "成片画面",
-    "portrait"
-  ],
-  [
-    3,
-    "护肤女性",
-    "skincare",
-    "tvc广告/护肤广告_图片资产/人物/护肤女性-四宫格.webp",
-    "人物视觉资料",
-    "landscape"
-  ]
+  {id:'type-design', group:3, folder:'type', title:'字形设计合集', cover:13, count:16, summary:'字形结构、笔画变形、字标和标题字实验'}
 ];
 
 export const designCategoryNotes = [
   "品牌全案、LOGO/VI、品牌主视觉、活动视觉及线下物料。",
   "商品主图、详情页、产品海报、Banner、H5 及社媒推广图。",
   "IP 角色、人物资产、场景概念、道具设定与插画。",
-  "商业人像、AI 写真、时尚大片、虚拟模特与创意摄影。",
   "字形结构、笔画变形及不同风格的标题字。"
 ];
