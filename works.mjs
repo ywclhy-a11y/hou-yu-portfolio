@@ -72,48 +72,15 @@ export const projects = entries.map(([id, group, title, folder, assets, videos, 
 }));
 
 
-export const designGroups = ["品牌与营销视觉","电商与产品视觉","IP与概念设计","人像与创意摄影"];
+export const designGroups = ["品牌与营销视觉","电商与产品视觉","IP与概念设计","人像与创意摄影","文字设计"];
+const designCollections = [
+  {id:'amantou', group:0, folder:'brand', title:'一饅頭店 · 品牌视觉与包装', cover:3, count:16, summary:'品牌识别、包装、印刷品与店面应用'},
+  {id:'dolcesole', group:1, folder:'commerce', title:'DolceSole · 产品与包装视觉', cover:1, count:30, summary:'护肤产品、包装系列、产品主视觉与推广应用'},
+  {id:'yangfugui', group:2, folder:'ip', title:'富贵小羊 · 羊年 IP', cover:1, count:15, summary:'角色概念、三视图、节日海报与造型延展'},
+  {id:'type-design', group:4, folder:'type', title:'字形设计合集', cover:13, count:16, summary:'字形结构、笔画变形、字标和标题字实验'}
+];
 export const designSamples = [
-  [
-    0,
-    "服装种草 · 国风营销视觉",
-    "fashion",
-    "检查/电商新增/服装/16.jpg",
-    "成片画面",
-    "portrait"
-  ],
-  [
-    0,
-    "茶叶种草 · 内容视觉",
-    "tea",
-    "检查/电商新增/茶叶/16.jpg",
-    "成片画面",
-    "landscape"
-  ],
-  [
-    1,
-    "石墨黑智能手机",
-    "phone",
-    "tvc广告/手机_图片资产/道具/石墨黑智能手机-六视图.webp",
-    "产品六视图",
-    "landscape"
-  ],
-  [
-    1,
-    "白瓶红泵乳液",
-    "lotion",
-    "电商/带货/乳液--中文_图片资产/道具/白瓶红泵乳液-六视图.webp",
-    "产品六视图",
-    "landscape"
-  ],
-  [
-    1,
-    "银色纯电超跑",
-    "car",
-    "tvc广告/纯电超跑_图片资产/道具/银色纯电超跑-六视图.webp",
-    "产品六视图",
-    "landscape"
-  ],
+  ...designCollections.map(entry => [entry.group,entry.title,null,null,entry.summary,'landscape',entry]),
   [
     2,
     "白金仙君",
@@ -167,63 +134,12 @@ export const designSamples = [
 export const designCategoryNotes = [
   "品牌全案、LOGO/VI、品牌主视觉、活动视觉及线下物料。",
   "商品主图、详情页、产品海报、Banner、H5 及社媒推广图。",
-  "IP 角色、人物资产、场景概念、道具设定、插画与字体。",
-  "商业人像、AI 写真、时尚大片、虚拟模特与创意摄影。"
+  "IP 角色、人物资产、场景概念、道具设定与插画。",
+  "商业人像、AI 写真、时尚大片、虚拟模特与创意摄影。",
+  "字形结构、笔画变形及不同风格的标题字。"
 ];
-const visualCreativeSource = {
-  collection: 'visual-creative',
-  source: '候宇 · AIGC 视觉创意作品集'
-};
-const pageRun = (first,last) => Array.from({length:last-first+1}, (_, index) => first+index);
 
 export const pdfDesignCases = [
-  {
-    ...visualCreativeSource,
-    group: 1,
-    title: '毛饭搭子 · 电商全案',
-    caseId: 'maofandazi',
-    note: '从新品主视觉、商品主图与详情页，到店铺活动和直播间视觉。',
-    cover: 4,
-    pages: pageRun(4,24)
-  },
-  {
-    ...visualCreativeSource,
-    group: 0,
-    title: '怪有戏 · 潮玩品牌全案',
-    caseId: 'odd-act',
-    note: '从品牌识别和角色设定，到盲盒包装、主海报及线下快闪。',
-    cover: 25,
-    pages: pageRun(25,46)
-  },
-  {
-    ...visualCreativeSource,
-    group: 2,
-    title: '创意精选 · 字体与插画',
-    note: '字体设计、主视觉和叙事插画。',
-    cover: 47,
-    pages: pageRun(47,54)
-  },
-  {
-    "group": 2,
-    "title": "字体实验与主视觉应用",
-    "note": "收录《灵感开场》《秩序之间》《春日来信》等字体练习",
-    "cover": 49,
-    "pages": [
-      49,
-      50,
-      51,
-      52,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59,
-      60,
-      61
-    ]
-  },
   {
     "group": 2,
     "title": "插画与叙事延展",

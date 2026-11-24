@@ -1,5 +1,5 @@
-import { groups, projects, designGroups, designSamples, designCategoryNotes, pdfDesignCases } from './works.mjs';
-import { projectHighlights, conicsBreakdown } from './works.mjs';
+import { groups, projects, designGroups, designSamples, designCategoryNotes, pdfDesignCases,
+  projectHighlights, conicsBreakdown } from './works.mjs?v=20261124-design';
 import { createImageViewer, closeOnBackdrop } from './image-viewer.mjs';
 
 const byId = id => document.getElementById(id);
@@ -109,16 +109,32 @@ function designCover(src) {
     escape(src) + '"></span>';
 }
 
-function designCard([group, title, project, asset, kind], index) {
+const collectionImage = (entry, number, size) =>
+  './design-gallery/' + entry.folder + '-' + number + '-' + size + '.webp';
+
+function designCard([group, title, , asset, kind, , collection], index) {
+  const image = collection ? collectionImage(collection,collection.cover,'cover') : media(asset);
+  const label = collection ? collection.count + ' 张' : kind;
   return '<button class="work-card design-card" type="button" data-sample="' + index +
-    '">' + designCover(media(asset)) + '<span class="work-meta">' + designGroups[group] + ' · ' + kind +
-    '</span><strong>' + escape(title) + '</strong></button>';
+    '">' + designCover(image) + '<span class="work-meta">' + designGroups[group] + ' · ' + escape(label) +
+    '</span><strong>' + escape(title) + '</strong>' +
+    (collection ? '<span class="pdf-case-note">' + escape(collection.summary) + '</span>' : '') + '</button>';
 }
 
 byId('design-grid')?.addEventListener('click', event => {
   const button = event.target.closest('[data-sample]');
   if (!button) return;
-  const cards = [...byId('design-grid').querySelectorAll('[data-sample]')];
+  const collection = designSamples[Number(button.dataset.sample)][6];
+  if (collection) {
+    viewer.open(Array.from({length:collection.count},(_, index) => ({
+      src:collectionImage(collection,index+1,'full'),
+      title:collection.title,
+      caption:collection.summary
+    })));
+    return;
+  }
+  const cards = [...byId('design-grid').querySelectorAll('[data-sample]')]
+    .filter(card => !designSamples[Number(card.dataset.sample)][6]);
   const images = cards.map(card => {
     const [,title,project,asset,caption] = designSamples[Number(card.dataset.sample)];
     return {src:media(asset),title,caption,related:'#project/' + project};
@@ -174,12 +190,13 @@ function renderPdfDesign(group) {
   note.textContent = designCategoryNotes[group] || '';
   const cards = pdfDesignCases.map((entry,index) => ({entry,index}))
     .filter(({entry}) => group < 0 || entry.group === group);
-  grid.innerHTML = cards.length ? cards.map(({entry,index}) =>
+  grid.closest('.pdf-design').hidden = cards.length === 0;
+  grid.innerHTML = cards.map(({entry,index}) =>
     '<button type="button" class="work-card design-card pdf-design-card" data-pdf-case="' + index +
     '">' + designCover(pdfPage(entry,entry.cover,true)) +
     '<span class="work-meta">' + designGroups[entry.group] + ' / ' + entry.pages.length + ' 页</span><strong>' +
     escape(entry.title) + '</strong><span class="pdf-case-note">' + escape(entry.note) + '</span></button>'
-  ).join('') : '<p class="empty-works">此分类暂未收录 PDF 案例。</p>';
+  ).join('');
 }
 
 const pdfDialog = byId('pdf-case-preview');
@@ -225,11 +242,14 @@ if (pdfDialog) {
       step(event.key === 'ArrowLeft' ? -1 : 1);
     }
   });
-  const linkedCase = new URLSearchParams(location.search).get('case');
-  const linkedIndex = pdfDesignCases.findIndex(item => item.caseId && item.caseId === linkedCase);
-  if (kindFromUrl() === 'design' && linkedIndex >= 0) {
-    byId('pdf-design-grid').querySelector('[data-pdf-case="' + linkedIndex + '"]')?.click();
-  }
+}
+
+if (libraryPage && kindFromUrl() === 'design') {
+  const requestedCase = new URLSearchParams(location.search).get('case');
+  const linkedCase = requestedCase === 'maofandazi' ? 'dolcesole'
+    : requestedCase === 'odd-act' ? 'amantou' : requestedCase;
+  const linkedIndex = designSamples.findIndex(item => item[6]?.id === linkedCase);
+  if (linkedIndex >= 0) byId('design-grid').querySelector('[data-sample="' + linkedIndex + '"]')?.click();
 }
 
 function strip(path) {
