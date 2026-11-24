@@ -1,6 +1,6 @@
-import { groups, projects, designGroups, designSamples, designCategoryNotes, pdfDesignCases,
-  projectHighlights, conicsBreakdown } from './works.mjs?v=20261124-design';
-import { createImageViewer, closeOnBackdrop } from './image-viewer.mjs';
+import { groups, projects, designGroups, designSamples, designCategoryNotes,
+  projectHighlights, conicsBreakdown } from './works.mjs?v=portfolio57';
+import { createImageViewer } from './image-viewer.mjs';
 
 const byId = id => document.getElementById(id);
 const home = byId('home-content');
@@ -118,7 +118,7 @@ function designCard([group, title, , asset, kind, , collection], index) {
   return '<button class="work-card design-card" type="button" data-sample="' + index +
     '">' + designCover(image) + '<span class="work-meta">' + designGroups[group] + ' · ' + escape(label) +
     '</span><strong>' + escape(title) + '</strong>' +
-    (collection ? '<span class="pdf-case-note">' + escape(collection.summary) + '</span>' : '') + '</button>';
+    (collection ? '<span class="design-case-note">' + escape(collection.summary) + '</span>' : '') + '</button>';
 }
 
 byId('design-grid')?.addEventListener('click', event => {
@@ -174,80 +174,16 @@ installFilters(byId('filters'), byId('work-grid'), byId('work-count'), groups, v
   item => item.project.group, item => card(item.project,item.index,item.label),
   '暂未收录音乐影像作品。', item => item.format);
 installFilters(byId('design-filters'), byId('design-grid'), byId('design-count'), designGroups, designSamples,
-  sample => sample[0], designCard, '此分类暂未收录作品。', null, renderPdfDesign);
+  sample => sample[0], designCard, '此分类暂未收录作品。', null, updateDesignCategoryNote);
 
-function pdfFolder(entry) {
-  return './pdf-design/' + (entry.collection ? encodeURIComponent(entry.collection) + '/' : '');
-}
-function pdfPage(entry, page, thumbnail = false) {
-  return pdfFolder(entry) + (thumbnail ? 'thumb-' : 'page-') + String(page).padStart(2,'0') + '.jpg';
-}
-function renderPdfDesign(group) {
-  const grid = byId('pdf-design-grid');
+function updateDesignCategoryNote(group) {
   const note = byId('design-category-note');
-  if (!grid) return;
   note.hidden = group < 0;
   note.textContent = designCategoryNotes[group] || '';
-  const cards = pdfDesignCases.map((entry,index) => ({entry,index}))
-    .filter(({entry}) => group < 0 || entry.group === group);
-  grid.closest('.pdf-design').hidden = cards.length === 0;
-  grid.innerHTML = cards.map(({entry,index}) =>
-    '<button type="button" class="work-card design-card pdf-design-card" data-pdf-case="' + index +
-    '">' + designCover(pdfPage(entry,entry.cover,true)) +
-    '<span class="work-meta">' + designGroups[entry.group] + ' / ' + entry.pages.length + ' 页</span><strong>' +
-    escape(entry.title) + '</strong><span class="pdf-case-note">' + escape(entry.note) + '</span></button>'
-  ).join('');
-}
-
-const pdfDialog = byId('pdf-case-preview');
-if (pdfDialog) {
-  let entry, pageIndex;
-  const img = pdfDialog.querySelector('img');
-  const back = pdfDialog.querySelector('[data-pdf-step="-1"]');
-  const forward = pdfDialog.querySelector('[data-pdf-step="1"]');
-  function showPdfPage() {
-    const page = entry.pages[pageIndex];
-    img.src = pdfPage(entry,page);
-    img.alt = entry.title + ' · PDF 第 ' + page + ' 页';
-    pdfDialog.querySelector('figcaption').textContent = (pageIndex + 1) + ' / ' + entry.pages.length + ' · PDF 第 ' + page + ' 页';
-    pdfDialog.querySelector('a').href = pdfFolder(entry) + 'source.pdf#page=' + page;
-    back.disabled = pageIndex === 0;
-    forward.disabled = pageIndex === entry.pages.length - 1;
-  }
-  function step(amount) {
-    if (!entry || pageIndex + amount < 0 || pageIndex + amount >= entry.pages.length) return;
-    pageIndex += amount;
-    showPdfPage();
-  }
-  byId('pdf-design-grid').addEventListener('click',event => {
-    const card = event.target.closest('[data-pdf-case]');
-    if (!card) return;
-    entry = pdfDesignCases[Number(card.dataset.pdfCase)];
-    pageIndex = 0;
-    byId('pdf-case-title').textContent = entry.title;
-    byId('pdf-case-source').textContent = entry.source || '来源 / 小羊作品集';
-    showPdfPage();
-    pdfDialog.showModal();
-  });
-  back.addEventListener('click',() => step(-1));
-  forward.addEventListener('click',() => step(1));
-  pdfDialog.querySelector('[data-pdf-close]').addEventListener('click',() => pdfDialog.close());
-  closeOnBackdrop(pdfDialog);
-  pdfDialog.addEventListener('close',() => {
-    if (!pdfDialog.open) img.removeAttribute('src');
-  });
-  pdfDialog.addEventListener('keydown',event => {
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-      event.preventDefault();
-      step(event.key === 'ArrowLeft' ? -1 : 1);
-    }
-  });
 }
 
 if (libraryPage && kindFromUrl() === 'design') {
-  const requestedCase = new URLSearchParams(location.search).get('case');
-  const linkedCase = requestedCase === 'maofandazi' ? 'dolcesole'
-    : requestedCase === 'odd-act' ? 'amantou' : requestedCase;
+  const linkedCase = new URLSearchParams(location.search).get('case');
   const linkedIndex = designSamples.findIndex(item => item[6]?.id === linkedCase);
   if (linkedIndex >= 0) byId('design-grid').querySelector('[data-sample="' + linkedIndex + '"]')?.click();
 }

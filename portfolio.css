@@ -252,19 +252,24 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 .video-clarity{display:inline-block;margin-top:8px;font-size:.84rem;color:#c1eee3}
 
 .design-note{margin:0 0 15px}
-.pdf-design{margin-top:clamp(48px,8vw,100px);padding-top:24px;border-top:1px solid var(--line)}
-.pdf-design-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:25px}
-.pdf-design-heading h3{font-size:clamp(23px,4vw,48px);font-weight:500;margin:3px 0 6px}
-.pdf-design-heading p,.pdf-case-note{color:var(--muted)}
-.pdf-design-links{display:flex;flex-wrap:wrap;gap:.55rem 1.3rem}
-.pdf-case-note{font-size:.84rem;line-height:1.5;display:block;margin-top:.3em}
-#pdf-case-preview{position:fixed;inset:0;margin:auto;width:min(1120px,94vw);max-height:94dvh;padding:clamp(12px,2.6vw,24px);background:#091618;color:white;border:1px solid #ffffff45}
-#pdf-case-preview::backdrop{background:#03090be5}
-#pdf-case-preview header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-#pdf-case-preview header h2{font-size:clamp(17px,2.6vw,30px);font-weight:500}
-#pdf-case-preview figure img{display:block;width:100%;height:min(64dvh,66vw);object-fit:contain;background:#071113}
-.pdf-controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:12px}
-.pdf-controls button{padding:.45rem .56rem;border:1px solid var(--line)}.pdf-controls button:disabled{opacity:.4;cursor:default}
+.design-case-note{display:block;margin-top:.3em;color:var(--muted);font-size:.84rem;line-height:1.5}
+.portfolio-pdf{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);
+  align-items:center;
+  gap:clamp(22px,4vw,60px);
+  margin:18px 0 clamp(24px,4vw,50px);
+  padding:clamp(16px,2.5vw,34px) 0;
+  border-block:1px solid var(--line);
+  scroll-margin-top:80px;
+}
+.portfolio-pdf-cover{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain}
+.portfolio-pdf-info .work-meta{margin:0 0 .7em}
+.portfolio-pdf-info h4{font-size:clamp(22px,3.2vw,44px);line-height:1.17;font-weight:600;margin:0 0 .38em}
+.portfolio-pdf-info > p:not(.work-meta){color:var(--muted);line-height:1.55}
+.portfolio-pdf-links{display:flex;flex-wrap:wrap;gap:9px 24px;margin-top:clamp(10px,1.7vw,22px)}
+.portfolio-pdf-links a{min-height:44px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+@media(max-width:640px){.portfolio-pdf{grid-template-columns:minmax(0,1fr);gap:16px}}
 
 /* Keep poster typography and the full source image in view. */
 .work-card .video-cover img{object-fit:contain}
