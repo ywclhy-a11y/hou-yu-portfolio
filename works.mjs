@@ -6,7 +6,7 @@ const entries = [
  ['skincare',0,'护肤广告','tvc广告','护肤广告','护肤广告','以窗边护肤台和日常护肤动作呈现产品质感。'],
  ['balm',0,'润唇膏','tvc广告','润唇膏','润唇膏','将椰子、织物和圆罐编排为一组产品特写。'],
  ['fashion',0,'服装种草','电商/种草','服装种草','服装种草','雨巷、红伞和黑衣龙纹串起竖屏服装影像。'],
- ['tea',0,'茶叶种草','电商/种草','茶叶','茶叶-'],
+ ['tea',0,'茶叶种草','电商/种草','茶叶','茶叶-','从茶园晨光、鲜叶和冲泡细节，过渡到湖畔品饮与瓶装茶展示。'],
  ['lotion',0,'乳液带货','电商/带货','乳液--中文','乳液--中文',null,'中文'],
  ['perfume',0,'香水内容','电商',null,[['中文带货','带货/香水--中文','带货/香水--中文'],['无语言种草','种草/香水--无语言','种草/香水--无语言']]],
  ['serum',0,'精华液种草','电商/种草',null,[['英文版本一','精华液--英文','精华液--英文'],['英文版本二','精华液-英文','精华液-英文']],null,'英文'],
@@ -27,7 +27,30 @@ const entries = [
  ['conics',3,'圆锥曲线与哲学','MG动画',null,'圆锥曲线与哲学','以动态标注和几何图解串联圆锥曲线、轨道与光学应用。','中文','MG 动画']
 ];
 
-export const featured = ['phone','journey','fashion','sirius'];
+export const featured = ['tea','fox','conics'];
+
+export const projectCredits = {
+  tea: {
+    type:'个人电商视觉练习',
+    role:'候宇独立完成，负责从创意、分镜和画面制作到剪辑成片。',
+    featured:'独立完成 · 从创意、分镜到剪辑成片'
+  },
+  fox: {
+    role:'使用参考图和 LoRA 统一人物与画风，完成图生视频、修瑕调色与镜头质检。',
+    delivery:'整理角色参考卡与画风规范，向后期交付素材、色卡和镜头说明。',
+    featured:'人物与画风统一 · 图生视频、修瑕调色和镜头质检'
+  }
+};
+
+// These captions describe the delivered shots and what to check across cuts.
+export const teaBreakdown = [
+  {time:4.2, title:'03 · 纱帘打开', note:'白纱和手的运动引出茶园。检查前后镜头的采光方向，以及纱面与手指相接的位置。'},
+  {time:10.9, title:'05 · 鲜叶入水', note:'从叶脉特写切到茶叶落入水中。检查叶片在水中是否有清楚的轮廓，气泡和水波能否读出入水动作。'},
+  {time:17.9, title:'08 · 茶汤注入', note:'把焦点交给落入杯中的茶汤。检查壶嘴、茶流和杯口的位置是否衔接，茶汤颜色是否稳定。'},
+  {time:25, title:'11 · 亭中品饮', note:'画面回到人物和茶杯。检查同一连贯动作里杯口、握姿和视线的位置。'},
+  {time:32.1, title:'13 · 湖畔休憩', note:'沿用开头的白纱，再把场景换到湖畔。检查纱帘、藤椅和人物之间的前后关系。'},
+  {time:39.7, title:'16 · 茶园远景', note:'用茶垄的走势把视线引向小径，为湖畔的瓶装茶收尾留出节奏。'}
+];
 
 export const projectHighlights = {
   phone: '用掠过边框和镜头的轮廓光，把产品的金属材质与结构细节分层呈现。',
@@ -75,7 +98,9 @@ export const projects = entries.map(([id, group, title, folder, assets, videos, 
 export const designGroups = ["品牌与营销视觉","电商与产品视觉","IP与概念设计","文字设计"];
 export const designCollections = [
   {id:'amantou', group:0, folder:'brand', title:'一饅頭店 · 品牌视觉与包装', cover:3, count:16, summary:'品牌识别、包装、印刷品与店面应用'},
-  {id:'dolcesole', group:1, folder:'commerce', title:'DolceSole · 产品与包装视觉', cover:1, count:30, summary:'护肤产品、包装系列、产品主视觉与推广应用'},
+  {id:'dolcesole', group:1, folder:'commerce', title:'DolceSole · 产品与包装视觉', cover:1, count:30, summary:'护肤产品、包装系列、产品主视觉与推广应用',
+    overview:'用统一的字标和日光图形串联护肤包装、产品主视觉和推广触点。包装用多色区分系列，产品图借水、阳光与材质突出使用感，推广再沿用相同的识别元素。',
+    selections:[[1,'包装系统','同一字标配合不同盒色，维持品牌识别，也让系列更容易区分。'],[21,'产品主视觉','用暖橙色和柔焦光表现瓶身与产品质感。'],[25,'推广应用','把主视觉转成户外双联画，在远距离仍能看到主要产品和品牌。']]},
   {id:'yangfugui', group:2, folder:'ip', title:'富贵小羊 · 羊年 IP', cover:1, count:15, summary:'角色概念、三视图、节日海报与造型延展'},
   {id:'type-design', group:3, folder:'type', title:'字形设计合集', cover:13, count:16, summary:'字形结构、笔画变形、字标和标题字实验'}
 ];

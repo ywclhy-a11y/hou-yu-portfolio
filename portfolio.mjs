@@ -1,12 +1,12 @@
-import { groups, projects, designGroups, designCollections, designCategoryNotes,
-  projectHighlights, conicsBreakdown } from './works.mjs?v=work-covers';
+import { groups, projects, featured, designGroups, designCollections, designCategoryNotes,
+  projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=case-review';
 import { createImageViewer } from './image-viewer.mjs';
 
 const byId = id => document.getElementById(id);
 const home = byId('home-content');
 const detail = byId('project-detail');
 const readData = name => fetch(name).then(response => response.ok ? response.json() : {}).catch(() => ({}));
-const [catalog, stills] = await Promise.all([readData('./catalog.json'),readData('./stills.json')]);
+const [catalog, stills] = await Promise.all([readData('./catalog.json?v=case-review'),readData('./stills.json')]);
 const media = path => './media/' + path.split('/').map(encodeURIComponent).join('/');
 const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({
   '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
@@ -15,6 +15,7 @@ const libraryPage = document.body.classList.contains('works-page');
 const worksLink = libraryPage ? '#all-works' : './works.html';
 const projectHash = project => '#project/' + project.id;
 const projectLink = project => (libraryPage ? '' : './works.html') + projectHash(project);
+const designLink = collection => '#design/' + collection.id;
 const cover = project => catalog[project.id]?.poster ? './covers/' + project.id + '.jpg'
   : project.frames[0] ? media(project.frames[0]) : '';
 const workType = project => project.format ? groups[project.group] + ' · ' + project.format : groups[project.group];
@@ -58,6 +59,21 @@ const videoCards = projects.flatMap(project => {
     : [{project,index:0,format:first}];
 });
 
+const featuredGrid = byId('featured-grid');
+if (featuredGrid) featuredGrid.innerHTML = featured.map(id => {
+  const project = projects.find(item => item.id === id);
+  const frame = catalog[id]?.episodes[0]?.cardArt;
+  const source = frame ? './covers/' + frame : cover(project);
+  const format = orientations.find(([key]) => key === projectOrientation(project))[1];
+  const description = projectCredits[id]?.featured || projectHighlights[id];
+  return '<a class="home-feature" href="' + projectLink(project) + '">' +
+    '<span class="home-feature-art" data-orientation="' + projectOrientation(project) + '"><img src="' +
+    escape(source) + '" alt="" loading="lazy" decoding="async"></span>' +
+    '<span class="catalog-category">' + escape((project.format || groups[project.group]) + ' / ' + format) + '</span>' +
+    '<h3>' + escape(project.title) + ' <span aria-hidden="true">↗</span></h3><p>' +
+    escape(description) + '</p></a>';
+}).join('');
+
 function grouped(entries, format, render) {
   return orientations.map(([id,label]) => {
     const cards = entries.filter(({item}) => format(item) === id);
@@ -89,17 +105,6 @@ function kindFromUrl() {
 if (libraryPage) {
   showKind(kindFromUrl());
   window.addEventListener('popstate', () => showKind(kindFromUrl()));
-  for (const link of document.querySelectorAll('[data-cover-kind]')) link.addEventListener('click', event => {
-    if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    event.preventDefault();
-    const target = document.getElementById('all-works');
-    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    showKind(link.dataset.coverKind);
-    history.pushState(history.state,'',link.href);
-    target.scrollIntoView({behavior:reducedMotion ? 'instant' : 'smooth'});
-    target.querySelector('h2').setAttribute('tabindex','-1');
-    target.querySelector('h2').focus({preventScroll:true});
-  });
 }
 
 const viewer = createImageViewer(byId('design-preview'));
@@ -112,26 +117,23 @@ function designCover(src) {
 const collectionImage = (entry, number, size) =>
   './design-gallery/' + entry.folder + '-' + number + '-' + size + '.webp';
 
-function designCard(collection, index) {
+function designCard(collection) {
   const image = collectionImage(collection,collection.cover,'cover');
-  return '<button class="work-card design-card" type="button" data-sample="' + index +
+  return '<a class="work-card design-card" href="' + designLink(collection) +
     '" data-art="' + escape(collection.folder) + '">' + designCover(image) + '<span class="catalog-caption"><span class="catalog-copy">' +
     '<span class="catalog-category">' + escape(designGroups[collection.group]) + ' / ' + collection.count + ' 张</span>' +
     '<strong class="catalog-title">' + escape(collection.title) + '</strong>' +
     '<span class="catalog-meta">' + escape(collection.summary) + '</span></span>' +
-    '<span class="catalog-action" aria-hidden="true">↗</span></span></button>';
+    '<span class="catalog-action" aria-hidden="true">↗</span></span></a>';
 }
 
-byId('design-grid')?.addEventListener('click', event => {
-  const button = event.target.closest('[data-sample]');
-  if (!button) return;
-  const collection = designCollections[Number(button.dataset.sample)];
+function openDesignGallery(collection) {
   viewer.open(Array.from({length:collection.count},(_, index) => ({
     src:collectionImage(collection,index+1,'full'),
     title:collection.title,
     caption:collection.summary
   })));
-});
+}
 document.addEventListener('click',event => {
   const asset = event.target.closest('.asset-thumb, .cover-view');
   if (!asset) return;
@@ -173,19 +175,13 @@ function updateDesignCategoryNote(group) {
   note.textContent = designCategoryNotes[group] || '';
 }
 
-if (libraryPage && kindFromUrl() === 'design') {
-  const linkedCase = new URLSearchParams(location.search).get('case');
-  const linkedIndex = designCollections.findIndex(collection => collection.id === linkedCase);
-  if (linkedIndex >= 0) byId('design-grid').querySelector('[data-sample="' + linkedIndex + '"]')?.click();
-}
-
 function strip(path) {
   return path.split('/').pop().replace(/\.[^.]+$/, '');
 }
-function assetFigure(source, label) {
+function assetFigure(source, label, thumbnail = source) {
   return '<figure><button class="asset-thumb" type="button" data-source="' + escape(source) +
     '" data-label="' + escape(label) + '" aria-label="放大查看 ' + escape(label) + '">' +
-    '<img loading="lazy" decoding="async" src="' + escape(source) + '" alt=""></button><figcaption>' +
+    '<img loading="lazy" decoding="async" src="' + escape(thumbnail) + '" alt=""></button><figcaption>' +
     escape(label) + '</figcaption></figure>';
 }
 function gallery(items) {
@@ -197,15 +193,33 @@ function formatTime(total) {
   return Math.floor(seconds / 60) + ':' + String(seconds % 60).padStart(2,'0');
 }
 
-function renderConicsBreakdown() {
-  const steps = conicsBreakdown.map(step =>
-    '<div class="breakdown-step">' + assetFigure('./covers/' + step.frame, step.title) +
+function renderBreakdown(title, intro, entries) {
+  const steps = entries.map(step =>
+    '<div class="breakdown-step">' + assetFigure(step.source, step.title) +
     '<p>' + escape(step.note) + '</p><button type="button" class="text-link" data-seek="' +
     step.time + '">定位到 ' + formatTime(step.time) + '</button></div>'
   ).join('');
-  return '<section class="motion-breakdown"><h3>MG 动画拆解</h3>' +
-    '<p>以深蓝底统一图解段落，用金色突出曲线与焦点，冷色区分辅助线。以下四个画面按成片顺序展示图形与标注如何配合。</p>' +
+  return '<section class="motion-breakdown"><h3>' + escape(title) + '</h3>' +
+    '<p>' + escape(intro) + '</p>' +
     '<div class="media-grid breakdown-grid">' + steps + '</div></section>';
+}
+
+function renderDesign(collection) {
+  const returnLink = './works.html?type=design#all-works';
+  const selections = collection.selections || [[collection.cover,'项目主视觉','']];
+  const figures = selections.map(([number,title,note]) =>
+    '<div class="design-detail-step">' +
+    assetFigure(collectionImage(collection,number,'full'),title,collectionImage(collection,number,'cover')) +
+    (note ? '<p>' + escape(note) + '</p>' : '') + '</div>'
+  ).join('');
+  detail.innerHTML = '<div class="band design-detail"><a class="back text-link" href="' + returnLink +
+    '">返回设计作品</a><p class="kicker">' + escape(designGroups[collection.group]) +
+    '</p><h2 class="project-title" tabindex="-1">' + escape(collection.title) + '</h2>' +
+    '<p class="description">' + escape(collection.overview || collection.summary) + '</p>' +
+    '<section><h3>项目画面</h3><div class="media-grid design-detail-grid">' + figures + '</div>' +
+    '<button class="text-link full-design-gallery" type="button">查看完整图集 · ' +
+    collection.count + ' 张</button></section></div>';
+  detail.querySelector('.full-design-gallery').addEventListener('click', () => openDesignGallery(collection));
 }
 
 function storyboard(project,index,fallback) {
@@ -215,6 +229,16 @@ function storyboard(project,index,fallback) {
   return '<div class="media-grid storyboard-grid" data-orientation="' + orientation(width,height) + '">' + frames.map((frame,i) =>
     assetFigure('./stills/' + frame.file,'分镜 ' + (i + 1) + ' · ' + formatTime(frame.time))
   ).join('') + '</div>';
+}
+
+function foxConsistency(images) {
+  const reference = images?.find(path => strip(path) === '成年女子-宫装-四宫格');
+  if (!reference) return '';
+  return '<section class="fox-consistency"><h3>角色设定与成片对照</h3>' +
+    '<p>将项目中的宫装人物设定与出场镜头并排，便于查看发式、服装轮廓和面部特征在成片光线下的呈现。</p>' +
+    '<div class="media-grid breakdown-grid">' +
+    assetFigure(media(reference),'宫装人物视觉资料') +
+    assetFigure('./stills/fox-1-1.webp','第一集出场镜头 · 0:12') + '</div></section>';
 }
 
 let lastCard;
@@ -285,10 +309,18 @@ function renderEpisode(project, index) {
   const originalFrame = assets.frame ? './covers/' + assets.frame : posterSource;
   const frame = originalFrame ? '<div class="media-grid">' + assetFigure(originalFrame,'成片画面') + '</div>' : '';
   const stillGallery = storyboard(project,index,project.frames.length ? gallery(project.frames) : frame);
+  const breakdown = project.id === 'tea' ? renderBreakdown(
+    '分镜拆解',
+    '按成片顺序选出六个镜头，说明从茶园、冲泡到品饮的画面过渡，以及每一处值得核对的细节。',
+    teaBreakdown.map((step,i) => ({...step,source:'./stills/tea-1-' + (i+1) + '.webp'}))
+  ) : project.id === 'conics' ? renderBreakdown(
+    'MG 动画拆解',
+    '以深蓝底统一图解段落，用金色突出曲线与焦点，冷色区分辅助线。',
+    conicsBreakdown.map(step => ({...step,source:'./covers/' + step.frame}))
+  ) : '';
   detail.querySelector('.episode-assets').innerHTML =
-    (stillGallery || assets.scripts?.length ? '<section><h3>成片分镜</h3>' + stillGallery +
-      (assets.scripts || []).map(script => '<details><summary>' + escape(script.title) + '</summary><pre>' + escape(script.text) + '</pre></details>').join('') +
-      '</section>' : '') + (project.id === 'conics' ? renderConicsBreakdown() : '') +
+    (project.id === 'fox' && index === 0 ? foxConsistency(assets.images) : '') +
+    (project.id === 'tea' ? breakdown : (stillGallery ? '<section><h3>成片分镜</h3>' + stillGallery + '</section>' : '') + breakdown) +
     (assets.images?.length ? '<section><h3>项目视觉资料</h3>' +
       '<p>对应项目的人物、场景与道具图。</p>' + gallery(assets.images) + '</section>' : '');
 }
@@ -296,15 +328,19 @@ function renderEpisode(project, index) {
 function renderDetail(project, initialEpisode) {
   const next = projects[(projects.indexOf(project) + 1) % projects.length];
   const highlight = projectHighlights[project.id] || project.description;
+  const credit = projectCredits[project.id];
   detail.innerHTML = '<div class="band"><a class="back text-link" href="' + worksLink + '">返回作品</a>' +
     '<p class="kicker">' + workType(project) + '</p><h2 class="project-title" tabindex="-1">' + escape(project.title) +
     '</h2><p class="description">' + escape(subtitle(project)) + '</p>' +
     (project.episodes.length > 1 ? '<div class="episodes" role="group" aria-label="选择集数或版本">' +
       project.episodes.map((episode,index) => '<button type="button" data-episode="' + index + '" aria-pressed="false">' + escape(episode.label) + '</button>').join('') + '</div>' : '') +
     '<section class="player" aria-label="成片"></section>' +
-    '<section class="project-credit"><h3>个人贡献</h3><p>候宇 · 原创作品</p>' +
-    (highlight ? '<p><strong>作品展示重点</strong>　' + escape(highlight) + '</p>' : '') +
-    '</section><div class="episode-assets"></div>' +
+    (credit ? '<section class="project-credit"><h3>个人职责</h3>' +
+      (credit.type ? '<p class="work-meta">' + escape(credit.type) + '</p>' : '') +
+      '<p>' + escape(credit.role) + '</p>' +
+      (credit.delivery ? '<p><strong>交付内容</strong>　' + escape(credit.delivery) + '</p>' : '') + '</section>' : '') +
+    (highlight && highlight !== project.description ? '<section class="project-focus"><h3>作品看点</h3><p>' +
+      escape(highlight) + '</p></section>' : '') + '<div class="episode-assets"></div>' +
     '<div class="detail-nav"><a class="text-link" href="' + worksLink + '">返回作品</a><a class="text-link" href="' + projectLink(next) +
     '">下一个项目 · ' + escape(next.title) + '</a></div></div>';
   detail.querySelector('.episodes')?.addEventListener('click', event => {
@@ -324,29 +360,30 @@ detail.addEventListener('click', event => {
 });
 const originalTitle = document.title;
 function route() {
-  const hash = location.hash.slice(1);
-  const isProject = hash.startsWith('project/');
-  const [, projectId, episode] = hash.split('/');
-  const project = isProject ? projects.find(item => item.id === projectId) : null;
+  const [type, id, episode] = location.hash.slice(1).split('/');
+  const isDetail = type === 'project' || type === 'design';
+  const project = type === 'project' ? projects.find(item => item.id === id) : null;
+  const collection = type === 'design' ? designCollections.find(item => item.id === id) : null;
   const index = Math.max(0, Math.min((project?.episodes.length || 1) - 1, (Number.parseInt(episode,10) || 1) - 1));
   const wasDetail = !detail.hidden;
   const previousVideo = detail.querySelector('video');
   previousVideo?.pause();
-  if (isProject) home.querySelector('.showreel-video')?.pause();
-  home.hidden = isProject;
-  detail.hidden = !isProject;
-  document.body.classList.toggle('below', isProject || scrollY > 48);
-  if (isProject) {
+  if (isDetail) home.querySelector('.showreel-video')?.pause();
+  home.hidden = isDetail;
+  detail.hidden = !isDetail;
+  document.body.classList.toggle('below', isDetail || scrollY > 48);
+  if (isDetail) {
     if (project) renderDetail(project,index);
+    else if (collection) renderDesign(collection);
     else detail.innerHTML = '<div class="band"><h2 class="project-title" tabindex="-1">找不到这个项目</h2><a class="text-link" href="' + worksLink + '">返回作品</a></div>';
-    document.title = (project?.title || '项目') + ' · 候宇';
+    document.title = (project?.title || collection?.title || '项目') + ' · 候宇';
     window.scrollTo(0,0);
     detail.querySelector('h2').focus({preventScroll:true});
   } else {
     document.title = originalTitle;
     detail.replaceChildren();
     if (wasDetail) {
-      const target = (lastCard?.isConnected ? lastCard : null) || byId(hash) || byId('all-works') || byId('works');
+      const target = (lastCard?.isConnected ? lastCard : null) || byId(type) || byId('all-works') || byId('hero');
       target.scrollIntoView();
       if (target === lastCard) target.focus({preventScroll:true});
     }
@@ -360,6 +397,15 @@ window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => {
   document.body.classList.toggle('below', !detail.hidden || scrollY > 48);
 }, {passive:true});
+if (libraryPage) {
+  const legacyUrl = new URL(location.href);
+  const legacyCase = designCollections.find(collection => collection.id === legacyUrl.searchParams.get('case'));
+  if (legacyCase && !/^#(?:project|design)\//.test(legacyUrl.hash)) {
+    legacyUrl.searchParams.delete('case');
+    legacyUrl.hash = designLink(legacyCase);
+    history.replaceState(history.state,'',legacyUrl);
+  }
+}
 route();
 
 
