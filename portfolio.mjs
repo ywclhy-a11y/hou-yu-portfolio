@@ -1,30 +1,31 @@
-import { groups, projects, featured, designGroups, designCollections, designCategoryNotes,
-  projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=case-review';
+import { groups, projects, designGroups, designCollections, designCategoryNotes,
+  projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=film-posters';
 import { createImageViewer } from './image-viewer.mjs';
 
 const byId = id => document.getElementById(id);
 const home = byId('home-content');
 const detail = byId('project-detail');
 const readData = name => fetch(name).then(response => response.ok ? response.json() : {}).catch(() => ({}));
-const [catalog, stills] = await Promise.all([readData('./catalog.json?v=case-review'),readData('./stills.json')]);
+const [catalog, stills] = await Promise.all([readData('./catalog.json?v=film-posters'),readData('./stills.json')]);
 const media = path => './media/' + path.split('/').map(encodeURIComponent).join('/');
 const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({
   '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
 })[char]);
-const libraryPage = document.body.classList.contains('works-page');
-const worksLink = libraryPage ? '#all-works' : './works.html';
+const worksLink = './works.html#all-works';
 const projectHash = project => '#project/' + project.id;
-const projectLink = project => (libraryPage ? '' : './works.html') + projectHash(project);
+const projectLink = project => projectHash(project);
 const designLink = collection => '#design/' + collection.id;
-const cover = project => catalog[project.id]?.poster ? './covers/' + project.id + '.jpg'
-  : project.frames[0] ? media(project.frames[0]) : '';
+function episodeCover(project, index) {
+  const assets = catalog[project.id]?.episodes[index];
+  const file = assets?.poster || assets?.frame;
+  return file ? './covers/' + file : project.frames[0] ? media(project.frames[0]) : '';
+}
 const workType = project => project.format ? groups[project.group] + ' · ' + project.format : groups[project.group];
 const subtitle = project => project.description || groups[project.group] + (project.episodes.length > 1 ? ' · ' + project.episodes.length + ' 个成片' : ' · 原创作品');
 
 function card(project, episode = 0, versionLabel = '') {
   const presentation = catalog[project.id]?.episodes[episode];
-  const cardArt = presentation?.cardArt || presentation?.frame;
-  const source = cardArt ? './covers/' + cardArt : cover(project);
+  const source = episodeCover(project, episode);
   const link = projectLink(project) + (episode ? '/' + (episode + 1) : '');
   const title = project.title.replace(/^《(.*)》$/, '$1');
   const video = project.episodes.length > 1
@@ -35,7 +36,7 @@ function card(project, episode = 0, versionLabel = '') {
     '<div class="work-cover video-cover">' +
     (source ? '<img loading="lazy" decoding="async" src="' + escape(source) + '" alt="">' : '') +
     '</div><div class="catalog-caption"><div class="catalog-copy"><span class="catalog-category">' +
-    escape(workType(project)) + '</span><h3 class="catalog-title">' + escape(title) + '</h3>' +
+    escape(workType(project)) + '</span><h3 class="visually-hidden">' + escape(title) + '</h3>' +
     (label ? '<span class="catalog-meta">' + escape(label) + '</span>' : '') +
     '</div><span class="catalog-action screening-play" aria-hidden="true"></span></div></a>';
 }
@@ -58,21 +59,6 @@ const videoCards = projects.flatMap(project => {
   return formats.size > 1 ? versions.map(item => ({...item,label:item.episode.label}))
     : [{project,index:0,format:first}];
 });
-
-const featuredGrid = byId('featured-grid');
-if (featuredGrid) featuredGrid.innerHTML = featured.map(id => {
-  const project = projects.find(item => item.id === id);
-  const frame = catalog[id]?.episodes[0]?.cardArt;
-  const source = frame ? './covers/' + frame : cover(project);
-  const format = orientations.find(([key]) => key === projectOrientation(project))[1];
-  const description = projectCredits[id]?.featured || projectHighlights[id];
-  return '<a class="home-feature" href="' + projectLink(project) + '">' +
-    '<span class="home-feature-art" data-orientation="' + projectOrientation(project) + '"><img src="' +
-    escape(source) + '" alt="" loading="lazy" decoding="async"></span>' +
-    '<span class="catalog-category">' + escape((project.format || groups[project.group]) + ' / ' + format) + '</span>' +
-    '<h3>' + escape(project.title) + ' <span aria-hidden="true">↗</span></h3><p>' +
-    escape(description) + '</p></a>';
-}).join('');
 
 function grouped(entries, format, render) {
   return orientations.map(([id,label]) => {
@@ -102,10 +88,8 @@ for (const button of switches) button.addEventListener('click', () => {
 function kindFromUrl() {
   return new URLSearchParams(location.search).get('type') === 'design' ? 'design' : 'video';
 }
-if (libraryPage) {
-  showKind(kindFromUrl());
-  window.addEventListener('popstate', () => showKind(kindFromUrl()));
-}
+showKind(kindFromUrl());
+window.addEventListener('popstate', () => showKind(kindFromUrl()));
 
 const viewer = createImageViewer(byId('design-preview'));
 
@@ -118,9 +102,9 @@ const collectionImage = (entry, number, size) =>
   './design-gallery/' + entry.folder + '-' + number + '-' + size + '.webp';
 
 function designCard(collection) {
-  const image = collectionImage(collection,collection.cover,'cover');
+  const image = './covers/filmdesign' + collection.folder + '.jpg';
   return '<a class="work-card design-card" href="' + designLink(collection) +
-    '" data-art="' + escape(collection.folder) + '">' + designCover(image) + '<span class="catalog-caption"><span class="catalog-copy">' +
+    '">' + designCover(image) + '<span class="catalog-caption"><span class="catalog-copy">' +
     '<span class="catalog-category">' + escape(designGroups[collection.group]) + ' / ' + collection.count + ' 张</span>' +
     '<strong class="catalog-title">' + escape(collection.title) + '</strong>' +
     '<span class="catalog-meta">' + escape(collection.summary) + '</span></span>' +
@@ -245,11 +229,10 @@ let lastCard;
 function renderEpisode(project, index) {
   const episode = project.episodes[index];
   const assets = catalog[project.id]?.episodes[index] || {};
-  const source = cover(project);
   const buttonSet = detail.querySelector('.episodes');
   buttonSet?.querySelectorAll('button').forEach((button,i) => button.setAttribute('aria-pressed', String(i === index)));
   const vertical = project.frames.length > 0 || episode.video.includes('竖屏');
-  const posterSource = assets.poster ? './covers/' + assets.poster : source;
+  const posterSource = episodeCover(project, index);
   const poster = posterSource ? ' poster="' + posterSource + '"' : '';
   const player = detail.querySelector('.player');
   const originalSource = media(episode.video);
@@ -332,9 +315,14 @@ function renderDetail(project, initialEpisode) {
   detail.innerHTML = '<div class="band"><a class="back text-link" href="' + worksLink + '">返回作品</a>' +
     '<p class="kicker">' + workType(project) + '</p><h2 class="project-title" tabindex="-1">' + escape(project.title) +
     '</h2><p class="description">' + escape(subtitle(project)) + '</p>' +
-    (project.episodes.length > 1 ? '<div class="episodes" role="group" aria-label="选择集数或版本">' +
-      project.episodes.map((episode,index) => '<button type="button" data-episode="' + index + '" aria-pressed="false">' + escape(episode.label) + '</button>').join('') + '</div>' : '') +
     '<section class="player" aria-label="成片"></section>' +
+    (project.episodes.length > 1 ? '<div class="episodes poster-episodes" role="group" aria-label="选择集数或版本">' +
+      project.episodes.map((episode,index) => {
+        const {width,height} = catalog[project.id]?.episodes[index]?.videoInfo || {};
+        return '<button type="button" data-episode="' + index + '" data-orientation="' + orientation(width,height) +
+          '" aria-pressed="false"><img loading="lazy" decoding="async" src="' + escape(episodeCover(project,index)) +
+          '" alt=""><span>' + escape(episode.label) + '</span></button>';
+      }).join('') + '</div>' : '') +
     (credit ? '<section class="project-credit"><h3>个人职责</h3>' +
       (credit.type ? '<p class="work-meta">' + escape(credit.type) + '</p>' : '') +
       '<p>' + escape(credit.role) + '</p>' +
@@ -345,7 +333,11 @@ function renderDetail(project, initialEpisode) {
     '">下一个项目 · ' + escape(next.title) + '</a></div></div>';
   detail.querySelector('.episodes')?.addEventListener('click', event => {
     const button = event.target.closest('[data-episode]');
-    if (button) renderEpisode(project, Number(button.dataset.episode));
+    if (!button || button.getAttribute('aria-pressed') === 'true') return;
+    const index = Number(button.dataset.episode);
+    const hash = projectLink(project) + (index ? '/' + (index + 1) : '');
+    history.replaceState(history.state,'',hash);
+    renderEpisode(project,index);
   });
   renderEpisode(project, initialEpisode);
 }
@@ -359,24 +351,33 @@ detail.addEventListener('click', event => {
     behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
 });
 const originalTitle = document.title;
+const showreelPoster = './covers/editionshowreel.jpg';
+function renderShowreel() {
+  detail.innerHTML = '<div class="band showreel-detail"><a class="back text-link" href="' + worksLink +
+    '">返回作品</a><p class="kicker">SHOWREEL / 00:51</p><h2 class="project-title" tabindex="-1">作品混剪</h2>' +
+    '<video class="showreel-video" controls playsinline preload="none" poster="' + showreelPoster +
+    '" src="./showreel.mp4" width="1920" height="1080" aria-label="候宇作品混剪"></video>' +
+    '<button class="cover-view text-link" type="button" data-source="' + showreelPoster +
+    '" data-label="作品混剪封面">放大观看封面</button></div>';
+}
 function route() {
   const [type, id, episode] = location.hash.slice(1).split('/');
-  const isDetail = type === 'project' || type === 'design';
+  const isDetail = type === 'project' || type === 'design' || type === 'showreel';
   const project = type === 'project' ? projects.find(item => item.id === id) : null;
   const collection = type === 'design' ? designCollections.find(item => item.id === id) : null;
   const index = Math.max(0, Math.min((project?.episodes.length || 1) - 1, (Number.parseInt(episode,10) || 1) - 1));
   const wasDetail = !detail.hidden;
   const previousVideo = detail.querySelector('video');
   previousVideo?.pause();
-  if (isDetail) home.querySelector('.showreel-video')?.pause();
   home.hidden = isDetail;
   detail.hidden = !isDetail;
   document.body.classList.toggle('below', isDetail || scrollY > 48);
   if (isDetail) {
     if (project) renderDetail(project,index);
     else if (collection) renderDesign(collection);
+    else if (type === 'showreel') renderShowreel();
     else detail.innerHTML = '<div class="band"><h2 class="project-title" tabindex="-1">找不到这个项目</h2><a class="text-link" href="' + worksLink + '">返回作品</a></div>';
-    document.title = (project?.title || collection?.title || '项目') + ' · 候宇';
+    document.title = (project?.title || collection?.title || (type === 'showreel' ? '作品混剪' : '项目')) + ' · 候宇';
     window.scrollTo(0,0);
     detail.querySelector('h2').focus({preventScroll:true});
   } else {
@@ -397,58 +398,11 @@ window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => {
   document.body.classList.toggle('below', !detail.hidden || scrollY > 48);
 }, {passive:true});
-if (libraryPage) {
-  const legacyUrl = new URL(location.href);
-  const legacyCase = designCollections.find(collection => collection.id === legacyUrl.searchParams.get('case'));
-  if (legacyCase && !/^#(?:project|design)\//.test(legacyUrl.hash)) {
-    legacyUrl.searchParams.delete('case');
-    legacyUrl.hash = designLink(legacyCase);
-    history.replaceState(history.state,'',legacyUrl);
-  }
+const legacyUrl = new URL(location.href);
+const legacyCase = designCollections.find(collection => collection.id === legacyUrl.searchParams.get('case'));
+if (legacyCase && !/^#(?:project|design)\//.test(legacyUrl.hash)) {
+  legacyUrl.searchParams.delete('case');
+  legacyUrl.hash = designLink(legacyCase);
+  history.replaceState(history.state,'',legacyUrl);
 }
 route();
-
-
-
-const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
-const covered = 'polygon(0 0,100% 0,100% 100%,0 100%)';
-const beyondRight = 'polygon(127% 0,127% 0,100% 100%,100% 100%)';
-const beyondLeft = 'polygon(0 0,0 0,-27% 100%,-27% 100%)';
-const handoffKey = 'hou-yu-portfolio-handoff';
-
-function playCurtain(from,to,duration,easing) {
-  const curtain = document.createElement('div');
-  curtain.className = 'portfolio-curtain';
-  curtain.setAttribute('aria-hidden','true');
-  document.body.append(curtain);
-  const animation = curtain.animate([{clipPath:from},{clipPath:to}],{duration,easing,fill:'both'});
-  return {curtain,animation};
-}
-
-if (libraryPage) {
-  let arrived = false;
-  try {
-    const queued = Number(sessionStorage.getItem(handoffKey));
-    sessionStorage.removeItem(handoffKey);
-    arrived = queued > 0 && Date.now() - queued < 5000;
-  } catch {}
-  if (arrived && !motionPreference.matches && typeof Element.prototype.animate === 'function') {
-    document.documentElement.dataset.portfolioArrived = 'true';
-    const {curtain,animation} = playCurtain(covered,beyondLeft,640,'cubic-bezier(.22,1,.36,1)');
-    animation.finished.finally(() => curtain.remove());
-  }
-} else {
-  let leaving = false;
-  window.addEventListener('pageshow',() => {leaving = false;document.querySelector('.portfolio-curtain')?.remove();});
-  document.addEventListener('click',event => {
-    const link = event.target.closest('a[href^="./works.html"]');
-    if (!link || event.defaultPrevented || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
-        link.target || link.hash.startsWith('#project/') || motionPreference.matches || typeof Element.prototype.animate !== 'function') return;
-    if (leaving) { event.preventDefault(); return; }
-    try { sessionStorage.setItem(handoffKey,String(Date.now())); } catch { return; }
-    event.preventDefault();
-    leaving = true;
-    const {animation} = playCurtain(beyondRight,covered,360,'cubic-bezier(.65,0,.27,1)');
-    animation.finished.then(() => window.location.assign(link.href),() => window.location.assign(link.href));
-  });
-}

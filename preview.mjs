@@ -12,7 +12,7 @@ const contentTypes = {
  json:'application/json; charset=utf-8', mp4:'video/mp4', png:'image/png', jpg:'image/jpeg', jpeg:'image/jpeg',
  webp:'image/webp', docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 };
-const publicFiles = new Set(['index.html','about.html','works.html','portfolio.css','portfolio.mjs','image-viewer.mjs','works.mjs','catalog.json','stills.json','showreel.mp4','resume.pdf']);
+const publicFiles = new Set(['index.html','about.html','cover.html','works.html','portfolio.css','portfolio.mjs','image-viewer.mjs','works.mjs','catalog.json','stills.json','showreel.mp4','resume.pdf']);
 const allow = new Set(JSON.parse(fs.readFileSync(path.join(dist,'media-allowlist.json'),'utf8')));
 const resume = '候宇_AIGC动画设计师简历（修订版）.docx';
 

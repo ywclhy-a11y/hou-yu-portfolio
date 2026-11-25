@@ -1,6 +1,6 @@
 {
   "phone": {
-    "poster": true,
+    "poster": "filmphone.jpg",
     "episodes": [
       {
         "images": [
@@ -13,7 +13,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "editionphone.jpg",
+        "poster": "filmphone.jpg",
         "frame": "phone.jpg",
         "enhanced": {
           "file": "phone-1.mp4",
@@ -25,7 +25,7 @@
     ]
   },
   "car": {
-    "poster": true,
+    "poster": "filmcar.jpg",
     "episodes": [
       {
         "images": [
@@ -42,7 +42,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "editioncar.jpg",
+        "poster": "filmcar.jpg",
         "frame": "car.jpg",
         "enhanced": {
           "file": "car-1.mp4",
@@ -54,7 +54,7 @@
     ]
   },
   "skincare": {
-    "poster": true,
+    "poster": "filmskincare.jpg",
     "episodes": [
       {
         "images": [
@@ -70,7 +70,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "editionskincare.jpg",
+        "poster": "filmskincare.jpg",
         "frame": "skincare.jpg",
         "enhanced": {
           "file": "skincare-1.mp4",
@@ -82,7 +82,7 @@
     ]
   },
   "balm": {
-    "poster": true,
+    "poster": "filmbalm.jpg",
     "episodes": [
       {
         "images": [
@@ -98,7 +98,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "editionbalm.jpg",
+        "poster": "filmbalm.jpg",
         "frame": "balm.jpg",
         "enhanced": {
           "file": "balm-1.mp4",
@@ -110,7 +110,7 @@
     ]
   },
   "fashion": {
-    "poster": true,
+    "poster": "filmfashion.jpg",
     "episodes": [
       {
         "images": [
@@ -127,14 +127,14 @@
           "width": 2160,
           "height": 3840
         },
-        "poster": "editionfashion.jpg",
+        "poster": "filmfashion.jpg",
         "frame": "fashion.jpg",
         "cardArt": "screenfashion.jpg"
       }
     ]
   },
   "tea": {
-    "poster": true,
+    "poster": "filmtea.jpg",
     "episodes": [
       {
         "images": [
@@ -153,14 +153,14 @@
           "width": 3840,
           "height": 2160
         },
-        "poster": "editiontea.jpg",
+        "poster": "filmtea.jpg",
         "frame": "tea.jpg",
         "cardArt": "screentea.jpg"
       }
     ]
   },
   "lotion": {
-    "poster": true,
+    "poster": "filmlotion.jpg",
     "episodes": [
       {
         "images": [
@@ -175,14 +175,14 @@
           "width": 720,
           "height": 1280
         },
-        "poster": "editionlotion.jpg",
+        "poster": "filmlotion.jpg",
         "frame": "lotion.jpg",
         "cardArt": "screenlotion.jpg"
       }
     ]
   },
   "perfume": {
-    "poster": true,
+    "poster": "filmperfume.jpg",
     "episodes": [
       {
         "images": [
@@ -197,7 +197,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "editionperfume-1.jpg",
+        "poster": "filmperfume.jpg",
         "frame": "perfume.jpg",
         "enhanced": {
           "file": "perfume-1.mp4",
@@ -218,7 +218,7 @@
           "height": 1024,
           "duration": 23.791667
         },
-        "poster": "editionperfume-2.jpg",
+        "poster": "filmperfume-2.jpg",
         "frame": "perfume-2.jpg",
         "enhanced": {
           "file": "perfume-2.mp4",
@@ -230,7 +230,7 @@
     ]
   },
   "serum": {
-    "poster": true,
+    "poster": "filmserum.jpg",
     "episodes": [
       {
         "images": [
@@ -246,7 +246,7 @@
           "width": 576,
           "height": 1028
         },
-        "poster": "editionserum-1.jpg",
+        "poster": "filmserum.jpg",
         "frame": "serum.jpg",
         "enhanced": {
           "file": "serum-1.mp4",
@@ -270,14 +270,14 @@
           "height": 1080,
           "duration": 15.046009
         },
-        "poster": "editionserum-2.jpg",
+        "poster": "filmserum-2.jpg",
         "frame": "serum-2.jpg",
         "cardArt": "screenserum-2.jpg"
       }
     ]
   },
   "lipstick": {
-    "poster": true,
+    "poster": "filmlipstick.jpg",
     "episodes": [
       {
         "images": [
@@ -292,14 +292,14 @@
           "width": 1280,
           "height": 720
         },
-        "poster": "editionlipstick.jpg",
+        "poster": "filmlipstick.jpg",
         "frame": "lipstick.jpg",
         "cardArt": "screenlipstick.jpg"
       }
     ]
   },
   "salon": {
-    "poster": true,
+    "poster": "filmsalon.jpg",
     "episodes": [
       {
         "images": [
@@ -318,7 +318,7 @@
           "width": 576,
           "height": 1024
         },
-        "poster": "editionsalon.jpg",
+        "poster": "filmsalon.jpg",
         "frame": "salon.jpg",
         "enhanced": {
           "file": "salon-1.mp4",
@@ -330,7 +330,7 @@
     ]
   },
   "boxing": {
-    "poster": true,
+    "poster": "filmboxing.jpg",
     "episodes": [
       {
         "images": [
@@ -347,14 +347,14 @@
           "width": 720,
           "height": 1280
         },
-        "poster": "editionboxing.jpg",
+        "poster": "filmboxing.jpg",
         "frame": "boxing.jpg",
         "cardArt": "screenboxing.jpg"
       }
     ]
   },
   "town": {
-    "poster": true,
+    "poster": "filmtown.jpg",
     "episodes": [
       {
         "images": [
@@ -373,14 +373,14 @@
           "width": 1280,
           "height": 720
         },
-        "poster": "editiontown.jpg",
+        "poster": "filmtown.jpg",
         "frame": "town.jpg",
         "cardArt": "screentown.jpg"
       }
     ]
   },
   "house": {
-    "poster": true,
+    "poster": "filmhouse.jpg",
     "episodes": [
       {
         "images": [
@@ -399,7 +399,7 @@
           "width": 1278,
           "height": 720
         },
-        "poster": "editionhouse.jpg",
+        "poster": "filmhouse.jpg",
         "frame": "house.jpg",
         "cardArt": "screenhouse.jpg"
       },
@@ -420,14 +420,14 @@
           "height": 720,
           "duration": 278.128617
         },
-        "poster": "editionhouse.jpg",
+        "poster": "filmhouse-2.jpg",
         "frame": "house-2.jpg",
         "cardArt": "screenhouse.jpg"
       }
     ]
   },
   "doll": {
-    "poster": true,
+    "poster": "filmdoll.jpg",
     "episodes": [
       {
         "images": [],
@@ -436,7 +436,7 @@
           "width": 3840,
           "height": 2160
         },
-        "poster": "editiondoll.jpg",
+        "poster": "filmdoll.jpg",
         "frame": "doll.jpg",
         "cardArt": "screendoll.jpg"
       },
@@ -447,14 +447,14 @@
           "height": 2160,
           "duration": 599.61
         },
-        "poster": "editiondoll.jpg",
+        "poster": "filmdoll-2.jpg",
         "frame": "doll-2.jpg",
         "cardArt": "screendoll.jpg"
       }
     ]
   },
   "fox": {
-    "poster": true,
+    "poster": "filmfox.jpg",
     "episodes": [
       {
         "images": [
@@ -473,7 +473,7 @@
           "width": 3840,
           "height": 2160
         },
-        "poster": "editionfox.jpg",
+        "poster": "filmfox.jpg",
         "frame": "fox.jpg",
         "cardArt": "screenfox.jpg"
       },
@@ -494,14 +494,14 @@
           "height": 2160,
           "duration": 599.238005
         },
-        "poster": "editionfox.jpg",
+        "poster": "filmfox-2.jpg",
         "frame": "fox-2.jpg",
         "cardArt": "screenfox.jpg"
       }
     ]
   },
   "sirius": {
-    "poster": true,
+    "poster": "filmsirius.jpg",
     "episodes": [
       {
         "images": [
@@ -520,7 +520,7 @@
           "width": 640,
           "height": 360
         },
-        "poster": "editionsirius.jpg",
+        "poster": "filmsirius.jpg",
         "frame": "sirius.jpg",
         "enhanced": {
           "file": "sirius-1.mp4",
@@ -546,7 +546,7 @@
           "height": 360,
           "duration": 130.960544
         },
-        "poster": "editionsirius.jpg",
+        "poster": "filmsirius-2.jpg",
         "frame": "sirius-2.jpg",
         "enhanced": {
           "file": "sirius-2.mp4",
@@ -558,7 +558,7 @@
     ]
   },
   "you": {
-    "poster": true,
+    "poster": "filmyou.jpg",
     "episodes": [
       {
         "images": [
@@ -577,7 +577,7 @@
           "width": 640,
           "height": 360
         },
-        "poster": "editionyou.jpg",
+        "poster": "filmyou.jpg",
         "frame": "you.jpg",
         "enhanced": {
           "file": "you-1.mp4",
@@ -589,7 +589,7 @@
     ]
   },
   "marriage": {
-    "poster": true,
+    "poster": "filmmarriage.jpg",
     "episodes": [
       {
         "images": [
@@ -608,7 +608,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "editionmarriage.jpg",
+        "poster": "filmmarriage.jpg",
         "frame": "marriage.jpg",
         "enhanced": {
           "file": "marriage-1.mp4",
@@ -634,7 +634,7 @@
           "height": 640,
           "duration": 47.461587
         },
-        "poster": "editionmarriage.jpg",
+        "poster": "filmmarriage-2.jpg",
         "frame": "marriage-2.jpg",
         "enhanced": {
           "file": "marriage-2.mp4",
@@ -646,7 +646,7 @@
     ]
   },
   "talent": {
-    "poster": true,
+    "poster": "filmtalent.jpg",
     "episodes": [
       {
         "images": [
@@ -665,7 +665,7 @@
           "width": 360,
           "height": 640
         },
-        "poster": "editiontalent.jpg",
+        "poster": "filmtalent.jpg",
         "frame": "talent.jpg",
         "enhanced": {
           "file": "talent-1.mp4",
@@ -691,7 +691,7 @@
           "height": 640,
           "duration": 138.29805
         },
-        "poster": "editiontalent.jpg",
+        "poster": "filmtalent-2.jpg",
         "frame": "talent-2.jpg",
         "enhanced": {
           "file": "talent-2.mp4",
@@ -703,7 +703,7 @@
     ]
   },
   "journey": {
-    "poster": true,
+    "poster": "filmjourney.jpg",
     "episodes": [
       {
         "images": [
@@ -722,14 +722,14 @@
           "width": 1284,
           "height": 720
         },
-        "poster": "editionjourney.jpg",
+        "poster": "filmjourney.jpg",
         "frame": "journey.jpg",
         "cardArt": "screenjourney.jpg"
       }
     ]
   },
   "poem": {
-    "poster": true,
+    "poster": "filmpoem.jpg",
     "episodes": [
       {
         "images": [
@@ -748,14 +748,14 @@
           "width": 1280,
           "height": 720
         },
-        "poster": "editionpoem.jpg",
+        "poster": "filmpoem.jpg",
         "frame": "poem.jpg",
         "cardArt": "screenpoem.jpg"
       }
     ]
   },
   "seaside": {
-    "poster": true,
+    "poster": "filmseaside.jpg",
     "episodes": [
       {
         "images": [
@@ -770,14 +770,14 @@
           "width": 1272,
           "height": 720
         },
-        "poster": "editionseaside.jpg",
+        "poster": "filmseaside.jpg",
         "frame": "seaside.jpg",
         "cardArt": "screenseaside.jpg"
       }
     ]
   },
   "conics": {
-    "poster": true,
+    "poster": "filmconics.jpg",
     "episodes": [
       {
         "images": [],
@@ -786,7 +786,7 @@
           "height": 1080,
           "duration": 180
         },
-        "poster": "editionconics.jpg",
+        "poster": "filmconics.jpg",
         "frame": "conics.jpg",
         "cardArt": "screenconics.jpg"
       }
