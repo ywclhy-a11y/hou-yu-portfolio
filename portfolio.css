@@ -9,10 +9,10 @@ body.below .site-nav{background:#091618f5;border-bottom:1px solid var(--line)}
 .site-nav .links{gap:clamp(12px,2.4vw,42px);align-items:center}
 .site-nav .brand{white-space:nowrap}.site-nav .brand small{margin-left:.65rem;color:#b5d6d1;font:inherit;font-weight:400}
 footer{pointer-events:none;text-shadow:0 1px 3px #051719}footer ellipse:nth-child(2){transform-origin:center;animation:globe 6s linear infinite}
+#hero footer{position:absolute}
 @keyframes globe{50%{transform:scaleX(-1)}}
-.section-heading{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;margin-bottom:20px}
-.section-heading .text-link{font-size:.9rem}
-.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#hero h1{font-family:Archivo,"Microsoft YaHei","PingFang SC",sans-serif;font-size:clamp(24px,calc(65 * var(--u)),85px);line-height:1.13}
+#hero .frame>.hero-actions{left:var(--gutter);bottom:calc(88 * var(--u));display:flex;gap:1.25rem}
 .text-link{border-bottom:1px solid currentColor;padding-bottom:.2rem}
 .text-link:hover,.filters button:hover{color:var(--mint)}
 .band{margin-inline:var(--gutter);padding:clamp(60px,9vw,136px) 0;border-top:1px solid var(--line);position:relative}
@@ -70,6 +70,8 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
   background:#061011;
   margin-top:1.5rem;
 }
+.band .reel-links{display:flex;flex-wrap:wrap;gap:16px;margin:1.5rem 0 0;align-items:center}
+.reel-links .cover-view{margin:0}
 .capability-grid h3{font-size:clamp(17px,1.8vw,24px);font-weight:500}
 .capability-grid a{display:inline-block;margin-top:.7rem}
 .job-focus{margin-top:.55rem}
@@ -84,12 +86,14 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 .breakdown-step .text-link{display:inline-flex;align-items:center;min-height:44px;color:var(--mint)}
 @media(max-width:640px){.detail .breakdown-grid{grid-template-columns:1fr}}
 @media(max-width:820px){.site-nav{gap:8px;padding-inline:12px}.site-nav .links{gap:clamp(7px,2.7vw,17px);font-size:12px}.site-nav .brand small{display:none}
+#hero h1{font-size:clamp(23px,7.3vw,54px);padding:clamp(200px,40vh,300px) 0 0}#hero .frame>.hero-actions{position:relative;left:auto;bottom:auto;padding:18px 0 34px}
 .work-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px}.featured-grid{grid-template-columns:1fr}
 .process-steps,.media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.detail .band{padding-block:70px}.filters,.episodes{gap:.2rem .8rem}}
 @media(max-width:590px){
   .design-detail-grid{grid-template-columns:minmax(0,1fr)}
 }
 @media(max-width:360px){.site-nav .links{font-size:11px;gap:6px}.site-nav .brand{font-size:12px}.work-grid{grid-template-columns:1fr}}
+@media(max-width:390px){#hero .frame>.hero-actions{flex-wrap:wrap;gap:.8rem}}
 
 
 #work-count{margin-bottom:16px}.site-nav{white-space:nowrap}html{color-scheme:dark}
@@ -107,7 +111,6 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 
 .works-page{background:#091618}.works-page .site-nav{background:#091618;border-bottom:1px solid var(--line)}
 .works-page .band{margin-top:80px;padding-top:clamp(36px,5vw,74px)}
-.works-page #all-works h1{position:static;margin:0;padding:0;font-family:inherit;font-size:clamp(38px,6vw,80px);font-weight:600;line-height:1.1;letter-spacing:-.045em}
 .works-page .detail .band{margin:0;padding-top:82px}
 .orientation-group+.orientation-group{margin-top:46px}.orientation-group h4{font:500 .86rem/1.5 "JetBrains Mono","Microsoft YaHei",monospace;color:var(--muted);margin:0 0 15px}
 .orientation-group[data-orientation="landscape"] .work-cover{aspect-ratio:16/9}
@@ -117,8 +120,7 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 .media-grid .asset-thumb img{display:block;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;background:transparent}
 @media(max-width:820px){.works-page .band{margin-top:72px}}
 
-.works-page #all-works{margin-top:48px;padding-top:clamp(22px,3.6vw,52px);scroll-margin-top:0;border-top:0}
-.works-page #all-works::before,.works-page #all-works::after{content:none}
+.works-page #all-works{margin-top:0;scroll-margin-top:22px}
 #work-grid .work-grid,#design-grid{gap:clamp(20px,2.7vw,42px) clamp(12px,1.65vw,24px)}
 #work-grid [data-orientation="portrait"] .work-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
 .work-card:is(.screening-card,.design-card){
@@ -153,6 +155,7 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
   font:600 clamp(.98rem,1.7vw,1.48rem)/1.28 Inter,"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
   overflow-wrap:anywhere;
 }
+#work-grid [data-orientation="portrait"] .catalog-title{text-wrap:balance}
 .catalog-action{
   display:grid;
   place-items:center;
@@ -201,7 +204,7 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 .design-cover-type .kicker::before{
   content:"";display:block;width:28px;height:1px;margin-bottom:.75rem;background:var(--mint)
 }
-.band .design-cover-type h2{
+.design-cover-type h3{
   margin:.16em 0 .24em;
   font-size:clamp(2.22rem,5.5vw,5.4rem);
   font-weight:600;
@@ -263,6 +266,10 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 .profile-actions{display:flex;gap:.7rem 1.3rem;flex-wrap:wrap;margin-top:1.5rem}
 .profile-page .profile-photo{display:block;width:100%;padding:0;border:1px solid var(--line);cursor:zoom-in}
 .profile-photo img{display:block;width:100%;height:auto}
+.home-profile h2{margin:.14em 0;font-size:clamp(44px,7vw,106px);line-height:1}
+.home-profile h2 span{font:500 clamp(14px,2vw,28px) Inter,system-ui,sans-serif;color:var(--mint);letter-spacing:.06em;white-space:nowrap}
+.home-profile .intro+.intro{margin-top:.9em}
+.home-profile .profile-photo{display:block;width:100%;margin:0;padding:0;border:1px solid var(--line);cursor:zoom-in}
 .profile-section{padding-block:clamp(38px,6vw,82px)}
 .profile-section h2{font-size:clamp(34px,5.4vw,64px)}
 .profile-section h3{margin:.35rem 0;font-size:clamp(19px,2.4vw,29px);font-weight:600}
@@ -278,6 +285,7 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 @media(max-width:620px){
   .profile-hero,.profile-record,.profile-projects{grid-template-columns:minmax(0,1fr)}
   .profile-page .profile-photo{width:min(75%,270px);justify-self:start}
+  .home-profile .profile-photo{width:min(75%,270px);justify-self:start}
   .profile-page .site-nav{padding-inline:12px}
   .profile-page .site-nav .links{gap:8px}
 }
@@ -317,31 +325,18 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 .cover-page{background:#0b2123}
 .cover-page .site-nav{background:#091618;border-bottom:1px solid var(--line)}
 .cover-page .cover-stage{min-height:100svh}
-.landing-page{min-height:100svh}
-.landing-page #hero h1{
-  font-family:Archivo,"Microsoft YaHei","PingFang SC",sans-serif;
-  font-size:clamp(28px,calc(65 * var(--u)),85px);line-height:1.13;
-}
-.landing-page .frame>.hero-actions{
-  left:var(--gutter);bottom:calc(77 * var(--u));display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;
-}
-.portfolio-entry{color:#dafbf4}
-.gallery-links{display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap}
+.portfolio-entry span{font-size:.88em;margin-left:.26em;color:#c3fff0}
 .poster-episodes{align-items:start;margin:1rem 0 1.9rem;padding:10px 0 0;gap:10px 15px}
 .poster-episodes button{width:min(28vw,155px);min-width:90px;text-align:left;padding:0 0 6px;font-size:.82rem}
 .poster-episodes button[data-orientation="portrait"]{width:min(25vw,103px)}
 .poster-episodes img{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#071316;margin-bottom:6px}
 .poster-episodes [data-orientation="portrait"] img{aspect-ratio:9/16}
-.showreel-detail video{max-height:none}
 .profile-content #contact{scroll-margin-top:56px}
 .catalog-caption{padding-block:clamp(7px,.8vw,12px)}
 .catalog-copy{gap:2px}
 .work-card.screening-card .video-cover img{object-fit:contain}
 .work-card.design-card:hover img{transform:none}
 @media(max-width:820px){
-  .landing-page #hero h1{font-size:clamp(25px,8vw,56px);padding:0;margin-top:auto}
-  .landing-page .frame>.hero-actions{position:relative;left:auto;bottom:auto;padding:20px 0 48px}
-  .landing-page #hero .frame{padding-bottom:env(safe-area-inset-bottom,0px)}
   .cover-page .site-nav .links{gap:clamp(6px,2.6vw,14px)}
 }
 @media(prefers-reduced-motion:no-preference){

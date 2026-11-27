@@ -1,12 +1,15 @@
 import { groups, projects, designGroups, designCollections, designCategoryNotes,
-  projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=film-posters';
+  projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=poster-layout';
 import { createImageViewer } from './image-viewer.mjs';
 
 const byId = id => document.getElementById(id);
 const home = byId('home-content');
 const detail = byId('project-detail');
+const library = byId('all-works');
 const readData = name => fetch(name).then(response => response.ok ? response.json() : {}).catch(() => ({}));
-const [catalog, stills] = await Promise.all([readData('./catalog.json?v=film-posters'),readData('./stills.json')]);
+const [catalog, stills] = library
+  ? await Promise.all([readData('./catalog.json?v=film-posters'),readData('./stills.json')])
+  : [{},{}];
 const media = path => './media/' + path.split('/').map(encodeURIComponent).join('/');
 const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({
   '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
@@ -36,7 +39,7 @@ function card(project, episode = 0, versionLabel = '') {
     '<div class="work-cover video-cover">' +
     (source ? '<img loading="lazy" decoding="async" src="' + escape(source) + '" alt="">' : '') +
     '</div><div class="catalog-caption"><div class="catalog-copy"><span class="catalog-category">' +
-    escape(workType(project)) + '</span><h3 class="visually-hidden">' + escape(title) + '</h3>' +
+    escape(workType(project)) + '</span><h3 class="catalog-title">' + escape(title) + '</h3>' +
     (label ? '<span class="catalog-meta">' + escape(label) + '</span>' : '') +
     '</div><span class="catalog-action screening-play" aria-hidden="true"></span></div></a>';
 }
@@ -49,7 +52,7 @@ function projectOrientation(project) {
   const info = catalog[project.id]?.episodes[0]?.videoInfo || {};
   return orientation(info.width, info.height);
 }
-const videoCards = projects.flatMap(project => {
+const videoCards = library ? projects.flatMap(project => {
   const first = projectOrientation(project);
   const versions = project.episodes.map((episode,index) => {
     const info = catalog[project.id]?.episodes[index]?.videoInfo || {};
@@ -58,7 +61,7 @@ const videoCards = projects.flatMap(project => {
   const formats = new Set(versions.map(item => item.format));
   return formats.size > 1 ? versions.map(item => ({...item,label:item.episode.label}))
     : [{project,index:0,format:first}];
-});
+}) : [];
 
 function grouped(entries, format, render) {
   return orientations.map(([id,label]) => {
@@ -88,8 +91,22 @@ for (const button of switches) button.addEventListener('click', () => {
 function kindFromUrl() {
   return new URLSearchParams(location.search).get('type') === 'design' ? 'design' : 'video';
 }
-showKind(kindFromUrl());
-window.addEventListener('popstate', () => showKind(kindFromUrl()));
+if (library) {
+  showKind(kindFromUrl());
+  window.addEventListener('popstate', () => showKind(kindFromUrl()));
+  const heading = library.querySelector('h2');
+  for (const link of document.querySelectorAll('[data-cover-kind]')) {
+    link.addEventListener('click', event => {
+      if (event.defaultPrevented || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      showKind(link.dataset.coverKind);
+      if (link.href !== location.href) history.pushState(history.state,'',link.href);
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      library.scrollIntoView({behavior:reducedMotion ? 'instant' : 'smooth'});
+      heading.focus({preventScroll:true});
+    });
+  }
+}
 
 const viewer = createImageViewer(byId('design-preview'));
 
@@ -351,18 +368,9 @@ detail.addEventListener('click', event => {
     behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
 });
 const originalTitle = document.title;
-const showreelPoster = './covers/editionshowreel.jpg';
-function renderShowreel() {
-  detail.innerHTML = '<div class="band showreel-detail"><a class="back text-link" href="' + worksLink +
-    '">返回作品</a><p class="kicker">SHOWREEL / 00:51</p><h2 class="project-title" tabindex="-1">作品混剪</h2>' +
-    '<video class="showreel-video" controls playsinline preload="none" poster="' + showreelPoster +
-    '" src="./showreel.mp4" width="1920" height="1080" aria-label="候宇作品混剪"></video>' +
-    '<button class="cover-view text-link" type="button" data-source="' + showreelPoster +
-    '" data-label="作品混剪封面">放大观看封面</button></div>';
-}
 function route() {
   const [type, id, episode] = location.hash.slice(1).split('/');
-  const isDetail = type === 'project' || type === 'design' || type === 'showreel';
+  const isDetail = type === 'project' || type === 'design';
   const project = type === 'project' ? projects.find(item => item.id === id) : null;
   const collection = type === 'design' ? designCollections.find(item => item.id === id) : null;
   const index = Math.max(0, Math.min((project?.episodes.length || 1) - 1, (Number.parseInt(episode,10) || 1) - 1));
@@ -373,11 +381,11 @@ function route() {
   detail.hidden = !isDetail;
   document.body.classList.toggle('below', isDetail || scrollY > 48);
   if (isDetail) {
+    home.querySelector('.showreel-video')?.pause();
     if (project) renderDetail(project,index);
     else if (collection) renderDesign(collection);
-    else if (type === 'showreel') renderShowreel();
     else detail.innerHTML = '<div class="band"><h2 class="project-title" tabindex="-1">找不到这个项目</h2><a class="text-link" href="' + worksLink + '">返回作品</a></div>';
-    document.title = (project?.title || collection?.title || (type === 'showreel' ? '作品混剪' : '项目')) + ' · 候宇';
+    document.title = (project?.title || collection?.title || '项目') + ' · 候宇';
     window.scrollTo(0,0);
     detail.querySelector('h2').focus({preventScroll:true});
   } else {
@@ -398,11 +406,13 @@ window.addEventListener('hashchange', route);
 window.addEventListener('scroll', () => {
   document.body.classList.toggle('below', !detail.hidden || scrollY > 48);
 }, {passive:true});
-const legacyUrl = new URL(location.href);
-const legacyCase = designCollections.find(collection => collection.id === legacyUrl.searchParams.get('case'));
-if (legacyCase && !/^#(?:project|design)\//.test(legacyUrl.hash)) {
-  legacyUrl.searchParams.delete('case');
-  legacyUrl.hash = designLink(legacyCase);
-  history.replaceState(history.state,'',legacyUrl);
+if (library) {
+  const legacyUrl = new URL(location.href);
+  const legacyCase = designCollections.find(collection => collection.id === legacyUrl.searchParams.get('case'));
+  if (legacyCase && !/^#(?:project|design)\//.test(legacyUrl.hash)) {
+    legacyUrl.searchParams.delete('case');
+    legacyUrl.hash = designLink(legacyCase);
+    history.replaceState(history.state,'',legacyUrl);
+  }
 }
 route();
