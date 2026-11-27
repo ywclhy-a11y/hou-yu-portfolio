@@ -173,14 +173,18 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 .video-clarity{display:inline-block;margin-top:8px;font-size:.84rem;color:#c1eee3}
 
 .design-note{margin:0 0 15px}
-#design-grid{display:block}
+#design-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.design-card .design-cover{aspect-ratio:16/9}
+.design-card .design-cover img{object-fit:contain}
+@media(max-width:640px){#design-grid{grid-template-columns:minmax(0,1fr)}}
 .design-story{width:min(100%,1050px);margin-inline:auto;min-width:0}
-.design-story + .design-story{margin-top:clamp(48px,8vw,100px);padding-top:clamp(24px,4vw,50px);border-top:1px solid var(--line)}
 .design-story header{margin-bottom:clamp(16px,3vw,32px)}
-.design-story header h3{margin:.22em 0;font-size:clamp(23px,4vw,48px);font-weight:600}
+.design-story .project-title{text-wrap:balance}
 .design-story header p:not(.kicker),.design-stream figcaption{color:var(--muted);line-height:1.6}
+.design-stream{display:grid;gap:clamp(8px,1.2vw,16px)}
 .design-stream figure{margin:0}
-.design-stream img{display:block;width:100%;height:auto;aspect-ratio:16/9}
+.design-frame{aspect-ratio:16/9;background:#091618}
+.design-frame img{display:block;width:100%;height:100%;object-fit:contain}
 .design-stream figcaption{padding:.7rem 0 1rem}
 .wechat-dialog{position:fixed;inset:0;margin:auto;width:min(360px,calc(100% - 30px));max-height:92dvh;overflow:auto;padding:18px;background:#0d2023;color:#ebf8f5;border:1px solid var(--line)}
 .wechat-dialog::backdrop{background:#031014de}

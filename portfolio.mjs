@@ -113,26 +113,36 @@ const viewer = createImageViewer(byId('design-preview'));
 const collectionImage = (entry, number, size) =>
   './design-gallery/' + entry.folder + '-' + number + '-' + size + '.webp';
 
-function designStream(collection, direct = false) {
-  const heading = direct ? '<h2 class="project-title" tabindex="-1">' : '<h3>';
-  const closeHeading = direct ? '</h2>' : '</h3>';
+const designPoster = collection => './covers/filmdesign' + collection.folder + '.jpg';
+
+function designCard(collection) {
+  return '<a class="work-card design-card" href="' + designLink(collection) +
+    '"><span class="work-cover design-cover"><img src="' + designPoster(collection) +
+    '" loading="lazy" decoding="async" width="1280" height="720" alt=""></span>' +
+    '<span class="catalog-caption"><span class="catalog-copy">' +
+    '<span class="catalog-category">' + escape(designGroups[collection.group]) + ' / ' + collection.count + ' 张</span>' +
+    '<strong class="catalog-title">' + escape(collection.title) + '</strong>' +
+    '<span class="catalog-meta">' + escape(collection.summary) + '</span></span>' +
+    '<span class="catalog-action" aria-hidden="true">↗</span></span></a>';
+}
+
+function designStream(collection) {
   const notes = new Map((collection.selections || []).map(([index,title,note]) => [index,[title,note]]));
   const images = Array.from({length:collection.count},(_, index) => {
     const number = index + 1;
     const low = collectionImage(collection,number,'cover');
     const high = collectionImage(collection,number,'full');
     const [title,note] = notes.get(number) || [];
-    return '<figure><img loading="lazy" decoding="async" width="960" height="540" src="' + low +
+    return '<figure><div class="design-frame"><img loading="lazy" decoding="async" width="960" height="540" src="' + low +
       '" srcset="' + low + ' 960w, ' + high + ' 3840w" sizes="(max-width: 920px) 92vw, 1050px" alt="' +
-      escape(collection.title + ' · ' + (title || '第 ' + number + ' 张')) + '">' +
+      escape(collection.title + ' · ' + (title || '第 ' + number + ' 张')) + '"></div>' +
       (note ? '<figcaption><strong>' + escape(title) + '</strong>　' + escape(note) + '</figcaption>' : '') + '</figure>';
   }).join('');
   return '<section class="design-story" data-design="' + collection.id + '"><header>' +
     '<p class="kicker">' + escape(designGroups[collection.group]) + ' / ' + collection.count + ' 张</p>' +
-    heading + escape(collection.title) + closeHeading +
+    '<h2 class="project-title" tabindex="-1">' + escape(collection.title) + '</h2>' +
     '<p>' + escape(collection.overview || collection.summary) + '</p></header>' +
-    '<div class="design-stream"><img class="design-story-cover" src="./covers/filmdesign' + collection.folder +
-    '.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720">' + images + '</div></section>';
+    '<div class="design-stream">' + images + '</div></section>';
 }
 document.addEventListener('click',event => {
   const asset = event.target.closest('.asset-thumb, .cover-view');
@@ -167,7 +177,7 @@ installFilters(byId('filters'), byId('work-grid'), byId('work-count'), groups, v
   item => item.project.group, item => card(item.project,item.index,item.label),
   '暂未收录音乐影像作品。', item => item.format);
 installFilters(byId('design-filters'), byId('design-grid'), byId('design-count'), designGroups, designCollections,
-  collection => collection.group, collection => designStream(collection), '此分类暂未收录作品。', null, updateDesignCategoryNote);
+  collection => collection.group, designCard, '此分类暂未收录作品。', null, updateDesignCategoryNote);
 
 function updateDesignCategoryNote(group) {
   const note = byId('design-category-note');
@@ -207,7 +217,7 @@ function renderBreakdown(title, intro, entries) {
 function renderDesign(collection) {
   const returnLink = './works.html?type=design#all-works';
   detail.innerHTML = '<div class="band design-detail"><a class="back text-link" href="' + returnLink +
-    '">返回设计作品</a>' + designStream(collection,true) + '</div>';
+    '">返回设计作品</a>' + designStream(collection) + '</div>';
 }
 
 function storyboard(project,index,fallback) {
