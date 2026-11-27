@@ -21,7 +21,7 @@ const designLink = collection => '#design/' + collection.id;
 function episodeCover(project, index) {
   const assets = catalog[project.id]?.episodes[index];
   const file = assets?.poster || assets?.frame;
-  return file ? './covers/' + file : project.frames[0] ? media(project.frames[0]) : '';
+  return file ? './covers/' + file + '?v=series' : project.frames[0] ? media(project.frames[0]) : '';
 }
 const workType = project => project.format ? groups[project.group] + ' · ' + project.format : groups[project.group];
 const subtitle = project => project.description || groups[project.group] + (project.episodes.length > 1 ? ' · ' + project.episodes.length + ' 个成片' : ' · 原创作品');
@@ -110,30 +110,29 @@ if (library) {
 
 const viewer = createImageViewer(byId('design-preview'));
 
-function designCover(src) {
-  return '<span class="work-cover design-cover" aria-hidden="true"><img loading="lazy" decoding="async" alt="" src="' +
-    escape(src) + '"></span>';
-}
-
 const collectionImage = (entry, number, size) =>
   './design-gallery/' + entry.folder + '-' + number + '-' + size + '.webp';
 
-function designCard(collection) {
-  const image = './covers/filmdesign' + collection.folder + '.jpg';
-  return '<a class="work-card design-card" href="' + designLink(collection) +
-    '">' + designCover(image) + '<span class="catalog-caption"><span class="catalog-copy">' +
-    '<span class="catalog-category">' + escape(designGroups[collection.group]) + ' / ' + collection.count + ' 张</span>' +
-    '<strong class="catalog-title">' + escape(collection.title) + '</strong>' +
-    '<span class="catalog-meta">' + escape(collection.summary) + '</span></span>' +
-    '<span class="catalog-action" aria-hidden="true">↗</span></span></a>';
-}
-
-function openDesignGallery(collection) {
-  viewer.open(Array.from({length:collection.count},(_, index) => ({
-    src:collectionImage(collection,index+1,'full'),
-    title:collection.title,
-    caption:collection.summary
-  })));
+function designStream(collection, direct = false) {
+  const heading = direct ? '<h2 class="project-title" tabindex="-1">' : '<h3>';
+  const closeHeading = direct ? '</h2>' : '</h3>';
+  const notes = new Map((collection.selections || []).map(([index,title,note]) => [index,[title,note]]));
+  const images = Array.from({length:collection.count},(_, index) => {
+    const number = index + 1;
+    const low = collectionImage(collection,number,'cover');
+    const high = collectionImage(collection,number,'full');
+    const [title,note] = notes.get(number) || [];
+    return '<figure><img loading="lazy" decoding="async" width="960" height="540" src="' + low +
+      '" srcset="' + low + ' 960w, ' + high + ' 3840w" sizes="(max-width: 920px) 92vw, 1050px" alt="' +
+      escape(collection.title + ' · ' + (title || '第 ' + number + ' 张')) + '">' +
+      (note ? '<figcaption><strong>' + escape(title) + '</strong>　' + escape(note) + '</figcaption>' : '') + '</figure>';
+  }).join('');
+  return '<section class="design-story" data-design="' + collection.id + '"><header>' +
+    '<p class="kicker">' + escape(designGroups[collection.group]) + ' / ' + collection.count + ' 张</p>' +
+    heading + escape(collection.title) + closeHeading +
+    '<p>' + escape(collection.overview || collection.summary) + '</p></header>' +
+    '<div class="design-stream"><img class="design-story-cover" src="./covers/filmdesign' + collection.folder +
+    '.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720">' + images + '</div></section>';
 }
 document.addEventListener('click',event => {
   const asset = event.target.closest('.asset-thumb, .cover-view');
@@ -168,7 +167,7 @@ installFilters(byId('filters'), byId('work-grid'), byId('work-count'), groups, v
   item => item.project.group, item => card(item.project,item.index,item.label),
   '暂未收录音乐影像作品。', item => item.format);
 installFilters(byId('design-filters'), byId('design-grid'), byId('design-count'), designGroups, designCollections,
-  collection => collection.group, designCard, '此分类暂未收录作品。', null, updateDesignCategoryNote);
+  collection => collection.group, collection => designStream(collection), '此分类暂未收录作品。', null, updateDesignCategoryNote);
 
 function updateDesignCategoryNote(group) {
   const note = byId('design-category-note');
@@ -207,20 +206,8 @@ function renderBreakdown(title, intro, entries) {
 
 function renderDesign(collection) {
   const returnLink = './works.html?type=design#all-works';
-  const selections = collection.selections || [[collection.cover,'项目主视觉','']];
-  const figures = selections.map(([number,title,note]) =>
-    '<div class="design-detail-step">' +
-    assetFigure(collectionImage(collection,number,'full'),title,collectionImage(collection,number,'cover')) +
-    (note ? '<p>' + escape(note) + '</p>' : '') + '</div>'
-  ).join('');
   detail.innerHTML = '<div class="band design-detail"><a class="back text-link" href="' + returnLink +
-    '">返回设计作品</a><p class="kicker">' + escape(designGroups[collection.group]) +
-    '</p><h2 class="project-title" tabindex="-1">' + escape(collection.title) + '</h2>' +
-    '<p class="description">' + escape(collection.overview || collection.summary) + '</p>' +
-    '<section><h3>项目画面</h3><div class="media-grid design-detail-grid">' + figures + '</div>' +
-    '<button class="text-link full-design-gallery" type="button">查看完整图集 · ' +
-    collection.count + ' 张</button></section></div>';
-  detail.querySelector('.full-design-gallery').addEventListener('click', () => openDesignGallery(collection));
+    '">返回设计作品</a>' + designStream(collection,true) + '</div>';
 }
 
 function storyboard(project,index,fallback) {
@@ -381,7 +368,6 @@ function route() {
   detail.hidden = !isDetail;
   document.body.classList.toggle('below', isDetail || scrollY > 48);
   if (isDetail) {
-    home.querySelector('.showreel-video')?.pause();
     if (project) renderDetail(project,index);
     else if (collection) renderDesign(collection);
     else detail.innerHTML = '<div class="band"><h2 class="project-title" tabindex="-1">找不到这个项目</h2><a class="text-link" href="' + worksLink + '">返回作品</a></div>';
