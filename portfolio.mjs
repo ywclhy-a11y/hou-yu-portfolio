@@ -1,6 +1,6 @@
 import { groups, projects, designGroups, designCollections, designCategoryNotes,
   projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=poster-layout';
-import { createImageViewer } from './image-viewer.mjs';
+import { createImageViewer, closeOnBackdrop } from './image-viewer.mjs';
 
 const byId = id => document.getElementById(id);
 const home = byId('home-content');
@@ -109,6 +109,32 @@ if (library) {
 }
 
 const viewer = createImageViewer(byId('design-preview'));
+const designDialog = byId('design-project');
+const designContent = byId('design-project-content');
+let designTrigger;
+
+closeOnBackdrop(designDialog);
+designDialog.querySelector('[data-design-close]').addEventListener('click', () => designDialog.close());
+designDialog.addEventListener('close', () => {
+  if (designDialog.open || !designContent.hasChildNodes() || !location.hash.startsWith('#design/')) return;
+  if (history.state?.designPreview) {
+    history.back();
+  } else {
+    history.replaceState(history.state,'','./works.html?type=design#all-works');
+    showKind('design');
+    route();
+    library.scrollIntoView();
+  }
+});
+
+byId('design-grid').addEventListener('click', event => {
+  const card = event.target.closest('.design-card');
+  if (!card || event.defaultPrevented || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  designTrigger = card;
+  history.pushState({...history.state,designPreview:true},'',card.href);
+  route();
+});
 
 const collectionImage = (entry, number, size) =>
   './design-gallery/' + entry.folder + '-' + number + '-' + size + '.webp';
@@ -117,7 +143,7 @@ const designPoster = collection => './covers/filmdesign' + collection.folder + '
 
 function designCard(collection) {
   return '<a class="work-card design-card" href="' + designLink(collection) +
-    '"><span class="work-cover design-cover"><img src="' + designPoster(collection) +
+    '" aria-haspopup="dialog"><span class="work-cover design-cover"><img src="' + designPoster(collection) +
     '" loading="lazy" decoding="async" width="1280" height="720" alt=""></span>' +
     '<span class="catalog-caption"><span class="catalog-copy">' +
     '<span class="catalog-category">' + escape(designGroups[collection.group]) + ' / ' + collection.count + ' 张</span>' +
@@ -134,13 +160,13 @@ function designStream(collection) {
     const high = collectionImage(collection,number,'full');
     const [title,note] = notes.get(number) || [];
     return '<figure><div class="design-frame"><img loading="lazy" decoding="async" width="960" height="540" src="' + low +
-      '" srcset="' + low + ' 960w, ' + high + ' 3840w" sizes="(max-width: 920px) 92vw, 1050px" alt="' +
+      '" srcset="' + low + ' 960w, ' + high + ' 3840w" sizes="(max-width: 920px) 82vw, 966px" alt="' +
       escape(collection.title + ' · ' + (title || '第 ' + number + ' 张')) + '"></div>' +
       (note ? '<figcaption><strong>' + escape(title) + '</strong>　' + escape(note) + '</figcaption>' : '') + '</figure>';
   }).join('');
   return '<section class="design-story" data-design="' + collection.id + '"><header>' +
     '<p class="kicker">' + escape(designGroups[collection.group]) + ' / ' + collection.count + ' 张</p>' +
-    '<h2 class="project-title" tabindex="-1">' + escape(collection.title) + '</h2>' +
+    '<h2 class="project-title" id="design-project-title" tabindex="-1">' + escape(collection.title) + '</h2>' +
     '<p>' + escape(collection.overview || collection.summary) + '</p></header>' +
     '<div class="design-stream">' + images + '</div></section>';
 }
@@ -215,9 +241,10 @@ function renderBreakdown(title, intro, entries) {
 }
 
 function renderDesign(collection) {
-  const returnLink = './works.html?type=design#all-works';
-  detail.innerHTML = '<div class="band design-detail"><a class="back text-link" href="' + returnLink +
-    '">返回设计作品</a>' + designStream(collection) + '</div>';
+  designContent.innerHTML = designStream(collection);
+  if (!designDialog.open) designDialog.showModal();
+  designDialog.scrollTop = 0;
+  byId('design-project-title').focus({preventScroll:true});
 }
 
 function storyboard(project,index,fallback) {
@@ -367,9 +394,9 @@ detail.addEventListener('click', event => {
 const originalTitle = document.title;
 function route() {
   const [type, id, episode] = location.hash.slice(1).split('/');
-  const isDetail = type === 'project' || type === 'design';
   const project = type === 'project' ? projects.find(item => item.id === id) : null;
   const collection = type === 'design' ? designCollections.find(item => item.id === id) : null;
+  const isDetail = type === 'project' || (type === 'design' && !collection);
   const index = Math.max(0, Math.min((project?.episodes.length || 1) - 1, (Number.parseInt(episode,10) || 1) - 1));
   const wasDetail = !detail.hidden;
   const previousVideo = detail.querySelector('video');
@@ -377,9 +404,18 @@ function route() {
   home.hidden = isDetail;
   detail.hidden = !isDetail;
   document.body.classList.toggle('below', isDetail || scrollY > 48);
-  if (isDetail) {
+  if (!collection && designContent.hasChildNodes()) {
+    if (designDialog.open) designDialog.close();
+    designContent.replaceChildren();
+    if (!isDetail && designTrigger?.isConnected) designTrigger.focus({preventScroll:true});
+  }
+  if (collection) {
+    showKind('design');
+    if (wasDetail) detail.replaceChildren();
+    document.title = collection.title + ' · 候宇';
+    renderDesign(collection);
+  } else if (isDetail) {
     if (project) renderDetail(project,index);
-    else if (collection) renderDesign(collection);
     else detail.innerHTML = '<div class="band"><h2 class="project-title" tabindex="-1">找不到这个项目</h2><a class="text-link" href="' + worksLink + '">返回作品</a></div>';
     document.title = (project?.title || collection?.title || '项目') + ' · 候宇';
     window.scrollTo(0,0);

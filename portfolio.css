@@ -183,9 +183,32 @@ details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer}p
 .design-story header p:not(.kicker),.design-stream figcaption{color:var(--muted);line-height:1.6}
 .design-stream{display:grid;gap:clamp(8px,1.2vw,16px)}
 .design-stream figure{margin:0}
-.design-frame{aspect-ratio:16/9;background:#091618}
+.design-frame{aspect-ratio:16/9;background:#091618;border:1px solid var(--line)}
 .design-frame img{display:block;width:100%;height:100%;object-fit:contain}
 .design-stream figcaption{padding:.7rem 0 1rem}
+html:has(#design-project[open]){overflow:hidden;scrollbar-gutter:stable}
+#design-project{
+  position:fixed;
+  inset:0;
+  margin:auto;
+  padding:0;
+  width:min(1040px,calc(100% - clamp(30px,13vw,170px)));
+  max-width:none;
+  max-height:90dvh;
+  overflow:auto;
+  overscroll-behavior:contain;
+  color:#edf8f5;
+  background:#0e2023;
+  border:1px solid var(--line);
+}
+#design-project::backdrop{background:#060e10}
+.design-project-bar{
+  position:sticky;top:0;z-index:2;display:flex;justify-content:flex-end;
+  padding:3px clamp(14px,3vw,30px);background:#0e2023;border-bottom:1px solid var(--line);
+}
+.design-project-bar button{min-height:44px;padding-inline:.65rem;border-bottom:0}
+#design-project-content{padding:clamp(14px,3vw,36px)}
+#design-project .project-title{font-size:clamp(24px,4.4vw,56px);line-height:1.15;margin:.25em 0 .35em}
 .wechat-dialog{position:fixed;inset:0;margin:auto;width:min(360px,calc(100% - 30px));max-height:92dvh;overflow:auto;padding:18px;background:#0d2023;color:#ebf8f5;border:1px solid var(--line)}
 .wechat-dialog::backdrop{background:#031014de}
 .wechat-dialog img{display:block;width:auto;max-width:100%;height:auto;max-height:54dvh;margin:0 auto;object-fit:contain}
