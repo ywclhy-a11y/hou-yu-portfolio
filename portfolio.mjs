@@ -1,5 +1,5 @@
-import { groups, projects, designGroups, designCollections, designCategoryNotes, designCoverScales,
-  projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=edge-to-edge';
+import { groups, projects, designGroups, designCollections, designCategoryNotes, designFrameColors,
+  projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=design-screenshots';
 import { createImageViewer, closeOnBackdrop } from './image-viewer.mjs';
 
 const byId = id => document.getElementById(id);
@@ -110,7 +110,8 @@ if (library) {
   }
 }
 
-const viewer = createImageViewer(byId('design-preview'));
+const imageDialog = byId('design-preview');
+const viewer = createImageViewer(imageDialog);
 const designDialog = byId('design-project');
 const designContent = byId('design-project-content');
 let designTrigger;
@@ -139,9 +140,9 @@ byId('design-grid').addEventListener('click', event => {
 });
 
 const collectionImage = (entry, number, size) =>
-  './design-gallery/' + entry.folder + '-' + number + '-' + size + '.webp';
+  './design-gallery/' + entry.folder + '-' + number + '-' + size + '.webp?v=design-screenshots';
 
-const designPoster = collection => './covers/filmdesign' + collection.folder + '.jpg';
+const designPoster = collection => './covers/filmdesign' + collection.folder + '.jpg?v=design-screenshots';
 
 function designCard(collection) {
   return '<a class="work-card design-card" href="' + designLink(collection) +
@@ -155,31 +156,30 @@ function designCard(collection) {
 }
 
 function designStream(collection) {
-  const notes = new Map((collection.selections || []).map(([index,title,note]) => [index,[title,note]]));
-  const images = Array.from({length:collection.count},(_, index) => {
+  const images = Array.from({length:collection.count}, (_, index) => {
     const number = index + 1;
-    const low = collectionImage(collection,number,'cover');
     const high = collectionImage(collection,number,'full');
-    const zoom = designCoverScales[collection.folder]?.[index] || 1;
-    const [title,note] = notes.get(number) || [];
-    const label = escape(collection.title + ' · ' + (title || '第 ' + number + ' 张'));
-    return '<figure><a class="design-frame" href="' + high + '" target="_blank" rel="noopener" aria-label="打开完整原图 ' +
-      label + '" style="--design-zoom:' + zoom + '"><img loading="lazy" decoding="async" width="960" height="540" src="' + low +
-      '" srcset="' + low + ' 960w, ' + high + ' 3840w" sizes="(max-width: 1195px) 87vw, 1040px" alt="' +
-      label + '"></a>' +
-      (note ? '<figcaption><strong>' + escape(title) + '</strong>　' + escape(note) + '</figcaption>' : '') + '</figure>';
+    const low = collectionImage(collection,number,'cover');
+    const color = designFrameColors[collection.folder][index];
+    const label = escape(collection.title + ' · 第 ' + number + ' 张');
+    return '<figure><button type="button" class="design-frame" data-source="' + high +
+      '" data-label="' + label + '" aria-haspopup="dialog" aria-label="放大查看 ' + label +
+      '" style="--frame-color:' + color + '"><img loading="lazy" decoding="async" src="' + low +
+      '" alt=""></button></figure>';
   }).join('');
   return '<section class="design-story" data-design="' + collection.id + '"><header>' +
     '<p class="kicker">' + escape(designGroups[collection.group]) + ' / ' + collection.count + ' 张</p>' +
     '<h2 class="project-title" id="design-project-title" tabindex="-1">' + escape(collection.title) + '</h2>' +
-    '<p>' + escape(collection.overview || collection.summary) + '</p></header>' +
+    '<p>' + escape(collection.summary) + '</p></header>' +
     '<div class="design-stream">' + images + '</div></section>';
 }
 document.addEventListener('click',event => {
-  const asset = event.target.closest('.asset-thumb, .cover-view');
+  const asset = event.target.closest('.asset-thumb, .cover-view, .design-frame');
   if (!asset) return;
-  const gallery = asset.closest('.media-grid');
-  const thumbs = gallery ? [...gallery.querySelectorAll('.asset-thumb')] : [asset];
+  const isDesignImage = asset.matches('.design-frame');
+  imageDialog.classList.toggle('is-design-image', isDesignImage);
+  const gallery = asset.closest('.media-grid, .design-stream');
+  const thumbs = gallery ? [...gallery.querySelectorAll('.asset-thumb, .design-frame')] : [asset];
   viewer.open(thumbs.map(thumb => ({src:thumb.dataset.source,title:thumb.dataset.label})),thumbs.indexOf(asset));
 });
 
@@ -397,10 +397,11 @@ detail.addEventListener('click', event => {
     behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
 });
 const originalTitle = document.title;
+const findDesign = id => designCollections.find(item => item.id === id || (item.legacyId && item.legacyId === id));
 function route() {
   const [type, id, episode] = location.hash.slice(1).split('/');
   const project = type === 'project' ? projects.find(item => item.id === id) : null;
-  const collection = type === 'design' ? designCollections.find(item => item.id === id) : null;
+  const collection = type === 'design' ? findDesign(id) : null;
   const isDetail = type === 'project' || (type === 'design' && !collection);
   const index = Math.max(0, Math.min((project?.episodes.length || 1) - 1, (Number.parseInt(episode,10) || 1) - 1));
   const wasDetail = !detail.hidden;
@@ -409,6 +410,7 @@ function route() {
   home.hidden = isDetail;
   detail.hidden = !isDetail;
   document.body.classList.toggle('below', isDetail || scrollY > 48);
+  if (imageDialog.open && imageDialog.classList.contains('is-design-image')) imageDialog.close();
   if (!collection && designContent.hasChildNodes()) {
     if (designDialog.open) designDialog.close();
     designContent.replaceChildren();
@@ -445,7 +447,7 @@ window.addEventListener('scroll', () => {
 }, {passive:true});
 if (library) {
   const legacyUrl = new URL(location.href);
-  const legacyCase = designCollections.find(collection => collection.id === legacyUrl.searchParams.get('case'));
+  const legacyCase = legacyUrl.searchParams.has('case') ? findDesign(legacyUrl.searchParams.get('case')) : null;
   if (legacyCase && !/^#(?:project|design)\//.test(legacyUrl.hash)) {
     legacyUrl.searchParams.delete('case');
     legacyUrl.hash = designLink(legacyCase);

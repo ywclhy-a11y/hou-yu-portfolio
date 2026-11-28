@@ -97,11 +97,9 @@ export const projects = entries.map(([id, group, title, folder, assets, videos, 
 
 export const designGroups = ["品牌与营销视觉","电商与产品视觉","IP与概念设计","文字设计"];
 export const designCollections = [
-  {id:'amantou', group:0, folder:'brand', title:'一饅頭店 · 品牌视觉与包装', cover:3, count:16, summary:'品牌识别、包装、印刷品与店面应用'},
-  {id:'dolcesole', group:1, folder:'commerce', title:'DolceSole · 产品与包装视觉', cover:1, count:30, summary:'护肤产品、包装系列、产品主视觉与推广应用',
-    overview:'用统一的字标和日光图形串联护肤包装、产品主视觉和推广触点。包装用多色区分系列，产品图借水、阳光与材质突出使用感，推广再沿用相同的识别元素。',
-    selections:[[1,'包装系统','同一字标配合不同盒色，维持品牌识别，也让系列更容易区分。'],[21,'产品主视觉','用暖橙色和柔焦光表现瓶身与产品质感。'],[25,'推广应用','把主视觉转成户外双联画，在远距离仍能看到主要产品和品牌。']]},
-  {id:'yangfugui', group:2, folder:'ip', title:'富贵小羊 · 羊年 IP', cover:1, count:15, summary:'角色概念、三视图、节日海报与造型延展'},
+  {id:'lemon', legacyId:'amantou', group:0, folder:'brand', title:'檬冻 · 品牌设计', cover:13, count:20, summary:'品牌标志、色彩与字形规范、包装与物料应用'},
+  {id:'uomipet', legacyId:'dolcesole', group:1, folder:'commerce', title:'又宠 · 电商设计', cover:24, count:24, summary:'中英文字标、猫狗视觉元素与两款产品的电商海报'},
+  {id:'yangfugui', group:2, folder:'ip', title:'富贵小羊 · 羊年 IP', cover:16, count:23, summary:'角色设定、三视图、节日海报、线下场景与周边展示'},
   {id:'type-design', group:3, folder:'type', title:'字形设计合集', cover:13, count:16, summary:'字形结构、笔画变形、字标和标题字实验'}
 ];
 
@@ -112,10 +110,10 @@ export const designCategoryNotes = [
   "字形结构、笔画变形及不同风格的标题字。"
 ];
 
-// Cover scales account for matte padding baked into the 16:9 derivatives.
-export const designCoverScales = {
-  brand: [1.139,1.316,1.364,1.226,1.103,1.22,1.108,1.202,1.266,1.199,1.19,1.719,1.583,1.504,1.105,2.479],
-  commerce: [1.274,1.067,1.015,1.416,1.621,1.202,1.345,1.99,1.229,1.879,1.199,1.105,1.158,1.093,1.204,1.204,1.217,1.063,1.187,1.223,1.158,1.271,1.316,1.338,1.204,1.032,1.172,1.261,1.178,1.22],
-  ip: [1.158,1.364,1.309,1.261,1.076,1.139,1.02,1.626,1.643,1.19,1.245,1.632,1.232,1.637,1.245],
-  type: [2.167,1.173,1.284,1.735,1.418,1.181,1.29,1.057,1.303,1.906,1.341,2.862,1.019,1.448,1.145,1.348]
+// Each frame uses a color sampled from the image edge when the source is not 16:9.
+export const designFrameColors = {
+  brand: ["#ffffff","#bee481","#ffffff","#bee481","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#fcfcfc","#ffffff","#0e2023","#ffffff","#fefefe","#181818"],
+  commerce: ["#ebebeb","#ffffff","#f7f7f7","#d9d9d7","#f7f7f7","#d9d9d7","#f7f7f7","#f7f7f7","#fad3e5","#fafafa","#fcfcfe","#181717","#c2c3f7","#ebdbff","#0e2023","#fafafa","#181718","#faf9f7","#181718","#fee8e8","#ffd4de","#fcebeb","#181717","#fbfcfb"],
+  ip: ["#f43535","#181718","#ffffff","#ff3d3d","#ffffff","#f6f6f6","#ff6566","#ffffff","#181818","#ffffff","#181818","#ffffff","#181818","#181818","#181818","#181718","#181718","#181818","#181718","#181718","#181717","#181818","#0e2023"],
+  type: ["#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000"]
 };
