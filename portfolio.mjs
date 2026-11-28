@@ -1,5 +1,5 @@
-import { groups, projects, designGroups, designCollections, designCategoryNotes,
-  projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=poster-layout';
+import { groups, projects, designGroups, designCollections, designCategoryNotes, designCoverScales,
+  projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=edge-to-edge';
 import { createImageViewer, closeOnBackdrop } from './image-viewer.mjs';
 
 const byId = id => document.getElementById(id);
@@ -21,7 +21,9 @@ const designLink = collection => '#design/' + collection.id;
 function episodeCover(project, index) {
   const assets = catalog[project.id]?.episodes[index];
   const file = assets?.poster || assets?.frame;
-  return file ? './covers/' + file + '?v=series' : project.frames[0] ? media(project.frames[0]) : '';
+  const {width,height} = assets?.videoInfo || {};
+  const version = height > width ? 'portrait-series' : 'series';
+  return file ? './covers/' + file + '?v=' + version : project.frames[0] ? media(project.frames[0]) : '';
 }
 const workType = project => project.format ? groups[project.group] + ' · ' + project.format : groups[project.group];
 const subtitle = project => project.description || groups[project.group] + (project.episodes.length > 1 ? ' · ' + project.episodes.length + ' 个成片' : ' · 原创作品');
@@ -158,10 +160,13 @@ function designStream(collection) {
     const number = index + 1;
     const low = collectionImage(collection,number,'cover');
     const high = collectionImage(collection,number,'full');
+    const zoom = designCoverScales[collection.folder]?.[index] || 1;
     const [title,note] = notes.get(number) || [];
-    return '<figure><div class="design-frame"><img loading="lazy" decoding="async" width="960" height="540" src="' + low +
-      '" srcset="' + low + ' 960w, ' + high + ' 3840w" sizes="(max-width: 920px) 82vw, 966px" alt="' +
-      escape(collection.title + ' · ' + (title || '第 ' + number + ' 张')) + '"></div>' +
+    const label = escape(collection.title + ' · ' + (title || '第 ' + number + ' 张'));
+    return '<figure><a class="design-frame" href="' + high + '" target="_blank" rel="noopener" aria-label="打开完整原图 ' +
+      label + '" style="--design-zoom:' + zoom + '"><img loading="lazy" decoding="async" width="960" height="540" src="' + low +
+      '" srcset="' + low + ' 960w, ' + high + ' 3840w" sizes="(max-width: 1195px) 87vw, 1040px" alt="' +
+      label + '"></a>' +
       (note ? '<figcaption><strong>' + escape(title) + '</strong>　' + escape(note) + '</figcaption>' : '') + '</figure>';
   }).join('');
   return '<section class="design-story" data-design="' + collection.id + '"><header>' +
