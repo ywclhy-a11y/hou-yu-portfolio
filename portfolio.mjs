@@ -1,5 +1,5 @@
-import { groups, projects, designGroups, designCollections, designCategoryNotes, designFrameColors,
-  projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=design-screenshots';
+import { groups, projects, designGroups, designCollections, designCategoryNotes, designFrameColors, designCropPositions,
+  projectHighlights, projectCredits, conicsBreakdown, teaBreakdown } from './works.mjs?v=framing-2026';
 import { createImageViewer, closeOnBackdrop } from './image-viewer.mjs';
 
 const byId = id => document.getElementById(id);
@@ -22,7 +22,7 @@ function episodeCover(project, index) {
   const assets = catalog[project.id]?.episodes[index];
   const file = assets?.poster || assets?.frame;
   const {width,height} = assets?.videoInfo || {};
-  const version = height > width ? 'portrait-series' : 'series';
+  const version = height > width ? 'portrait-teal-2026' : 'series';
   return file ? './covers/' + file + '?v=' + version : project.frames[0] ? media(project.frames[0]) : '';
 }
 const workType = project => project.format ? groups[project.group] + ' · ' + project.format : groups[project.group];
@@ -156,15 +156,17 @@ function designCard(collection) {
 }
 
 function designStream(collection) {
-  const images = Array.from({length:collection.count}, (_, index) => {
-    const number = index + 1;
+  const images = collection.images.map((number, index) => {
     const high = collectionImage(collection,number,'full');
     const low = collectionImage(collection,number,'cover');
-    const color = designFrameColors[collection.folder][index];
-    const label = escape(collection.title + ' · 第 ' + number + ' 张');
+    const cropPosition = designCropPositions[collection.folder]?.[number - 1];
+    const appearance = cropPosition === undefined
+      ? ' style="--frame-color:' + designFrameColors[collection.folder][number - 1] + '"'
+      : ' data-crop style="--crop-position:' + cropPosition + '%"';
+    const label = escape(collection.title + ' · 第 ' + (index + 1) + ' 张');
     return '<figure><button type="button" class="design-frame" data-source="' + high +
       '" data-label="' + label + '" aria-haspopup="dialog" aria-label="放大查看 ' + label +
-      '" style="--frame-color:' + color + '"><img loading="lazy" decoding="async" src="' + low +
+      '"' + appearance + '><img loading="lazy" decoding="async" src="' + low +
       '" alt=""></button></figure>';
   }).join('');
   return '<section class="design-story" data-design="' + collection.id + '"><header>' +

@@ -97,11 +97,14 @@ export const projects = entries.map(([id, group, title, folder, assets, videos, 
 
 export const designGroups = ["品牌与营销视觉","电商与产品视觉","IP与概念设计","文字设计"];
 export const designCollections = [
-  {id:'lemon', legacyId:'amantou', group:0, folder:'brand', title:'檬冻 · 品牌设计', cover:13, count:20, summary:'品牌标志、色彩与字形规范、包装与物料应用'},
-  {id:'uomipet', legacyId:'dolcesole', group:1, folder:'commerce', title:'又宠 · 电商设计', cover:24, count:24, summary:'中英文字标、猫狗视觉元素与两款产品的电商海报'},
+  {id:'lemon', legacyId:'amantou', group:0, folder:'brand', title:'檬冻 · 品牌设计', cover:13, count:20, excluded:[6], summary:'品牌标志、色彩与字形规范、包装与物料应用'},
+  {id:'uomipet', legacyId:'dolcesole', group:1, folder:'commerce', title:'又宠 · 电商设计', cover:24, count:24, excluded:[2], summary:'中英文字标、猫狗视觉元素与两款产品的电商海报'},
   {id:'yangfugui', group:2, folder:'ip', title:'富贵小羊 · 羊年 IP', cover:16, count:23, summary:'角色设定、三视图、节日海报、线下场景与周边展示'},
   {id:'type-design', group:3, folder:'type', title:'字形设计合集', cover:13, count:16, summary:'字形结构、笔画变形、字标和标题字实验'}
-];
+].map(({count, excluded = [], ...collection}) => {
+  const images = Array.from({length:count}, (_, index) => index + 1).filter(number => !excluded.includes(number));
+  return {...collection, count:images.length, images};
+});
 
 export const designCategoryNotes = [
   "品牌全案、LOGO/VI、品牌主视觉、活动视觉及线下物料。",
@@ -113,7 +116,11 @@ export const designCategoryNotes = [
 // Each frame uses a color sampled from the image edge when the source is not 16:9.
 export const designFrameColors = {
   brand: ["#ffffff","#bee481","#ffffff","#bee481","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#fcfcfc","#ffffff","#0e2023","#ffffff","#fefefe","#181818"],
-  commerce: ["#ebebeb","#ffffff","#f7f7f7","#d9d9d7","#f7f7f7","#d9d9d7","#f7f7f7","#f7f7f7","#fad3e5","#fafafa","#fcfcfe","#181717","#c2c3f7","#ebdbff","#0e2023","#fafafa","#181718","#faf9f7","#181718","#fee8e8","#ffd4de","#fcebeb","#181717","#fbfcfb"],
-  ip: ["#f43535","#181718","#ffffff","#ff3d3d","#ffffff","#f6f6f6","#ff6566","#ffffff","#181818","#ffffff","#181818","#ffffff","#181818","#181818","#181818","#181718","#181718","#181818","#181718","#181718","#181717","#181818","#0e2023"],
   type: ["#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000","#000000"]
+};
+
+// Vertical framing of the edge-to-edge previews, indexed by original image number.
+export const designCropPositions = {
+  commerce: [50,50,24,41,23,50,18,50,0,44,50,82,8,54,66,28,50,50,50,51,7,50,49,48],
+  ip: [28,10,19,50,27,50,10,42,16,49,18,45,24,46,64,55,50,52,50,33,40,25,31]
 };
